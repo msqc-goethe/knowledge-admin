@@ -1,8 +1,8 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-
+import {ECommerceComponent} from './e-commerce/e-commerce.component'
 import { PagesComponent } from './pages.component';
-//import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { ResultViewerComponent } from './result-viewer/resultviewer.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { ResultComparisonComponent } from './result-comp/resultcomparison.component';
@@ -41,7 +41,7 @@ const routes: Routes = [{
       path: 'local_data',
       component: LocalDataComponent,
     },
-    /*{
+    {
       path: 'dashboard',
       component: ECommerceComponent,
     },
@@ -103,7 +103,7 @@ const routes: Routes = [{
       path: '',
       redirectTo: 'dashboard',
       pathMatch: 'full',
-    },*/
+    },
     {
       path: '**',
       component: NotFoundComponent,

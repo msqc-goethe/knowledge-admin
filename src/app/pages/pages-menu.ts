@@ -2,22 +2,132 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'Result Viewer',
+    title: 'VIEWER',
     icon: 'eye-outline',
-    link: '/pages/result_viewer',
-    home: true
+    group: true,
   },
   {
-    title: 'Result Comparison',
-    icon: 'compass-outline',
-    link: '/pages/result_comparison',
-    home: true
+    title: 'IOR',
+    icon: 'layout-outline',
+    children: [
+      {
+        title: 'Overview',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Single Result',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Result Comparison',
+        link: '/pages/result_comparison',
+      },
+      {
+        title: 'Parameter Space Exploration',
+        link: '/pages/new_experiment',
+      },
+    ],
   },
   {
-    title: 'New Experiment',
-    icon: 'plus-circle-outline',
-    link: '/pages/new_experiment',
-    home: true
+    title: 'IO500',
+    icon: 'layout-outline',
+    children: [
+      {
+        title: 'Overview',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Single Result',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Result Comparison',
+        link: '/pages/result_comparison',
+      },
+      {
+        title: 'New Configuration',
+        link: '/pages/new_experiment',
+      },
+    ],
+  },
+  {
+    title: 'Darshan',
+    icon: 'layout-outline',
+    children: [
+      {
+        title: 'Overview',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Single Result',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Result Comparison',
+        link: '/pages/result_comparison',
+      },
+    ],
+  },
+  {
+    title: 'HACCIO',
+    icon: 'layout-outline',
+    children: [
+      {
+        title: 'Overview',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Single Result',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Result Comparison',
+        link: '/pages/result_comparison',
+      },
+      {
+        title: 'New Configuration',
+        link: '/pages/new_experiment',
+      },
+    ],
+  },
+  {
+    title: 'Custom Input',
+    icon: 'layout-outline',
+    children: [
+      {
+        title: 'Input Defination',
+        link: '/pages/new_experiment',
+      },
+      {
+        title: 'Overview',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Single Result',
+        link: '/pages/result_viewer',
+      },
+      {
+        title: 'Result Comparison',
+        link: '/pages/result_comparison',
+      },
+    ],
+  },  
+  {
+    title: 'ADVANCED FEATURES',
+    icon: 'eye-outline',
+    group: true,
+  },
+  {
+    title: 'System Dashboard',
+    icon: 'shopping-cart-outline',
+    link: '/pages/dashboard',
+    home: true,
+  },
+  {
+    title: 'Slurm Dashboard',
+    icon: 'shopping-cart-outline',
+    link: '/pages/dashboard',
+    home: true,
   },
   {
     title: 'Optimization Recommandation',
@@ -31,13 +141,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/local_data',
     home: true
   },
-  {
-    title: 'IO500',
-    icon: 'log-in-outline',
-    link: '/pages/io500',
-    home: true
-  }
-  /*
+/*
   {
     title: 'E-commerce',
     icon: 'shopping-cart-outline',

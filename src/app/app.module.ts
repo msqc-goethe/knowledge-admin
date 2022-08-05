@@ -22,7 +22,7 @@ import {
 } from '@nebular/theme';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

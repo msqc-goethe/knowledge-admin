@@ -1,15 +1,13 @@
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
-import { WebServiceService} from '../../../webservice.service';
-
-
+import { WebServiceService} from '../../webservice.service';
 @Component({
-  selector: 'ngx-echarts-line',
+  selector: 'echarts-line-result',
   template: `
     <div echarts [options]="options" class="echart"></div>
   `,
 })
-export class EchartsLineComponent implements AfterViewInit, OnDestroy {
+export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
   options: any = {};
   themeSubscription: any;
 
@@ -26,10 +24,7 @@ export class EchartsLineComponent implements AfterViewInit, OnDestroy {
       this.options = {
         backgroundColor: echarts.bg,
         color: [colors.danger, colors.primary, colors.info],
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c}',
-        },
+        tooltip: {},
         legend: {
           left: 'left',
           data: ['Line 1', 'Line 2', 'Line 3'],
@@ -39,8 +34,8 @@ export class EchartsLineComponent implements AfterViewInit, OnDestroy {
         },
         xAxis: [
           {
+            name:'Iteration',
             type: 'category',
-            data: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
             axisTick: {
               alignWithLabel: true,
             },
@@ -58,7 +53,7 @@ export class EchartsLineComponent implements AfterViewInit, OnDestroy {
         ],
         yAxis: [
           {
-            type: 'log',
+            type: 'value',
             axisLine: {
               lineStyle: {
                 color: echarts.axisLineColor,
@@ -82,7 +77,22 @@ export class EchartsLineComponent implements AfterViewInit, OnDestroy {
           bottom: '3%',
           containLabel: true,
         },
-        series: this.ws.simpleDataR,
+        dataset: {
+          // Define the dimension of array. In cartesian coordinate system,
+          // if the type of x-axis is category, map the first dimension to
+          // x-axis by default, the second dimension to y-axis.
+          // You can also specify 'series.encode' to complete the map
+          // without specify dimensions. Please see below.
+      
+          dimensions: ['iteration', 'MB'],
+          source: [
+            { iteration: '1', 'MB': 43.3},
+            { iteration: '2', 'MB': 83.1},
+            { iteration: '3', 'MB': 86.4},
+            { iteration: '4', 'MB': 72.4}
+          ]
+        },
+        series: [{ type: 'line' },]
       };
     });
   }

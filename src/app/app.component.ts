@@ -6,6 +6,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from './@core/utils/analytics.service';
 import { SeoService } from './@core/utils/seo.service';
+import {WebServiceService} from './webservice.service';
+
 
 @Component({
   selector: 'ngx-app',
@@ -13,7 +15,7 @@ import { SeoService } from './@core/utils/seo.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private analytics: AnalyticsService, private seoService: SeoService) {
+  constructor(private analytics: AnalyticsService, private seoService: SeoService, public ws: WebServiceService) {
   }
 
   ngOnInit(): void {

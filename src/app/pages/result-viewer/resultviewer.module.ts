@@ -1,37 +1,33 @@
-import { NgModule } from '@angular/core';
-import {
-  NbButtonModule,
-  NbCardModule,
-  NbProgressBarModule,
-  NbTabsetModule,
-  NbUserModule,
-  NbIconModule,
-  NbSelectModule,
-  NbListModule,
-} from '@nebular/theme';
+import { NgModule } from '@angular/core'; 
+import { CommonModule } from '@angular/common';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {EchartsLineResultComponent} from './echarts-line.component';
+import {
+  NbCardModule,
+  NbSelectModule,
+  NbSearchModule,
+  NbTabsetModule,
+  NbInputModule,
+  NbRadioModule,
+  NbTreeGridModule,
 
-import { ThemeModule } from '../../@theme/theme.module';
+} from '@nebular/theme';
 import { ResultViewerComponent } from './resultviewer.component';
 
 
 @NgModule({
   imports: [
-    ThemeModule,
     NbCardModule,
-    NbUserModule,
-    NbButtonModule,
-    NbIconModule,
-    NbTabsetModule,
     NbSelectModule,
-    NbListModule,
-    NbProgressBarModule,
+    CommonModule,
+    NbSearchModule,
+    NbTabsetModule,
+    NbInputModule,
+    NbRadioModule,
+    NbTreeGridModule,
     NgxEchartsModule,
-    NgxChartsModule,
   ],
-  declarations: [
-    ResultViewerComponent,   
+  declarations: [ResultViewerComponent, EchartsLineResultComponent,
   ],
 })
-export class ECommerceModule { }
+export class ResultViewerModule { }
