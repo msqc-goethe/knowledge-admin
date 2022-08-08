@@ -2,37 +2,38 @@ import { AfterViewInit, Component, OnDestroy, Input} from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { WebServiceService} from '../../webservice.service';
 @Component({
-  selector: 'echarts-line-result',
+  selector: 'echarts-line-result-rw',
   template: `
     <div style="width: 95%; height: 300px;" echarts [options]="options" class="echart"></div>
   `,
 })
-export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
-  @Input() data!: any;
+export class EchartsLineResultRWComponent implements AfterViewInit, OnDestroy {
+  @Input() data_r!: any;
+  @Input() data_w!: any;
   options: any = {};
   themeSubscription: any;
+  series: any [] = [];
 
   constructor(private theme: NbThemeService, public ws: WebServiceService) {
   }
 
   ngAfterViewInit() {
-    //console.log("passed data-write", this.data)
+    console.log("passed data-READ-write", this.data_r, this.data_w)
+
+
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors: any = config.variables;
       const echarts: any = config.variables.echarts;
-
+      let r = this.transform(this.data_r, 'bwMiB');
+      let w = this.transform(this.data_w, 'bwMiB');
+      this.series.push({'name':'read', 'type': 'line', 'data':r })
+      this.series.push({'name':'write', 'type': 'line', 'data':w })
+      console.log("sersss: ", this.series)
       this.options = {
         backgroundColor: echarts.bg,
         color: [colors.danger, colors.primary, colors.info],
         tooltip: {},
-        legend: {
-          left: 'left',
-          data: ['Line 1', 'Line 2', 'Line 3'],
-          textStyle: {
-            color: echarts.textColor,
-          },
-        },
         xAxis: [
           {
             name:'Iteration',
@@ -40,6 +41,9 @@ export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
             nameLocation: 'center',
             axisTick: {
               alignWithLabel: true,
+            },
+            legend: {
+              data: ['read', 'write']
             },
             axisLine: {
               lineStyle: {
@@ -74,23 +78,7 @@ export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
             },
           },
         ],
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true,
-        },
-        dataset: {
-          // Define the dimension of array. In cartesian coordinate system,
-          // if the type of x-axis is category, map the first dimension to
-          // x-axis by default, the second dimension to y-axis.
-          // You can also specify 'series.encode' to complete the map
-          // without specify dimensions. Please see below.
-      
-          dimensions: ['iteration', 'bwMiB'],
-          source: this.transformToSeries(this.data, "bwMiB")
-        },
-        series: [{ type: 'line' },]
+        series: this.series
       };
     });
   }
@@ -99,14 +87,18 @@ export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
     this.themeSubscription.unsubscribe();
   }
 
-  transformToSeries(src, rkey){
+  transform(src, rkey){
     let data = [];
     src.forEach((value, index) =>{
-      //console.log(value, rkey)
-      data.push({"iteration": index + 1, [rkey]: value.data[rkey]});
+      console.log(value, rkey)
+      data.push(value.data[rkey]);
     })
-    //console.log(data)
+    console.log(data)
     return data;
   }
+
+  addToSeries(){
+  }
+
 
 }

@@ -78,13 +78,14 @@ export class ResultViewerComponent implements OnInit {
           });
           if(sum.operation == "read"){
             this.dataSource_r = this.dataSourceBuilder.create(this.data);
-            //this.transformToSeries(this.data, this.ws.simpleDataR, "bwMiB")
+            //console.log(this.transformToSeries(this.data, "bwMiB"))
             this.ws.simpleDataR = this.data;
             this.data = []
           }else {
             this.dataSource_w = this.dataSourceBuilder.create(this.data);
-            //this.transformToSeries(this.data, this.ws.simpleDataW, "bwMiB")
-            this.ws.simpleDataR = this.data;
+            //console.log(this.transformToSeries(this.data, "bwMiB"))
+            this.ws.simpleDataW = this.data;
+            //console.log("asdlskajd:",this.ws.simpleDataW)
             this.data = []
           }
         
@@ -98,16 +99,13 @@ export class ResultViewerComponent implements OnInit {
     });
   }
 
-transformToSeries(src, dest, rkey){
-  
-  let data = [];
-  src.forEach(r =>{
-    //console.log()
-    data.push(r.data[rkey]);
-  })
-  let obj = {"name":rkey, type: 'line', data};
-  dest.push(obj);
-  data = [];
-}
+  transformToSeries(src, rkey){
+    let data = [];
+    src.forEach((value, index) =>{
+      //console.log(value, rkey)
+      data.push({"iteration": index + 1, [rkey]: value.data[rkey]});
+    })
+    return data;
+  }
 
 }

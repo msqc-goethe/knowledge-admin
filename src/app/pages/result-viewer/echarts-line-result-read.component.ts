@@ -2,12 +2,12 @@ import { AfterViewInit, Component, OnDestroy, Input} from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { WebServiceService} from '../../webservice.service';
 @Component({
-  selector: 'echarts-line-result',
+  selector: 'echarts-line-result-read',
   template: `
     <div style="width: 95%; height: 300px;" echarts [options]="options" class="echart"></div>
   `,
 })
-export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
+export class EchartsLineResultReadComponent implements AfterViewInit, OnDestroy {
   @Input() data!: any;
   options: any = {};
   themeSubscription: any;
@@ -16,7 +16,7 @@ export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    //console.log("passed data-write", this.data)
+    //console.log("passed data-Read", this.data)
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors: any = config.variables;
@@ -28,7 +28,7 @@ export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
         tooltip: {},
         legend: {
           left: 'left',
-          data: ['Line 1', 'Line 2', 'Line 3'],
+          data: ['Line 1'],
           textStyle: {
             color: echarts.textColor,
           },
@@ -54,8 +54,7 @@ export class EchartsLineResultComponent implements AfterViewInit, OnDestroy {
           },
         ],
         yAxis: [
-          {
-            name:'bwMiB',
+          {name:'bwMiB',
             type: 'value',
             axisLine: {
               lineStyle: {

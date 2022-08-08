@@ -15,8 +15,8 @@
                 <input type="text"  class="col-md-7" nbInput  placeholder="Value" name={{poptions.key}} value={{poptions.value}}>
               </div>
               </nb-tab>
-              <nb-tab tabTitle="Dashboard">
-                <span>Content #3</span>
+              <nb-tab tabTitle="Dashboard" *ngIf="this.ws.simpleDataR.length !== 0">
+                <echarts-line-result-rw [data_r]="this.ws.simpleDataR" [data_w]="this.ws.simpleDataW"></echarts-line-result-rw>
               </nb-tab>
               <nb-tab tabTitle="Benchmark Environment">
                 
@@ -97,8 +97,11 @@
                                     </table>
                 </nb-tab>
 
-              <nb-tab tabTitle="Visualization">
-                <echarts-line-result *ngIf="ws.simpleDataR.length !== 0"></echarts-line-result>
+              <nb-tab *ngIf="s.operation == 'read' && (ws.simpleDataR.length !== 0)" tabTitle="Visualization-read">
+                <echarts-line-result-read [data]="this.ws.simpleDataR"></echarts-line-result-read>
+              </nb-tab>
+              <nb-tab *ngIf="s.operation == 'write' && (this.ws.simpleDataW.length !== 0)" tabTitle="Visualization-write">
+                <echarts-line-result [data]="this.ws.simpleDataW"></echarts-line-result>
               </nb-tab>
             </nb-tabset>
           </nb-card-body>
