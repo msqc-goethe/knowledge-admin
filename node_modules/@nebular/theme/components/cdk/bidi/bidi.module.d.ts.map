@@ -1,0 +1,1 @@
+{"version":3,"file":"bidi.module.d.ts","sources":["bidi.module.d.ts"],"names":[],"mappings":"AAAA;;AACA;;;;AACA","sourcesContent":["import { BidiModule } from '@angular/cdk/bidi';\nexport declare class NbBidiModule extends BidiModule {\n}\n"]}

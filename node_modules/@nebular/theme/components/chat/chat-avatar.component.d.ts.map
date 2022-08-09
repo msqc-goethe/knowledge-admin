@@ -1,0 +1,1 @@
+{"version":3,"file":"chat-avatar.component.d.ts","sources":["chat-avatar.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;AACA;AACA;;;AACA","sourcesContent":["import { SafeStyle } from '@angular/platform-browser';\nexport declare class NbChatAvatarComponent {\n    initials: string;\n    avatarStyle: SafeStyle;\n    readonly avatarClass = true;\n}\n"]}

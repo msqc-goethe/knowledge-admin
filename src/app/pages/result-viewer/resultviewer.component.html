@@ -9,17 +9,23 @@
             </nb-select>
             <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
             <nb-tabset fullWidth>
-              <nb-tab tabTitle="Benchmark Settings">
+              <nb-tab *ngIf="selectedValue" tabTitle="Benchmark Settings">
               <div class="col-md-3" style="display:inline-block" *ngFor="let poptions of selectedValue | keyvalue" >
                 <label class="label col-md-5" for="input-name">{{poptions.key}}:</label>
                 <input type="text"  class="col-md-7" nbInput  placeholder="Value" name={{poptions.key}} value={{poptions.value}}>
               </div>
               </nb-tab>
-              <nb-tab tabTitle="Dashboard" *ngIf="this.ws.simpleDataR.length !== 0">
-                <echarts-line-result-rw [data_r]="this.ws.simpleDataR" [data_w]="this.ws.simpleDataW"></echarts-line-result-rw>
+              <nb-tab tabTitle="Dashboard" *ngIf="selectedValue">
+                <nb-select placeholder="Select Showcase" [(selected)]="selectedsOp" (selectedChange)="sOpSelection()">
+                  <nb-option *ngFor="let o of sOptions" [value]="o"> {{o}} </nb-option>
+                </nb-select>
+                <div style="width: 95%; height: 300px;" echarts [options]="options_multi" class="echart"></div>
               </nb-tab>
-              <nb-tab tabTitle="Benchmark Environment">
-                
+              <nb-tab *ngIf="selectedFilesystem" tabTitle="Benchmark Environment">
+                <div class="col-md-3" style="display:inline-block" *ngFor="let fs of selectedFilesystem | keyvalue" >
+                <label class="label col-md-5" for="input-name">{{fs.key}}:</label>
+                <input type="text"  class="col-md-7" nbInput  placeholder="Value" name={{fs.key}} value={{fs.value}}>
+                </div>
               </nb-tab>
 
             </nb-tabset>
@@ -38,7 +44,7 @@
               </nb-tab>
               <nb-tab *ngIf="s.operation == 'write'" tabTitle="Details">
               <label class="search-label" for="search">Search:</label>
-                <input nbInput [nbFilterInput]="dataSource_w" id="search" class="search-input">
+                <input fullWidth  nbInput [nbFilterInput]="dataSource_w" id="search" class="search-input">
             
                 <table [nbTreeGrid]="dataSource_w" [nbSort]="dataSource_w" (sort)="updateSort($event)">
             
@@ -69,7 +75,7 @@
               </nb-tab>
               <nb-tab *ngIf="s.operation == 'read'" tabTitle="Details">
                 <label class="search-label" for="search">Search:</label>
-                  <input nbInput [nbFilterInput]="dataSource_r" id="search" class="search-input">
+                  <input nbInput fullWidth [nbFilterInput]="dataSource_r" id="search" class="search-input">
               
                   <table [nbTreeGrid]="dataSource_r" [nbSort]="dataSource_r" (sort)="updateSort($event)">
               
@@ -98,10 +104,12 @@
                 </nb-tab>
 
               <nb-tab *ngIf="s.operation == 'read' && (ws.simpleDataR.length !== 0)" tabTitle="Visualization-read">
-                <echarts-line-result-read [data]="this.ws.simpleDataR"></echarts-line-result-read>
+                <!--<echarts-line-result-read [data]="this.ws.simpleDataR"></echarts-line-result-read>-->
+                <div style="width: 95%; height: 300px;" echarts [options]="options_read" class="echart"></div>
               </nb-tab>
               <nb-tab *ngIf="s.operation == 'write' && (this.ws.simpleDataW.length !== 0)" tabTitle="Visualization-write">
-                <echarts-line-result [data]="this.ws.simpleDataW"></echarts-line-result>
+                <!--<echarts-line-result [data]="this.ws.simpleDataW"></echarts-line-result>-->
+                <div style="width: 95%; height: 300px;" echarts [options]="options_write" class="echart"></div>
               </nb-tab>
             </nb-tabset>
           </nb-card-body>

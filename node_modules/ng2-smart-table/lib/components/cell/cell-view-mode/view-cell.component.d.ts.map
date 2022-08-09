@@ -1,0 +1,1 @@
+{"version":3,"file":"view-cell.component.d.ts","sources":["view-cell.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { Cell } from '../../../lib/data-set/cell';\nexport declare class ViewCellComponent {\n    cell: Cell;\n}\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"component-status.js","sourceRoot":"","sources":["../../../../../.ng_build/theme/components/component-status.ts"],"names":[],"mappings":"","sourcesContent":["export type NbComponentStatus = 'basic' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'control';\nexport type NbComponentOrCustomStatus = NbComponentStatus | string;\n"]}

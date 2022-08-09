@@ -1,0 +1,1 @@
+{"version":3,"file":"select.module.d.ts","sources":["select.module.d.ts"],"names":[],"mappings":";;;;;;;;;AAAA;;;;AACA","sourcesContent":["export declare class NbSelectModule {\n}\n"]}

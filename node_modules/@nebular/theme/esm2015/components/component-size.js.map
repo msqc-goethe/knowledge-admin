@@ -1,0 +1,1 @@
+{"version":3,"file":"component-size.js","sourceRoot":"","sources":["../../../../../.ng_build/theme/components/component-size.ts"],"names":[],"mappings":"","sourcesContent":["export type NbComponentSize = 'tiny' | 'small' | 'medium' | 'large' | 'giant';\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"prefix.directive.d.ts","sources":["prefix.directive.d.ts"],"names":[],"mappings":";AAAA;;;AACA","sourcesContent":["export declare class NbPrefixDirective {\n}\n"]}

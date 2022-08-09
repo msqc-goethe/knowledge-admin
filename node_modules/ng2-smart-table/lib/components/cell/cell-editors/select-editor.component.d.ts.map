@@ -1,0 +1,1 @@
+{"version":3,"file":"select-editor.component.d.ts","sources":["select-editor.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { DefaultEditor } from './default-editor';\nexport declare class SelectEditorComponent extends DefaultEditor {\n    constructor();\n}\n"]}

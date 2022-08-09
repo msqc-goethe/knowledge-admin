@@ -1,0 +1,1 @@
+{"version":3,"file":"textarea-editor.component.d.ts","sources":["textarea-editor.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { DefaultEditor } from './default-editor';\nexport declare class TextareaEditorComponent extends DefaultEditor {\n    constructor();\n}\n"]}

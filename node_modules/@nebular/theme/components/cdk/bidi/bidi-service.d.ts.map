@@ -1,0 +1,1 @@
+{"version":3,"file":"bidi-service.d.ts","sources":["bidi-service.d.ts"],"names":[],"mappings":"AAAA;;AACA;;;AACA","sourcesContent":["import { Directionality } from '@angular/cdk/bidi';\nexport declare class NbDirectionality extends Directionality {\n}\n"]}

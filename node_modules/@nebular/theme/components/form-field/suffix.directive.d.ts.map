@@ -1,0 +1,1 @@
+{"version":3,"file":"suffix.directive.d.ts","sources":["suffix.directive.d.ts"],"names":[],"mappings":";AAAA;;;AACA","sourcesContent":["export declare class NbSuffixDirective {\n}\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"windows-container.component.d.ts","sources":["windows-container.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { ViewContainerRef } from '@angular/core';\nexport declare class NbWindowsContainerComponent {\n    viewContainerRef: ViewContainerRef;\n}\n"]}

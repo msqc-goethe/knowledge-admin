@@ -1,0 +1,1 @@
+{"version":3,"file":"platform-service.ngfactory.js","sourceRoot":"","sources":["../../../../../../../.ng_build/theme/components/cdk/platform/platform-service.ngfactory.ts"],"names":[],"mappings":"","sourcesContent":["import * as i0 from '@angular/core';\ni0.ComponentFactory;\n"]}

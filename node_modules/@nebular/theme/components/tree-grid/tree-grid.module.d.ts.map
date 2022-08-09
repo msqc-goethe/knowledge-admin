@@ -1,0 +1,1 @@
+{"version":3,"file":"tree-grid.module.d.ts","sources":["tree-grid.module.d.ts"],"names":[],"mappings":";;;;;;;;;;;;;AAAA;;;;AACA","sourcesContent":["export declare class NbTreeGridModule {\n}\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"file":"data-source.js","sourceRoot":"","sources":["../../../../../../../.ng_build/theme/components/cdk/table/data-source.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,oBAAoB,CAAC;AAEhD,MAAM,OAAgB,YAAgB,SAAQ,UAAa;CAAG","sourcesContent":["import { DataSource } from '@angular/cdk/table';\n\nexport abstract class NbDataSource<T> extends DataSource<T> {}\n"]}

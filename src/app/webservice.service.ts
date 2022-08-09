@@ -168,7 +168,7 @@ getResultsForTable(summary: any) {
     return new Promise((resolve, reject)=>{
       this.http.get(this.url+ "results", { params: params }).subscribe((res)=>{
         if(res){
-          console.log(res)
+          //console.log(res)
           const name = res[0].access;
           let series: any[] = [];
           let series2: any[] = [];

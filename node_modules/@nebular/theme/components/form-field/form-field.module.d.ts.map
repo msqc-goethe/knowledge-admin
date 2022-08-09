@@ -1,0 +1,1 @@
+{"version":3,"file":"form-field.module.d.ts","sources":["form-field.module.d.ts"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;;;;;;AACA;;;;AACA","sourcesContent":["/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\nexport declare class NbFormFieldModule {\n}\n"]}

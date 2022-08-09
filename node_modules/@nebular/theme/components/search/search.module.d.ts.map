@@ -1,0 +1,1 @@
+{"version":3,"file":"search.module.d.ts","sources":["search.module.d.ts"],"names":[],"mappings":";;;;;;AAAA;;;;AACA","sourcesContent":["export declare class NbSearchModule {\n}\n"]}

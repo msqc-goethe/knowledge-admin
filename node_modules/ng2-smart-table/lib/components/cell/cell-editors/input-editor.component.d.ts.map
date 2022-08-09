@@ -1,0 +1,1 @@
+{"version":3,"file":"input-editor.component.d.ts","sources":["input-editor.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { DefaultEditor } from './default-editor';\nexport declare class InputEditorComponent extends DefaultEditor {\n    constructor();\n}\n"]}

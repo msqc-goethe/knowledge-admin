@@ -1,0 +1,1 @@
+{"version":3,"file":"platform-service.d.ts","sources":["platform-service.d.ts"],"names":[],"mappings":"AAAA;;AACA;;AACA","sourcesContent":["import { Platform } from '@angular/cdk/platform';\nexport declare class NbPlatform extends Platform {\n}\n"]}

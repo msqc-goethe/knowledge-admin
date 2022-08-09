@@ -1,0 +1,1 @@
+{"version":3,"file":"default-filter.component.d.ts","sources":["default-filter.component.d.ts"],"names":[],"mappings":"AAAA;;AACA;AACA;;;AACA","sourcesContent":["import { FilterDefault } from \"./filter-default\";\nexport declare class DefaultFilterComponent extends FilterDefault {\n    query: string;\n}\n"]}
