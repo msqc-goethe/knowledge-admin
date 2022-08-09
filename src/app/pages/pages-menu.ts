@@ -141,7 +141,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/local_data',
     home: true
   },
-/*
+
   {
     title: 'E-commerce',
     icon: 'shopping-cart-outline',
@@ -385,5 +385,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
     ],
   },
-  */
+  
 ];
