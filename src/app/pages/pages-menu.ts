@@ -33,12 +33,8 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'layout-outline',
     children: [
       {
-        title: 'Overview',
-        link: '/pages/result_viewer',
-      },
-      {
         title: 'Single Result',
-        link: '/pages/result_viewer',
+        link: '/pages/io500',
       },
       {
         title: 'Result Comparison',

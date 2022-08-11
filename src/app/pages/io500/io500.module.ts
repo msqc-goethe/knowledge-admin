@@ -11,6 +11,7 @@ import {
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CommonModule } from '@angular/common';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { IO500Component } from './io500.component';
@@ -18,6 +19,7 @@ import { IO500Component } from './io500.component';
 
 @NgModule({
   imports: [
+    CommonModule,
     ThemeModule,
     NbCardModule,
     NbUserModule,
@@ -34,4 +36,4 @@ import { IO500Component } from './io500.component';
     IO500Component,   
   ],
 })
-export class ECommerceModule { }
+export class IO500Module { }
