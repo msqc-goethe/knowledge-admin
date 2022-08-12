@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NbThemeService } from '@nebular/theme';
+import {WebServiceService, Performance} from '../../webservice.service';
+import { Result} from '../../webservice.service';
+
 
 @Component({
-  selector: 'app-io500',
+  selector: 'io500-app',
   templateUrl: './io500.component.html',
 })
-export class IO500Component{
+export class IO500Component {
+  
 
 }

@@ -1,39 +1,32 @@
-import { NgModule } from '@angular/core';
-import {
-  NbButtonModule,
-  NbCardModule,
-  NbProgressBarModule,
-  NbTabsetModule,
-  NbUserModule,
-  NbIconModule,
-  NbSelectModule,
-  NbListModule,
-} from '@nebular/theme';
-import { NgxEchartsModule } from 'ngx-echarts';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgModule } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
+import { NgxEchartsModule } from 'ngx-echarts';
+import {
+  NbCardModule,
+  NbSelectModule,
+  NbSearchModule,
+  NbTabsetModule,
+  NbInputModule,
+  NbRadioModule,
+  NbTreeGridModule,
 
-import { ThemeModule } from '../../@theme/theme.module';
+} from '@nebular/theme';
 import { IO500Component } from './io500.component';
 
 
 @NgModule({
   imports: [
-    CommonModule,
-    ThemeModule,
     NbCardModule,
-    NbUserModule,
-    NbButtonModule,
-    NbIconModule,
-    NbTabsetModule,
     NbSelectModule,
-    NbListModule,
-    NbProgressBarModule,
+    CommonModule,
+    NbSearchModule,
+    NbTabsetModule,
+    NbInputModule,
+    NbRadioModule,
+    NbTreeGridModule,
     NgxEchartsModule,
-    NgxChartsModule,
   ],
-  declarations: [
-    IO500Component,   
+  declarations: [IO500Component,
   ],
 })
 export class IO500Module { }

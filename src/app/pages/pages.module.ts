@@ -8,6 +8,7 @@ import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import {ResultViewerModule} from './result-viewer/resultviewer.module';
+import { IO500Module } from './io500/io500.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import {ResultViewerModule} from './result-viewer/resultviewer.module';
     //ECommerceModule,
     //MiscellaneousModule,
     ResultViewerModule,
+    IO500Module,
   ],
   declarations: [
     PagesComponent,
