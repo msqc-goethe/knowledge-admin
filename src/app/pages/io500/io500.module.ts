@@ -12,7 +12,14 @@ import {
 
 } from '@nebular/theme';
 import { IO500Component } from './io500.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { SmartTableIO500Component } from './smart-table-io500.component';
+import { ChartModule } from 'angular2-chartjs';
+import { ChartTestComponent } from './chart.component';
 
+const components = [
+  ChartTestComponent
+];
 
 @NgModule({
   imports: [
@@ -25,8 +32,10 @@ import { IO500Component } from './io500.component';
     NbRadioModule,
     NbTreeGridModule,
     NgxEchartsModule,
+    Ng2SmartTableModule,
+    ChartModule,
   ],
-  declarations: [IO500Component,
+  declarations: [IO500Component, SmartTableIO500Component,...components
   ],
 })
 export class IO500Module { }

@@ -8,6 +8,6 @@ import { Result} from '../../webservice.service';
   templateUrl: './io500.component.html',
 })
 export class IO500Component {
-  
+
 
 }
