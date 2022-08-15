@@ -52,11 +52,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Single Result',
-        link: '/pages/result_viewer',
+        link: '/pages/darshan_result_viewer',
       },
       {
         title: 'Result Comparison',
-        link: '/pages/result_comparison',
+        link: '/pages/darshan-result_comparison',
       },
     ],
   },

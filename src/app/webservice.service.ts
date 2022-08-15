@@ -95,7 +95,7 @@ box_key_x="";
       this.http.get(this.url+ "performances").subscribe((res)=>{
         if(res){
           this.performances = <[Performance]>res;
-          console.log(this.performances)
+          //console.log(this.performances)
           resolve(<[Performance]>res);
         }else {
           reject(ErrorEvent);
@@ -103,6 +103,20 @@ box_key_x="";
     });
     });
   }
+
+  getDarshan() {
+    return new Promise((resolve, reject)=>{
+      this.http.get(this.url+ "darshan").subscribe((res)=>{
+        if(res){
+          console.log(res)
+          resolve(<[any]>res);
+        }else {
+          reject(Error);
+        }
+    });
+    });
+  }
+
 
   getSummaries(id: number) {
     this.multi = [];

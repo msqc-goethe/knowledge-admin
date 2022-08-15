@@ -10,6 +10,8 @@ import { PagesRoutingModule } from './pages-routing.module';
 import {ResultViewerModule} from './result-viewer/resultviewer.module';
 import {ResultComparisonModule} from './result-comp/result-comparison.module';
 import {DashboardExModule} from './dashboard-ex/dashboard-ex.module';
+import {DarshanResultViewerModule} from './darshan-viewer/darshan-viewer.module';
+import {DarshanResultComparisonModule} from './darshan-result-comp/darshan-result-comparison.module';
 @NgModule({
   imports: [
     PagesRoutingModule,
@@ -20,7 +22,9 @@ import {DashboardExModule} from './dashboard-ex/dashboard-ex.module';
     //MiscellaneousModule,
     ResultViewerModule,
     ResultComparisonModule,
-    DashboardExModule
+    DashboardExModule,
+    DarshanResultViewerModule,
+    DarshanResultComparisonModule
   ],
   declarations: [
     PagesComponent,

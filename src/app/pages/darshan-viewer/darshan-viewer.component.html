@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-xxl-12">
+    <div class="row">
+      <div class="col-md-12">
+        <nb-card size="large">
+          <nb-card-body>
+            <nb-select style="min-width: 95%" placeholder="Select Showcase" [(selected)]="selectedSummary" name="d" (selectedChange)="getSummary()">
+                <nb-option *ngFor="let d of darshans" [value]="d"> {{ d.meta.exe }}</nb-option>
+            </nb-select>
+            <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+            <nb-tabset fullWidth>
+              <nb-tab *ngIf="selectedSummary" tabTitle="Meta">
+                <div class="row">
+                  <nb-card class="col-md-6">
+                    <nb-card-body>
+                      <div class="col-md-12" style="display:inline-block" *ngFor="let poptions of selectedSummary.meta.job | keyvalue" >
+                        <div *ngIf= "!isObj(poptions.value)">
+                          <label class="label col-md-3" for="input-name">{{poptions.key}}:</label>
+                          <input type="text"  class="col-md-8" nbInput  placeholder="Value" name={{poptions.key}} value={{poptions.value}}>
+                        </div>
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                  <nb-card class="col-md-6">
+                    <nb-card-body>
+                      <div class="col-md-12" style="display:inline-block" *ngFor="let poptions of selectedSummary.meta.job | keyvalue" >
+                        <div *ngIf="isObj(poptions.value)">
+                          <label class="label col-md-12" for="input-name">{{poptions.key}}:</label>
+                          <div *ngFor="let item of poptions.value | keyvalue" >
+                            <label class="label col-md-3" for="input-name">{{item.key}}:</label>
+                            <input type="text"  class="col-md-8" nbInput  placeholder="Value" name={{item.key}} value={{item.value}}>
+                          </div>
+                        </div>
+                      </div>
+                    </nb-card-body>
+                  </nb-card>
+                </div>
+
+
+
+
+              </nb-tab>
+              <nb-tab  tabTitle="Summary" *ngIf="selectedSummary">
+                <nb-card>
+                  <nb-card-header>agg_iohist</nb-card-header>
+                  <nb-card-body>
+                    <div style="width: 95%; height: 300px;" echarts [options]="options_hist" class="echart"></div>
+                  </nb-card-body>
+                </nb-card>
+                <nb-card >
+                  <nb-card-header >agg_ioops</nb-card-header>
+                  <nb-card-body>
+                    <div style="width: 95%; height: 300px;" echarts [options]="options_ioops" class="echart"></div>
+                  </nb-card-body>
+                </nb-card>
+              </nb-tab>
+            </nb-tabset>
+          </nb-card-body>
+        </nb-card>
+      </div>
+
+
+    </div>
+
+</div>
+
+

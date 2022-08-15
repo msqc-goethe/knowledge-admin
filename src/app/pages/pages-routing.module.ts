@@ -11,6 +11,8 @@ import { IO500Component } from './io500/io500.component';
 import { OptimizationComponent } from './opt-recom/optimization.component';
 import { LocalDataComponent } from './local-data/localdata.component';
 import {DashboardExComponent} from './dashboard-ex/dashboard-ex.component';
+import {DarshanResultViewerComponent} from './darshan-viewer/darshan-viewer.component';
+import {DarshanResultComparisonComponent} from './darshan-result-comp/darshan-result-comparison.component';
 
 
 
@@ -28,9 +30,18 @@ const routes: Routes = [{
       component: ResultViewerComponent,
     },
     {
+      path: 'darshan_result_viewer',
+      component: DarshanResultViewerComponent,
+    },
+    {
       path: 'result_comparison',
       component: ResultComparisonComponent,
     },
+    {
+      path: 'darshan-result_comparison',
+      component: DarshanResultComparisonComponent,
+    },
+
     {
       path: 'io500',
       component: IO500Component,
