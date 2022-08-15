@@ -2,6 +2,10 @@ import { NbMenuItem } from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
+    title: 'Dashboard',
+    link: '/pages/dashboard-ex',
+  },
+  {
     title: 'VIEWER',
     icon: 'eye-outline',
     group: true,
@@ -10,10 +14,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'IOR',
     icon: 'layout-outline',
     children: [
-      {
-        title: 'Overview',
-        link: '/pages/result_viewer',
-      },
       {
         title: 'Single Result',
         link: '/pages/result_viewer',
@@ -33,10 +33,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'layout-outline',
     children: [
       {
-        title: 'Overview',
-        link: '/pages/result_viewer',
-      },
-      {
         title: 'Single Result',
         link: '/pages/result_viewer',
       },
@@ -55,10 +51,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'layout-outline',
     children: [
       {
-        title: 'Overview',
-        link: '/pages/result_viewer',
-      },
-      {
         title: 'Single Result',
         link: '/pages/result_viewer',
       },
@@ -72,10 +64,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'HACCIO',
     icon: 'layout-outline',
     children: [
-      {
-        title: 'Overview',
-        link: '/pages/result_viewer',
-      },
       {
         title: 'Single Result',
         link: '/pages/result_viewer',
@@ -97,18 +85,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Input Defination',
         link: '/pages/new_experiment',
-      },
-      {
-        title: 'Overview',
-        link: '/pages/result_viewer',
-      },
-      {
-        title: 'Single Result',
-        link: '/pages/result_viewer',
-      },
-      {
-        title: 'Result Comparison',
-        link: '/pages/result_comparison',
       },
     ],
   },  

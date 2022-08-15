@@ -135,6 +135,16 @@ export class ResultViewerComponent implements OnInit {
           textStyle: {
             color: echarts.textColor,
           },
+          toolbox: {
+            show: true,
+            feature: {
+              mark: { show: true },
+              dataView: { show: true, readOnly: false },
+              magicType: { show: true, type: ['line', 'bar'] },
+              restore: { show: true },
+              saveAsImage: { show: true }
+            }
+          },
         },
         xAxis: [
           {
@@ -214,6 +224,16 @@ export class ResultViewerComponent implements OnInit {
             color: echarts.textColor,
           },
         },
+        toolbox: {
+          show: true,
+          feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
+        },
         xAxis: [
           {
             name:'Iteration',
@@ -285,6 +305,12 @@ export class ResultViewerComponent implements OnInit {
   }
   initMulti(){
     this.options_multi = {
+      toolbox: {
+        show: true,
+        feature: {
+          saveAsImage: { show: true }
+        }
+      },
       xAxis: {
         data: ['Read',"Write"]
       },

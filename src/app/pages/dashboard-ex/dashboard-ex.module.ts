@@ -13,9 +13,7 @@ import {
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ThemeModule } from '../../@theme/theme.module';
-import { ResultComparisonComponent } from './resultcomparison.component';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
-import {SmartTableResultComponent} from './smart-table-result.component';
+import { DashboardExComponent } from './dashboard-ex.component';
 
 
 @NgModule({
@@ -31,11 +29,10 @@ import {SmartTableResultComponent} from './smart-table-result.component';
     NbProgressBarModule,
     NgxEchartsModule,
     NgxChartsModule,
-    Ng2SmartTableModule,
-    CommonModule
+    CommonModule,
   ],
   declarations: [
-    ResultComparisonComponent,  SmartTableResultComponent,
+    DashboardExComponent
   ],
 })
-export class ECommerceModule { }
+export class DashboardExModule { }

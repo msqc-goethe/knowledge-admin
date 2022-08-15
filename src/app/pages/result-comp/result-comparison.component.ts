@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ngx-ecommerce',
-  templateUrl: './resultcomparison.component.html',
+  selector: 'result-comparison',
+  templateUrl: './result-comparison.component.html',
 })
 export class ResultComparisonComponent {
 }

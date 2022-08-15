@@ -96,10 +96,9 @@ box_key_x="";
         if(res){
           this.performances = <[Performance]>res;
           console.log(this.performances)
-          //console.log("this.perf :", this.performances)
-          resolve(true);
+          resolve(<[Performance]>res);
         }else {
-          reject(false);
+          reject(ErrorEvent);
         }
     });
     });
@@ -274,6 +273,58 @@ getMultiSummaries(ids: any[], key, keyc) {
   });
   });
 }
+//transform function for comparison component
+
+
+//todo: should be modified and used for comparison component
+getMultiSummaries_dataset(ids: any[], key, keyc) {
+  let mult: any[] = [];
+  let series: any[] = [];
+  return new Promise((resolve, reject)=>{
+    let params = new HttpParams();
+    params = params.append('ids', ids.join(', '));
+    this.http.get(this.url+ "summaries/multi", { params: params }).subscribe((res:any)=>{
+      if(res){
+        let pid = res[0].performance_id;
+        //console.log(res);
+        res.forEach((summary, index) => {
+          if (index != res.length-1){
+            if(pid == summary.performance_id){
+              series.push({[summary['operation']]:summary[key]});
+            }
+            else{
+              if (keyc == 'performance_id'){
+                mult.push({"name":pid, "series": series})
+              }else{
+                mult.push({"name":res[index-1][keyc], "series": series})
+              }
+              pid = summary.performance_id
+              series = [];
+              let serie = {"name": summary['operation'], "value":summary[key]}
+              series.push(serie)
+            }
+          }else {
+            let serie = {"name": summary['operation'], "value":summary[key]}
+            series.push(serie);
+            if (keyc == 'performance_id'){
+              mult.push({"name":pid, "series": series})
+            }else{
+              mult.push({"name":summary[keyc], "series": series})
+            }
+          }
+        });
+        this.multiSum = mult;
+        this.multiKey = key;
+        this.multiKeyC = keyc;
+        console.log(this.multiSum)
+        resolve(true);
+      }else {
+        reject(false);
+      }
+  });
+  });
+}
+
 
 getBoxSummaries(ids, key_y, key_x, read_or_write?){
   key_x = 'performance_id';

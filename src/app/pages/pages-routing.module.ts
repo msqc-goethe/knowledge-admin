@@ -5,11 +5,12 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ResultViewerComponent } from './result-viewer/resultviewer.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
-import { ResultComparisonComponent } from './result-comp/resultcomparison.component';
+import { ResultComparisonComponent } from './result-comp/result-comparison.component';
 import { NewExperimentComponent } from './new-experiment/newexperiment.component';
 import { IO500Component } from './io500/io500.component';
 import { OptimizationComponent } from './opt-recom/optimization.component';
 import { LocalDataComponent } from './local-data/localdata.component';
+import {DashboardExComponent} from './dashboard-ex/dashboard-ex.component';
 
 
 
@@ -17,6 +18,11 @@ const routes: Routes = [{
   path: '',
   component: PagesComponent,
   children: [
+    {
+      path: 'dashboard-ex',
+      component: DashboardExComponent,
+    },
+
     {
       path: 'result_viewer',
       component: ResultViewerComponent,
