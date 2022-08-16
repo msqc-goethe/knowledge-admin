@@ -1,6 +1,39 @@
 <div class="row">
-  <div class="col-xxl-12">
-    <div class="row">
+  <div class="col-md-12">
+        <nb-select style="min-width: 95%" placeholder="Select Showcase" [(selected)]="selectedSummary" name="d" (selectedChange)="getSummary()">
+            <nb-option *ngFor="let d of darshans" [value]="d"> {{ d.meta.exe }}</nb-option>
+        </nb-select>
+        <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>    
+</div>
+<div class="col-xxl-12" *ngIf="selectedSummary">
+  <div class="row">
+    <div class="col-md-12">
+      <nb-card size="small">
+        <div *ngFor="let poptions of selectedSummary.meta.job | keyvalue" >
+          <div class="col-md-6" *ngIf= "!isObj(poptions.value)">
+            <label class="label col-md-4" for="input-name">{{poptions.key}}:</label>
+            <input type="text"  class="col-md-8" nbInput  placeholder="Value" name={{poptions.key}} value={{poptions.value}}>
+          </div>
+          <div class="col-md-6" *ngIf="isObj(poptions.value)">
+            <div *ngFor="let item of poptions.value | keyvalue" >
+              <label class="label col-md-4" for="input-name">{{item.key}}:</label>
+              <input type="text"  class="col-md-8" nbInput  placeholder="Value" name={{item.key}} value={{item.value}}>
+            </div>
+          </div>
+        </div>
+      </nb-card>
+
+    </div>
+  </div>
+        <nb-card size="large">
+          <div style="width: 95%; height: 300px;" echarts [options]="options_hist" class="echart"></div>
+          <div style="width: 95%; height: 300px;" echarts [options]="options_ioops" class="echart"></div>
+        </nb-card>
+</div>
+
+
+<!--
+<div class="row">
       <div class="col-md-12">
         <nb-card size="large">
           <nb-card-body>
@@ -37,8 +70,6 @@
                 </div>
 
 
-
-
               </nb-tab>
               <nb-tab  tabTitle="Summary" *ngIf="selectedSummary">
                 <nb-card>
@@ -57,11 +88,9 @@
             </nb-tabset>
           </nb-card-body>
         </nb-card>
-      </div>
-
-
-    </div>
-
 </div>
 
 
+
+
+-->

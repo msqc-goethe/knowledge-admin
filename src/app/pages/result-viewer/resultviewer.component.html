@@ -2,12 +2,12 @@
   <div class="col-xxl-12">
     <div class="row">
       <div class="col-md-12">
-        <nb-card size="medium">
+        <nb-select style="min-width: 95%" placeholder="Select Showcase" [(selected)]="selectedValue" name="p" (selectedChange)="getSummary()">
+          <nb-option *ngFor="let p of performances" [value]="p"> {{ p.cmd }}</nb-option>
+      </nb-select>
+      <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+        <nb-card *ngIf="selectedValue" size="medium">
           <nb-card-body>
-            <nb-select style="min-width: 95%" placeholder="Select Showcase" [(selected)]="selectedValue" name="p" (selectedChange)="getSummary()">
-                <nb-option *ngFor="let p of performances" [value]="p"> {{ p.cmd }}</nb-option>
-            </nb-select>
-            <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
             <nb-tabset fullWidth>
               <nb-tab *ngIf="selectedValue" tabTitle="Benchmark Settings">
               <div class="col-md-3" style="display:inline-block" *ngFor="let poptions of selectedValue | keyvalue" >
