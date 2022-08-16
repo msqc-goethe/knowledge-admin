@@ -8,12 +8,16 @@ import {
   NbIconModule,
   NbSelectModule,
   NbListModule,
+  NbSearchModule,
+  NbInputModule,
+  NbTreeGridModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { IO500Component } from './io500.component';
+import {IO500WindowFormComponent} from './io500-window-form.component';
 
 
 @NgModule({
@@ -29,9 +33,12 @@ import { IO500Component } from './io500.component';
     NbProgressBarModule,
     NgxEchartsModule,
     NgxChartsModule,
+    NbSearchModule,
+    NbInputModule,
+    NbTreeGridModule,
   ],
   declarations: [
-    IO500Component,   
+    IO500Component, IO500WindowFormComponent
   ],
 })
-export class ECommerceModule { }
+export class IO500Module { }
