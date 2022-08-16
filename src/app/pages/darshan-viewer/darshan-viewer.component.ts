@@ -232,15 +232,6 @@ transformSimplesToData(ioops){
   console.log(ioops);
   for (let key in ioops) {
     if (key == "POSIX_simple"){
-      /*
-      obj.posixio.push(ioops[key].Fsync)
-      obj.posixio.push(ioops[key].Mmap)
-      obj.posixio.push(ioops[key].Open)
-      obj.posixio.push(ioops[key].Read)
-      obj.posixio.push(ioops[key].Seek)
-      obj.posixio.push(ioops[key].Stat)
-      obj.posixio.push(ioops[key].Write)
-      */
       this.pushops(obj, 'posixio', ioops, key);
 
     }else if (key == "MPI-IO_indep_simple"){

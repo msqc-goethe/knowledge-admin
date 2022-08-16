@@ -12,6 +12,7 @@ import {ResultComparisonModule} from './result-comp/result-comparison.module';
 import {DashboardExModule} from './dashboard-ex/dashboard-ex.module';
 import {DarshanResultViewerModule} from './darshan-viewer/darshan-viewer.module';
 import {DarshanResultComparisonModule} from './darshan-result-comp/darshan-result-comparison.module';
+import {IorBuilderModule} from './ior-builder/ior-builder.module';
 @NgModule({
   imports: [
     PagesRoutingModule,
@@ -24,7 +25,8 @@ import {DarshanResultComparisonModule} from './darshan-result-comp/darshan-resul
     ResultComparisonModule,
     DashboardExModule,
     DarshanResultViewerModule,
-    DarshanResultComparisonModule
+    DarshanResultComparisonModule,
+    IorBuilderModule
   ],
   declarations: [
     PagesComponent,

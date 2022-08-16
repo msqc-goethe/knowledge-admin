@@ -13,7 +13,7 @@ import { LocalDataComponent } from './local-data/localdata.component';
 import {DashboardExComponent} from './dashboard-ex/dashboard-ex.component';
 import {DarshanResultViewerComponent} from './darshan-viewer/darshan-viewer.component';
 import {DarshanResultComparisonComponent} from './darshan-result-comp/darshan-result-comparison.component';
-
+import {IorBuilderComponent} from './ior-builder/ior-builder.component';
 
 
 const routes: Routes = [{
@@ -28,6 +28,11 @@ const routes: Routes = [{
     {
       path: 'result_viewer',
       component: ResultViewerComponent,
+    },
+
+    {
+      path: 'ior-builder',
+      component: IorBuilderComponent,
     },
     {
       path: 'darshan_result_viewer',

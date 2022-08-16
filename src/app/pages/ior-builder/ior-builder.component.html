@@ -1,0 +1,31 @@
+<div class="row">
+      <div class="col-md-12">
+        <nb-card size="medium">
+          <nb-card-body>
+            <nb-select style="min-width: 85%; margin-bottom: 10px; margin-right:10px; " multiple placeholder="Multiple Select" [(selected)]="sSelects">
+              <nb-option style="margin-bottom: 10px;" *ngFor="let s of selects" value={{s[0]}}>{{s}}</nb-option>
+            </nb-select>
+            <button nbButton (click)="generate()" >Generate</button>
+            <button nbButton (click)="clear()" >Clear</button>
+            <div class="row">
+              <div class="col-md-2" *ngFor="let i of inputs" nbTooltip={{i[2]}} nbTooltipStatus="primary">
+                <label for="input-name">{{i[1]}}:</label>
+                <input type="text" nbInput [(ngModel)]="this.sInputs[i[1]]"> 
+              </div>
+            </div>
+          </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+<div class="row" *ngIf="final.length > 5">
+  <div class="col-md-12">
+    <nb-card size="tiny">
+      <nb-card-body>
+        <h2>
+          {{final}}
+        </h2>
+
+      </nb-card-body>
+    </nb-card>
+</div>
+</div>

@@ -24,7 +24,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Parameter Space Exploration',
-        link: '/pages/new_experiment',
+        link: '/pages/ior-builder',
       },
     ],
   },
