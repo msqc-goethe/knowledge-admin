@@ -118,10 +118,40 @@ initHistChart(){
         },
         xAxis: {
           type: 'category',
-          data: op.dim
+          data: op.dim,
+          axisLine: {
+            lineStyle: {
+              color: echarts.axisLineColor,
+            },
+          },
+          splitLine: {
+            lineStyle: {
+              color: echarts.splitLineColor,
+            },
+          },
+          axisLabel: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          axisLine: {
+            lineStyle: {
+              color: echarts.axisLineColor,
+            },
+          },
+          splitLine: {
+            lineStyle: {
+              color: echarts.splitLineColor,
+            },
+          },
+          axisLabel: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },
         },
         series: [
           {
@@ -157,7 +187,11 @@ transformToData(sum_posix){
         const colors: any = config.variables;
         const echarts: any = config.variables.echarts;
         this.options_ioops = {
-          legend: {},
+          legend: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },
           backgroundColor: echarts.bg,
           color: [colors.danger, colors.primary, colors.info],
           toolbox: {
@@ -179,13 +213,40 @@ transformToData(sum_posix){
           xAxis: [
             {
               type: 'category',
-              axisTick: { show: false },
+              axisTick: {
+                alignWithLabel: true,
+              },
+              axisLine: {
+                lineStyle: {
+                  color: echarts.axisLineColor,
+                },
+              },
+              axisLabel: {
+                textStyle: {
+                  color: echarts.textColor,
+                },
+              },
               data: ['Fsync', 'Mmap', 'Open', 'Read', 'Seek', 'Stat', 'Write']
             }
           ],
           yAxis: [
             {
-              type: 'value'
+              type: 'value',
+              axisLine: {
+                lineStyle: {
+                  color: echarts.axisLineColor,
+                },
+              },
+              splitLine: {
+                lineStyle: {
+                  color: echarts.splitLineColor,
+                },
+              },
+              axisLabel: {
+                textStyle: {
+                  color: echarts.textColor,
+                },
+              },
             }
           ],
           series: [

@@ -86,7 +86,11 @@ export class IO500Component implements OnInit {
     const echarts: any = config.variables.echarts;
 
     this.scoreChartOptions = {
-      legend: {},
+      legend: {
+        textStyle: {
+          color: echarts.textColor,
+        },
+      },
       backgroundColor: echarts.bg,
       color: [colors.danger, colors.primary, colors.info],
       toolbox: {
@@ -180,8 +184,6 @@ export class IO500Component implements OnInit {
         feature: {
           mark: { show: true },
           dataView: { show: true, readOnly: false },
-          magicType: { show: true, type: ['line', 'bar'] },
-          restore: { show: true },
           saveAsImage: { show: true }
         }
       },

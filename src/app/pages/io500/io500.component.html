@@ -10,14 +10,13 @@
     </div>
     <div class="row" *ngIf="selectedValue">
       <div class="col-md-12">
-        <nb-card size="small">
+        <nb-card size="tiny">
           <nb-card-header>
             Settings
           </nb-card-header>
           <nb-card-body>
-            <div *ngFor="let sk of selectedValue | keyvalue">
-              <label for="input-name">{{sk.key}}:</label>
-              <input type="text" nbInput value ={{sk.value}}> 
+            <div class="col-md-3" style="display: inline-block;" *ngFor="let sk of selectedValue | keyvalue">
+              {{sk.key}}:{{sk.value}}
             </div>
           </nb-card-body>
         </nb-card>

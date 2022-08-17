@@ -309,7 +309,7 @@ export class ResultViewerComponent implements OnInit {
       const colors: any = config.variables;
       const echarts: any = config.variables.echarts;
       this.options_multi = {
-        backgroundColor: echarts.bg,
+                backgroundColor: echarts.bg,
         color: [colors.danger, colors.primary, colors.info],
         toolbox: {
           show: true,
