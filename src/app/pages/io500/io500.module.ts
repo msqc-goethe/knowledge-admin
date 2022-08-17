@@ -11,6 +11,7 @@ import {
   NbSearchModule,
   NbInputModule,
   NbTreeGridModule,
+  NbRadioModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -36,6 +37,7 @@ import {IO500WindowFormComponent} from './io500-window-form.component';
     NbSearchModule,
     NbInputModule,
     NbTreeGridModule,
+    NbRadioModule,
   ],
   declarations: [
     IO500Component, IO500WindowFormComponent

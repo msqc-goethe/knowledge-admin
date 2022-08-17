@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { NbWindowRef } from '@nebular/theme';
 import { WebServiceService} from '../../webservice.service';
+import { NbThemeService } from '@nebular/theme';
 
 @Component({
   template: `
@@ -32,8 +33,9 @@ export class WindowFormComponent implements OnInit {
   optionsR = ['bwMaxMIB', 'bwMinMIB', 'bwMeanMIB', 'bwStdMIB', 'OPsMax', 'OPsMin', 'OPsMean', 'OPsSD', 'MeanTime', 'xsizeMiB']
   optionsC = ['performance_id', 'API', 'segmentCount', 'blockSize', 'transferSize', 'numTasks', 'tasksPerNode', 'filePerProc']
   selectedIds: any;
+  themeSubscription: any;
 
-  constructor(public windowRef: NbWindowRef, public ws: WebServiceService) {
+  constructor(public windowRef: NbWindowRef, public ws: WebServiceService, private theme: NbThemeService) {
 
   }
 
@@ -58,42 +60,81 @@ export class WindowFormComponent implements OnInit {
   }
 
   initChart(){
-    this.option = {
-      legend: {},
-        toolbox: {
-            show: true,
-            feature: {
-              mark: { show: true },
-              dataView: { show: true, readOnly: false },
-              magicType: { show: true, type: ['line', 'bar'] },
-              restore: { show: true },
-              saveAsImage: { show: true }
-            }
+    this.themeSubscription= this.theme.getJsTheme().subscribe(config => {
+
+      const colors: any = config.variables;
+      const echarts: any = config.variables.echarts;
+      this.option = {
+        legend: {
+                    textStyle: {
+            color: echarts.textColor,
           },
-      tooltip: {},
-      dataset: {
-        source: this.transform()
-      },
-      xAxis: { 
-        name: this.selectedC,
-        nameLocation: 'center',
-        nameTextStyle: {
-          verticalAlign: 'top',
-          lineHeight: 50
         },
-        type: 'category' },
-      yAxis: {
-        nameLocation: 'center',
-        //type: 'log',
-        nameTextStyle: {
-          lineHeight: 80
+          toolbox: {
+              show: true,
+              feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+              }
+            },
+        tooltip: {},
+        dataset: {
+          source: this.transform()
         },
-        name:this.selectedR,
-      },
-      // Declare several bar series, each will be mapped
-      // to a column of dataset.source by default.
-      series: [{ type: 'bar' }, { type: 'bar' }]
-    };
+        xAxis: { 
+          name: this.selectedC,
+          nameLocation: 'center',
+          nameTextStyle: {
+            verticalAlign: 'top',
+            lineHeight: 50
+          },
+          type: 'category', 
+          axisTick: {
+            alignWithLabel: true,
+          },
+          axisLine: {
+            lineStyle: {
+              color: echarts.axisLineColor,
+            },
+          },
+          axisLabel: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },
+        },
+        yAxis: {
+          nameLocation: 'center',
+          //type: 'log',
+          nameTextStyle: {
+            lineHeight: 80
+          },
+          axisLine: {
+            lineStyle: {
+              color: echarts.axisLineColor,
+            },
+          },
+          splitLine: {
+            lineStyle: {
+              color: echarts.splitLineColor,
+            },
+          },
+          axisLabel: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },
+          name:this.selectedR,
+        },
+        // Declare several bar series, each will be mapped
+        // to a column of dataset.source by default.
+        series: [{ type: 'bar' }, { type: 'bar' }]
+      };
+    });
+    
   }
 
   transform(){

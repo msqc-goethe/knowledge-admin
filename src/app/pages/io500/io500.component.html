@@ -35,7 +35,7 @@
                       <div class="col-md-11">
                         <nb-user [name]="tc.name" [title]="tc.t_start + tc.t_end">
                         </nb-user>
-                        <p>Score: {{tc.score}} Stonewall: {{tc.stonewall}} T_Delta: {{tc.t_delta}}</p> 
+                        <p>Score: {{tc.score}} <!--Stonewall: {{tc.stonewall}}--> T_Delta: {{tc.t_delta}}</p> 
                       </div>
                       <div class="col-md-1">
                         <button nbButton ghost status="danger" (click)="openWindowForm(tc.id, tc.name)" ><nb-icon icon="expand-outline"></nb-icon></button>
@@ -47,12 +47,30 @@
       </div>
       <div class="col-md-8">
         <nb-card size="large">
-          <nb-card-header>
-            Dashboard
+          <nb-tabset>
+            <nb-tab tabTitle="Dashboard">
+              <nb-card-header>
+                    <nb-select placeholder="Select Dimension" [(selected)]="this.selectedDim" (selectedChange)="initScoreChart()">
+                      <nb-option value="score">Score</nb-option>
+                      <nb-option value="stonewall">Stonewall</nb-option>
+                      <nb-option value="t_delta">T-Delta</nb-option>
+                    </nb-select>
+              </nb-card-header>
+              <nb-card-body>
+                <div style="width: 95%;" echarts [options]="scoreChartOptions" class="echart"></div>
+              </nb-card-body>
+            </nb-tab>
+            <nb-tab tabTitle="Boundingbox" *ngIf="selectedTestCasesResults">
+              <nb-card-header>
+                <nb-select style="min-width: 100%" multiple placeholder="Multiple Select" [(selected)]="this.selectedBDim" (selectedChange)="initBoundingbox()"> 
+                  <nb-option *ngFor="let tc of selectedTestCases" value={{tc.id}}>{{tc.name}}</nb-option>
+                </nb-select>
           </nb-card-header>
-          <nb-card-body>
-          
-          </nb-card-body>
+              <nb-card-body>
+                <div style="width: 95%;" echarts [options]="boundingboxOptions" class="echart"></div>
+              </nb-card-body>
+            </nb-tab>
+           </nb-tabset>
         </nb-card>
       </div>
     </div>

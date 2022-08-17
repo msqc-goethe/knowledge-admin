@@ -304,24 +304,62 @@ export class ResultViewerComponent implements OnInit {
     return data;
   }
   initMulti(){
-    this.options_multi = {
-      toolbox: {
-        show: true,
-        feature: {
-          saveAsImage: { show: true }
-        }
-      },
-      xAxis: {
-        data: ['Read',"Write"]
-      },
-      yAxis: {name:this.selectedsOp},
-      series: [
-        {
-          type: 'candlestick',
-          data: this.transformToData(this.chartRW,this.selectedsOp)
-        }
-      ]
-    };
+    this.themeSubscription2= this.theme.getJsTheme().subscribe(config => {
+
+      const colors: any = config.variables;
+      const echarts: any = config.variables.echarts;
+      this.options_multi = {
+        backgroundColor: echarts.bg,
+        color: [colors.danger, colors.primary, colors.info],
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: { show: true }
+          }
+        },
+        xAxis: {
+          data: ['Read',"Write"],
+          axisTick: {
+            alignWithLabel: true,
+          },
+          axisLine: {
+            lineStyle: {
+              color: echarts.axisLineColor,
+            },
+          },
+          axisLabel: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },
+        },
+        yAxis: {name:this.selectedsOp,
+          axisLine: {
+            lineStyle: {
+              color: echarts.axisLineColor,
+            },
+          },
+          splitLine: {
+            lineStyle: {
+              color: echarts.splitLineColor,
+            },
+          },
+          axisLabel: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },},
+        series: [
+          {
+            type: 'candlestick',
+            data: this.transformToData(this.chartRW,this.selectedsOp)
+          }
+        ]
+      };
+
+    });
+
+   
     this.chartRW = [];
   }
 /*
