@@ -16,7 +16,7 @@
           </nb-card-header>
           <nb-card-body>
             <div class="col-md-3" style="display: inline-block;" *ngFor="let sk of selectedValue | keyvalue">
-              {{sk.key}}:{{sk.value}}
+              <label class="label">{{sk.key}}: </label> {{sk.value}}
             </div>
           </nb-card-body>
         </nb-card>

@@ -14,6 +14,7 @@ import {DashboardExComponent} from './dashboard-ex/dashboard-ex.component';
 import {DarshanResultViewerComponent} from './darshan-viewer/darshan-viewer.component';
 import {DarshanResultComparisonComponent} from './darshan-result-comp/darshan-result-comparison.component';
 import {IorBuilderComponent} from './ior-builder/ior-builder.component';
+import {IO500CompComponent} from './io500-comp/io500-comp.component';
 
 
 
@@ -52,6 +53,12 @@ const routes: Routes = [{
       path: 'io500',
       component: IO500Component,
     },
+    {
+      path: 'io500-comp',
+      component: IO500CompComponent,
+    },
+
+
     {
       path: 'optimization',
       component: OptimizationComponent,

@@ -38,7 +38,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Result Comparison',
-        link: '/pages/',
+        link: '/pages/io500-comp',
       },
     ],
   },

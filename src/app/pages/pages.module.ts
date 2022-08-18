@@ -11,6 +11,8 @@ import {DarshanResultViewerModule} from './darshan-viewer/darshan-viewer.module'
 import {DarshanResultComparisonModule} from './darshan-result-comp/darshan-result-comparison.module';
 import {IorBuilderModule} from './ior-builder/ior-builder.module';
 import {IO500Module} from './io500/io500.module';
+import {IO500CompModule} from './io500-comp/io500-comp.module';
+
 @NgModule({
   imports: [
     PagesRoutingModule,
@@ -23,7 +25,8 @@ import {IO500Module} from './io500/io500.module';
     DarshanResultViewerModule,
     DarshanResultComparisonModule,
     IorBuilderModule,
-    IO500Module
+    IO500Module,
+    IO500CompModule
   ],
   declarations: [
     PagesComponent,

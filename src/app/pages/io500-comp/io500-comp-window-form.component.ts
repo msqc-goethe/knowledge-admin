@@ -16,9 +16,9 @@ import { WebServiceService} from '../../webservice.service';
 </nb-card>
 
   `,
-  styleUrls: ['io500-window-form.component.scss'],
+  styleUrls: ['io500-comp-window-form.component.scss'],
 })
-export class IO500WindowFormComponent implements OnInit {
+export class IO500CompWindowFormComponent implements OnInit {
 
   data: any;
 

@@ -7,25 +7,36 @@
 </div>
 <div class="col-xxl-12" *ngIf="selectedSummary">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-3">
       <nb-card size="small">
+        <nb-card-header>
+          Job Information
+        </nb-card-header>
         <div *ngFor="let poptions of selectedSummary.meta.job | keyvalue" >
-          <div class="col-md-6" *ngIf= "!isObj(poptions.value)">
-            <label class="label col-md-4" for="input-name">{{poptions.key}}:</label>
-            <input type="text"  class="col-md-8" nbInput  placeholder="Value" name={{poptions.key}} value={{poptions.value}}>
+          <div class="col-md-12" *ngIf= "!isObj(poptions.value)">
+            <label class="label">{{poptions.key}}: </label>{{poptions.value}}
           </div>
-          <div class="col-md-6" *ngIf="isObj(poptions.value)">
+          <div class="col-md-12" *ngIf="isObj(poptions.value)">
             <div *ngFor="let item of poptions.value | keyvalue" >
-              <label class="label col-md-4" for="input-name">{{item.key}}:</label>
-              <input type="text"  class="col-md-8" nbInput  placeholder="Value" name={{item.key}} value={{item.value}}>
+              <label class="label">{{item.key}}: </label>{{item.value}}
             </div>
           </div>
         </div>
       </nb-card>
-
     </div>
+    <div class="col-md-9">
+      <nb-card size="small">
+        <nb-card-header>
+          Some Other Information
+        </nb-card-header>
+      </nb-card>
+    </div>
+
   </div>
         <nb-card size="large">
+          <nb-card-header>
+            Access Pattern
+          </nb-card-header>
           <div style="width: 95%; height: 300px;" echarts [options]="options_hist" class="echart"></div>
           <div style="width: 95%; height: 300px;" echarts [options]="options_ioops" class="echart"></div>
         </nb-card>
