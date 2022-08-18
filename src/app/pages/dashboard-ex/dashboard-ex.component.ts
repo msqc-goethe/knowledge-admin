@@ -33,10 +33,6 @@ export class DashboardExComponent implements OnInit {
       const colors: any = config.variables;
     const echarts: any = config.variables.echarts;
     this.dOptions = {
-      title: {
-        text: 'Knowledge Base',
-        left: 'center'
-      },
       legend: {
         textStyle: {
           color: echarts.textColor,

@@ -14,7 +14,7 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
   template:`
   <nb-card>
   <nb-card-header>
-    Smart Table
+  IOR Runs
     <button *ngIf="!isDisabled" style="float: right;" (click)="openWindowForm()" nbButton>Inspect View</button>
   </nb-card-header>
 

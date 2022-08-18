@@ -2,11 +2,9 @@ import { Component, OnInit} from '@angular/core';
 //import { ConsoleReporter } from 'jasmine';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../@core/data/smart-table';
-import {WebServiceService, Performance} from '../../webservice.service';
+import {WebServiceService} from '../../webservice.service';
 import { NbWindowService } from '@nebular/theme';
 import {DarshanWindowFormComponent} from './darshan-result-comparison-window-form.component';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { Meta } from '@angular/platform-browser';
 
 
 
@@ -15,7 +13,7 @@ import { Meta } from '@angular/platform-browser';
   template:`
   <nb-card>
   <nb-card-header>
-    Smart Table
+    Darshan Files
     <button *ngIf="!isDisabled" style="float: right;" (click)="openWindowForm()" nbButton>Inspect View</button>
   </nb-card-header>
 

@@ -109,11 +109,6 @@ export class IO500Component implements OnInit {
           type: 'shadow'
         }
       },
-      title:{
-        show:true,
-        text: this.selectedDim,
-        left: 'center'
-      },
       grid: {
         left: '3%',
         right: '4%',
@@ -121,6 +116,12 @@ export class IO500Component implements OnInit {
         containLabel: true
       },
       xAxis: {
+        name:this.selectedDim,
+        nameLocation:'bottom',
+        nameTextStyle:{
+          padding: [50, 0,0 , 0],
+          fontWeight:'bold'
+        },
         type: 'value',
         boundaryGap: [0, 0.01],
         axisTick: {

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {WebServiceService, Performance} from '../../webservice.service';
-import { NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@nebular/theme';
+import { NbTreeGridDataSourceBuilder } from '@nebular/theme';
 import { Result} from '../../webservice.service';
 import { NbThemeService } from '@nebular/theme';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'ior-builder-app',
@@ -25,30 +24,6 @@ export class IorBuilderComponent implements OnInit {
 
   final = "ior "
 
-/*
-  api="";
-  refNum="";
-  blockSize="";
-  interTestDelay="";
-  deadlineForStonewalling="";
-  scriptFile="";
-  setTimeStampSignature="";
-  repetitions="";
-  outlierThreshold="";
-  setAlignment="";
-  memoryPerNode="";
-  numTasks="";
-  testFile="";
-  stringofIORdirectives="";
-  taskPerNodeOffset="";
-  segmentCount="";
-  transferSize="";
-  maxTimeDuration="";
-  hintsFileName="";
-  reorderTasksRandomSeed="";
-*/
-
-  
 
   constructor(private theme: NbThemeService, public ws: WebServiceService, private dataSourceBuilder: NbTreeGridDataSourceBuilder<Result>) {
 

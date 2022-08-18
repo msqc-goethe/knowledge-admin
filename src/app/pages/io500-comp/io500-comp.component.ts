@@ -158,6 +158,7 @@ initBoundingbox(src){
     textStyle: {
       color: echarts.textColor,
     },
+    
     toolbox: {
       show: true,
       feature: {
@@ -170,7 +171,10 @@ initBoundingbox(src){
     legend: {
       data: src.map(x => x.id),
       left:'left',
-      orient: 'vertical'
+      orient: 'vertical',
+      textStyle: {
+        color: echarts.textColor,
+      },
     },
     radar: {
       // shape: 'circle',
@@ -191,10 +195,10 @@ initRanking(src){
     const colors: any = config.variables;
   const echarts: any = config.variables.echarts;
 
-  let dim = this.transformDim(src);
   this.rankingOptions = { 
     backgroundColor: echarts.bg,
     color: [colors.danger, colors.primary, colors.info],
+    tooltip: {},
     textStyle: {
       color: echarts.textColor,
     },
@@ -206,12 +210,55 @@ initRanking(src){
         saveAsImage: { show: true }
       }
     },
-    yAxis: {
+    xAxis: {
     type: 'category',
+    axisTick: {
+      alignWithLabel: true,
+    },
+    axisLine: {
+      lineStyle: {
+        color: echarts.axisLineColor,
+      },
+    },
+    axisLabel: {
+      textStyle: {
+        color: echarts.textColor,
+      },
+      splitLine: {
+        lineStyle: {
+          color: echarts.splitLineColor,
+        }
+      },
+    },
     data: src.map(x=>x.name)
   },
-  xAxis: {
-    type: 'value'
+  yAxis: {
+    type: 'value',
+    axisTick: {
+      alignWithLabel: true,
+    },
+    axisLine: {
+      lineStyle: {
+        color: echarts.axisLineColor,
+      },
+      
+    },
+    splitLine: {
+      lineStyle: {
+        color: echarts.splitLineColor,
+      }
+    },
+    axisLabel: {
+      textStyle: {
+        color: echarts.textColor,
+      },
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
+    },
   },
   series: [
     {

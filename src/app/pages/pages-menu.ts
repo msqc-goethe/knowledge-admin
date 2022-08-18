@@ -26,7 +26,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'IO500',
-    icon: 'checkmark-square-outline',
+    icon: 'cube-outline',
     children: [
       {
         title: 'Single Result',
@@ -40,7 +40,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Darshan',
-    icon: 'checkmark-square-outline',
+    icon: 'compass-outline',
     children: [
       {
         title: 'Single Result',
@@ -87,13 +87,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'System Dashboard',
-    icon: 'shopping-cart-outline',
+    icon: 'options-2-outline',
     link: '/pages/dashboard',
     home: true,
   },
   {
     title: 'Slurm Dashboard',
-    icon: 'shopping-cart-outline',
+    icon: 'monitor-outline',
     link: '/pages/dashboard',
     home: true,
   },
