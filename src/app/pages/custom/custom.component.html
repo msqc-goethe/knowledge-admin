@@ -1,6 +1,4 @@
-<div class="row">
-  <div class="col-xxl-12">
-    <div class="row">
+ <div class="row" style="margin-bottom: 1.875rem;">
       <div class="col-md-12">
         <nb-select style="min-width: 95%" placeholder="Select HACCIO Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectCustom()">
           <nb-option *ngFor="let run of cus" [value]="run"> {{run.id}}. {{run.name}} - {{run.type}}</nb-option>
@@ -70,9 +68,3 @@
               </nb-card-body>
         </nb-card>
       </div>
-    </div>
-
-
-</div>
-
-

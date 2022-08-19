@@ -1,6 +1,4 @@
-<div class="row">
-  <div class="col-xxl-12">
-    <div class="row">
+<div class="row" style="margin-bottom: 1.875rem;">
       <div class="col-md-12">
         <nb-select style="min-width: 95%" placeholder="Select IO-500 Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectIO500()">
           <nb-option *ngFor="let run of io500" [value]="run"> {{run.version}}: {{run.start}} - {{run.end}} on {{run.name}} ({{run.processor_model}} , {{run.processor_architecture}}) with {{run.procs}} Procs</nb-option>
@@ -72,9 +70,3 @@
            </nb-tabset>
         </nb-card>
       </div>
-    </div>
-
-
-</div>
-
-
