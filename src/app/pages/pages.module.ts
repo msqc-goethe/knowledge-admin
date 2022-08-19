@@ -13,6 +13,7 @@ import {IorBuilderModule} from './ior-builder/ior-builder.module';
 import {IO500Module} from './io500/io500.module';
 import {IO500CompModule} from './io500-comp/io500-comp.module';
 import {CustomModule} from './custom/custom.module';
+import {CustomCompModule} from './custom-comp/custom-comp.module';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {CustomModule} from './custom/custom.module';
     IorBuilderModule,
     IO500Module,
     IO500CompModule,
-    CustomModule
+    CustomModule,
+    CustomCompModule
   ],
   declarations: [
     PagesComponent,

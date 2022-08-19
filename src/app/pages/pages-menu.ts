@@ -62,7 +62,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       },
       {
         title: 'Result Comparison',
-        link: '/pages/custom-comparison',
+        link: '/pages/custom-comp',
       },
     ],
   },

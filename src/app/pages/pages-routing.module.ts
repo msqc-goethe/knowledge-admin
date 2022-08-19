@@ -16,6 +16,7 @@ import {DarshanResultComparisonComponent} from './darshan-result-comp/darshan-re
 import {IorBuilderComponent} from './ior-builder/ior-builder.component';
 import {IO500CompComponent} from './io500-comp/io500-comp.component';
 import {CustomComponent} from './custom/custom.component';
+import {CustomCompComponent} from './custom-comp/custom-comp.component';
 
 
 
@@ -64,7 +65,7 @@ const routes: Routes = [{
     },
     {
       path: 'custom-comp',
-      component: CustomComponent,
+      component: CustomCompComponent,
     },
 
 
