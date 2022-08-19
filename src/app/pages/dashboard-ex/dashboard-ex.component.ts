@@ -16,16 +16,29 @@ export class DashboardExComponent implements OnInit {
   dynamicOptions:any;
   dThemeSubscription:any;
   apOptions:any;
+  cnts = [];
+  totoalcnt = 0;
 
   constructor(private theme: NbThemeService, public ws: WebServiceService) {
 
   }
 
   ngOnInit(): void {
+    this.ws.getCnt().then((x:any)=>{
+      x.forEach(cnt => {
+          cnt.forEach(element => {
+            this.cnts.push(element)
+            for (const key in element){
+              this.totoalcnt = this.totoalcnt + Number(element[key])
+            }
+        });
+      });
       this.setDChart();
       this.setGChart();
       this.setSChart();
       this.initAccess();
+    });
+
   }
 
   initAccess(){
@@ -138,11 +151,11 @@ export class DashboardExComponent implements OnInit {
           type: 'pie',
           radius: '50%',
           data: [
-            { value: 1048, name: 'IOR' },
-            { value: 735, name: 'IO500' },
-            { value: 580, name: 'Darshan' },
-            { value: 484, name: 'HACCIO' },
-            { value: 300, name: 'Others' }
+            { value: this.cnts[0].darshan_cnt, name: 'Darshan' },
+            { value: this.cnts[1].io500_cnt, name: 'IO500' },
+            { value: this.cnts[2].ior_cnt, name: 'IOR' },
+            { value: this.cnts[3].haccio_cnt, name: 'HACCIO' },
+            { value: this.cnts[4].custom_cnt, name: 'Others' }
           ],
           emphasis: {
             itemStyle: {

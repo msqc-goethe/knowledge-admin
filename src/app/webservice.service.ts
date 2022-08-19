@@ -130,6 +130,19 @@ box_key_x="";
     });
   }
 
+  getCnt() {
+    return new Promise((resolve, reject)=>{
+      this.http.get(this.url+ "cnt").subscribe((res)=>{
+        if(res){
+          console.log(res)
+          resolve(<[any]>res);
+        }else {
+          reject(Error);
+        }
+    });
+    });
+  }
+
 
   getSummaries(id: number) {
     this.multi = [];

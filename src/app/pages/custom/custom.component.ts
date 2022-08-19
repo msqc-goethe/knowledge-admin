@@ -20,7 +20,7 @@ export class CustomComponent implements OnInit {
   public scoreChartOptions: any;
   public boundingboxOptions: any;
   themeSubscription: any;
-  selectedDim = 'score'
+  selectedDim = 'bw'
   selectedBDim = [12];
 
   
@@ -38,6 +38,7 @@ export class CustomComponent implements OnInit {
         sysinfo: JSON.parse(val['sysinfo']),
       }));
       console.log(this.cus)
+
     });
   }
 
@@ -45,7 +46,7 @@ export class CustomComponent implements OnInit {
     this.windowService.open(CustomWindowFormComponent, { title: tn, context: ""});
   }
 
-  initChart(){
+  initChart(src){
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
     const echarts: any = config.variables.echarts;
@@ -137,6 +138,8 @@ export class CustomComponent implements OnInit {
     return src.map(x => x[rkey][0]);
   }
 
-  selectCustom(){}
+  selectCustom(){
+    this.initChart(this.cus)
+  }
 
 }

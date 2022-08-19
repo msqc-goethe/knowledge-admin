@@ -12,7 +12,7 @@
       <div class="col-md-5">
         <nb-card size="tiny">
           <nb-card-header>
-            Settings
+            File System Settings
           </nb-card-header>
           <nb-card-body>
             <div class="col-md-6" style="display: inline-block;" *ngFor="let sk of selectedValue.fs | keyvalue">
@@ -24,7 +24,7 @@
       <div class="col-md-7">
         <nb-card size="tiny">
           <nb-card-header>
-            Settings
+            System Information
           </nb-card-header>
           <nb-card-body>
             <div class="col-md-4" style="display: inline-block;" *ngFor="let sk of selectedValue.sysinfo | keyvalue">
@@ -58,14 +58,14 @@
       <div class="col-md-8">
         <nb-card size="large">
               <nb-card-header>
-                Dashboard
-                    <nb-select placeholder="Select Dimension" [(selected)]="this.selectedDim" (selectedChange)="initChart()">
-                      <nb-option value="bw">bw</nb-option>
-                      <nb-option value="size">size</nb-option>
-                      <nb-option value="time">time</nb-option>
-                    </nb-select>
+                Overview
               </nb-card-header>
               <nb-card-body>
+                <nb-select placeholder="Select Dimension" [(selected)]="this.selectedDim" (selectedChange)="initChart()">
+                  <nb-option value="bw">bw</nb-option>
+                  <nb-option value="size">size</nb-option>
+                  <nb-option value="time">time</nb-option>
+                </nb-select>
                 <div style="width: 95%;" echarts [options]="scoreChartOptions" class="echart"></div>
               </nb-card-body>
         </nb-card>
