@@ -15,18 +15,98 @@ export class DashboardExComponent implements OnInit {
   sOptions:any;
   dynamicOptions:any;
   dThemeSubscription:any;
+  apOptions:any;
 
-  constructor(private theme: NbThemeService, public ws: WebServiceService, private windowService: NbWindowService) {
+  constructor(private theme: NbThemeService, public ws: WebServiceService) {
 
   }
 
   ngOnInit(): void {
       this.setDChart();
-      this.setDynamicChart();
       this.setGChart();
       this.setSChart();
+      this.initAccess();
   }
 
+  initAccess(){
+    this.dThemeSubscription = this.theme.getJsTheme().subscribe(config => {
+      const colors: any = config.variables;
+    const echarts: any = config.variables.echarts;
+  
+    this.apOptions = { 
+      backgroundColor: echarts.bg,
+      color: [colors.danger, colors.primary, colors.info],
+      tooltip: {},
+      textStyle: {
+        color: echarts.textColor,
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: true, readOnly: false },
+          saveAsImage: { show: true }
+        }
+      },
+      yAxis: {
+      type: 'category',
+      axisTick: {
+        alignWithLabel: true,
+      },
+      axisLine: {
+        lineStyle: {
+          color: echarts.axisLineColor,
+        },
+      },
+      axisLabel: {
+        textStyle: {
+          color: echarts.textColor,
+        },
+        splitLine: {
+          lineStyle: {
+            color: echarts.splitLineColor,
+          }
+        },
+      },
+      data: ['Posix','MPIIO','STDIO', 'Other']
+    },
+    xAxis: {
+      type: 'value',
+      axisTick: {
+        alignWithLabel: true,
+      },
+      axisLine: {
+        lineStyle: {
+          color: echarts.axisLineColor,
+        },
+        
+      },
+      splitLine: {
+        lineStyle: {
+          color: echarts.splitLineColor,
+        }
+      },
+      axisLabel: {
+        textStyle: {
+          color: echarts.textColor,
+        },
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      },
+    },
+    series: [
+      {
+        data: [100,2,5,10],
+        type: 'bar'
+      }
+    ]
+  };
+    });
+  }
 
   setDChart(){
     this.dThemeSubscription = this.theme.getJsTheme().subscribe(config => {
@@ -108,7 +188,7 @@ export class DashboardExComponent implements OnInit {
           axisLabel: {
             distance: 10,
             color: '#999',
-            fontSize: 10
+            fontSize: 15
           },
           anchor: {
             show: true,
@@ -121,7 +201,7 @@ export class DashboardExComponent implements OnInit {
           detail: {
             valueAnimation: true,
             formatter: function (value) {
-              return '{value|' + value.toFixed(0) + '}{unit|Gbit/s}';
+              return '{value|' + value.toFixed(1) + '}{unit|Gbit/s}';
             },
             rich: {
               value: {
@@ -139,7 +219,7 @@ export class DashboardExComponent implements OnInit {
           },
           data: [
             {
-              value: 20
+              value: 6.2
             }
           ]
         }
@@ -155,315 +235,53 @@ export class DashboardExComponent implements OnInit {
     this.dThemeSubscription = this.theme.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
     const echarts: any = config.variables.echarts;
-    this.sOptions = {
-      color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
-      title: {
-        text: 'Gradient Stacked Area Chart'
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-          label: {
-            backgroundColor: '#6a7985'
-          }
-        }
-      },
-      legend: {
-        data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5']
-      },
-      toolbox: {
-        feature: {
-          saveAsImage: {}
-        }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: [
-        {
-          type: 'category',
-          boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        }
-      ],
-      yAxis: [
-        {
-          type: 'value'
-        }
-      ],
+    this.sOptions ={
       series: [
         {
-          name: 'Line 1',
-          type: 'line',
-          stack: 'Total',
-          smooth: true,
-          lineStyle: {
-            width: 0
-          },
-          showSymbol: false,
-          areaStyle: {
-            opacity: 0.8,
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: 'rgb(128, 255, 165)'
-              },
-              {
-                offset: 1,
-                color: 'rgb(1, 191, 236)'
-              }
-            ])
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          data: [140, 232, 101, 264, 90, 340, 250]
-        },
-        {
-          name: 'Line 2',
-          type: 'line',
-          stack: 'Total',
-          smooth: true,
-          lineStyle: {
-            width: 0
-          },
-          showSymbol: false,
-          areaStyle: {
-            opacity: 0.8,
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: 'rgb(0, 221, 255)'
-              },
-              {
-                offset: 1,
-                color: 'rgb(77, 119, 255)'
-              }
-            ])
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          data: [120, 282, 111, 234, 220, 340, 310]
-        },
-        {
-          name: 'Line 3',
-          type: 'line',
-          stack: 'Total',
-          smooth: true,
-          lineStyle: {
-            width: 0
-          },
-          showSymbol: false,
-          areaStyle: {
-            opacity: 0.8,
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: 'rgb(55, 162, 255)'
-              },
-              {
-                offset: 1,
-                color: 'rgb(116, 21, 219)'
-              }
-            ])
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          data: [320, 132, 201, 334, 190, 130, 220]
-        },
-        {
-          name: 'Line 4',
-          type: 'line',
-          stack: 'Total',
-          smooth: true,
-          lineStyle: {
-            width: 0
-          },
-          showSymbol: false,
-          areaStyle: {
-            opacity: 0.8,
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: 'rgb(255, 0, 135)'
-              },
-              {
-                offset: 1,
-                color: 'rgb(135, 0, 157)'
-              }
-            ])
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          data: [220, 402, 231, 134, 190, 230, 120]
-        },
-        {
-          name: 'Line 5',
-          type: 'line',
-          stack: 'Total',
-          smooth: true,
-          lineStyle: {
-            width: 0
-          },
-          showSymbol: false,
-          label: {
-            show: true,
-            position: 'top'
-          },
-          areaStyle: {
-            opacity: 0.8,
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: 'rgb(255, 191, 0)'
-              },
-              {
-                offset: 1,
-                color: 'rgb(224, 62, 76)'
-              }
-            ])
-          },
-          emphasis: {
-            focus: 'series'
-          },
-          data: [220, 302, 181, 234, 210, 290, 150]
+          type: 'treemap',
+          data: [
+            {
+              name: 'Posix',
+              value: 100,
+              children: [
+                {
+                  name: 'IOR',
+                  value: 60
+                },
+                {
+                  name: 'HACCIO',
+                  value: 20
+                },
+                {
+                  name: 'Other',
+                  value: 20
+                },
+              ]
+            },
+            {
+              name: 'MPIIO',
+              value: 50,
+              children: [
+                {
+                  name: 'IOR',
+                  value: 30,
+                  
+                },
+                {
+                  name: 'Gadget',
+                  value: 10,
+                },
+                {
+                  name: 'Other',
+                  value: 10
+                },
+              ]
+            }
+          ]
         }
       ]
     };
   });
 }
-
-
-
-
-
-  
-  
-  
-
-  setDynamicChart(){
-    this.dThemeSubscription = this.theme.getJsTheme().subscribe(config => {
-      const colors: any = config.variables;
-    const echarts: any = config.variables.echarts;
-    const categories = (function () {
-      let now = new Date();
-      let res = [];
-      let len = 10;
-      while (len--) {
-        res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
-        now = new Date(+now - 2000);
-      }
-      return res;
-    })();
-    const categories2 = (function () {
-      let res = [];
-      let len = 10;
-      while (len--) {
-        res.push(10 - len - 1);
-      }
-      return res;
-    })();
-    const data: number[] = (function () {
-      let res = [];
-      let len = 10;
-      while (len--) {
-        res.push(Math.round(Math.random() * 1000));
-      }
-      return res;
-    })();
-    const data2: number[] = (function () {
-      let res = [];
-      let len = 0;
-      while (len < 10) {
-        res.push(+(Math.random() * 10 + 5).toFixed(1));
-        len++;
-      }
-      return res;
-    })();
-    
-    this.dynamicOptions = {
-      title: {
-        text: 'Dynamic Data'
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-          label: {
-            backgroundColor: '#283b56'
-          }
-        }
-      },
-      legend: {},
-      toolbox: {
-        show: true,
-        feature: {
-          dataView: { readOnly: false },
-          restore: {},
-          saveAsImage: {}
-        }
-      },
-      dataZoom: {
-        show: false,
-        start: 0,
-        end: 100
-      },
-      xAxis: [
-        {
-          type: 'category',
-          boundaryGap: true,
-          data: categories
-        },
-        {
-          type: 'category',
-          boundaryGap: true,
-          data: categories2
-        }
-      ],
-      yAxis: [
-        {
-          type: 'value',
-          scale: true,
-          name: 'Price',
-          max: 30,
-          min: 0,
-          boundaryGap: [0.2, 0.2]
-        },
-        {
-          type: 'value',
-          scale: true,
-          name: 'Order',
-          max: 1200,
-          min: 0,
-          boundaryGap: [0.2, 0.2]
-        }
-      ],
-      series: [
-        {
-          name: 'Dynamic Bar',
-          type: 'bar',
-          xAxisIndex: 1,
-          yAxisIndex: 1,
-          data: data
-        },
-        {
-          name: 'Dynamic Line',
-          type: 'line',
-          data: data2
-        }
-      ]
-    };
-    
-
-  });
-
-  }
 
 }

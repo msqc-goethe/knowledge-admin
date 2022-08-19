@@ -244,6 +244,5 @@ export class IO500Component implements OnInit {
       console.log(indi)
       return indi;
   }
-
   
 }

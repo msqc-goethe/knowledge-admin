@@ -58,15 +58,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     children: [
       {
         title: 'Single Result',
-        link: '/pages/result_viewer',
+        link: '/pages/custom',
       },
       {
         title: 'Result Comparison',
-        link: '/pages/result_comparison',
-      },
-      {
-        title: 'New Configuration',
-        link: '/pages/new_experiment',
+        link: '/pages/custom-comparison',
       },
     ],
   },

@@ -12,6 +12,7 @@ import {DarshanResultComparisonModule} from './darshan-result-comp/darshan-resul
 import {IorBuilderModule} from './ior-builder/ior-builder.module';
 import {IO500Module} from './io500/io500.module';
 import {IO500CompModule} from './io500-comp/io500-comp.module';
+import {CustomModule} from './custom/custom.module';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import {IO500CompModule} from './io500-comp/io500-comp.module';
     DarshanResultComparisonModule,
     IorBuilderModule,
     IO500Module,
-    IO500CompModule
+    IO500CompModule,
+    CustomModule
   ],
   declarations: [
     PagesComponent,

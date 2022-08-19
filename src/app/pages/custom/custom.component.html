@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-xxl-12">
+    <div class="row">
+      <div class="col-md-12">
+        <nb-select style="min-width: 95%" placeholder="Select HACCIO Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectCustom()">
+          <nb-option *ngFor="let run of cus" [value]="run"> {{run.id}}. {{run.name}} - {{run.type}}</nb-option>
+      </nb-select>
+      <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+      </div>
+    </div>
+    <div class="row" *ngIf="selectedValue">
+      <div class="col-md-5">
+        <nb-card size="tiny">
+          <nb-card-header>
+            Settings
+          </nb-card-header>
+          <nb-card-body>
+            <div class="col-md-6" style="display: inline-block;" *ngFor="let sk of selectedValue.fs | keyvalue">
+              <label class="label">{{sk.key}}: </label> {{sk.value}}
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div class="col-md-7">
+        <nb-card size="tiny">
+          <nb-card-header>
+            Settings
+          </nb-card-header>
+          <nb-card-body>
+            <div class="col-md-4" style="display: inline-block;" *ngFor="let sk of selectedValue.sysinfo | keyvalue">
+              <label class="label">{{sk.key}}: </label> {{sk.value}}
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </div>
+    </div>
+    <div class="row" *ngIf="selectedValue">
+      <div class="col-md-4">
+        <nb-card size="large">
+          <nb-card-header>
+            Testcases 
+          </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+              <nb-list-item *ngFor="let s of selectedValue.summary">
+                      <div class="col-md-11">
+                        <nb-user [name]="s.operation">
+                        </nb-user>
+                      </div>
+                      <div class="col-md-1">
+                        <button nbButton ghost status="danger" (click)="openWindowForm(s)" ><nb-icon icon="expand-outline"></nb-icon></button>
+                      </div>
+              </nb-list-item>
+            </nb-list>
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div class="col-md-8">
+        <nb-card size="large">
+              <nb-card-header>
+                Dashboard
+                    <nb-select placeholder="Select Dimension" [(selected)]="this.selectedDim" (selectedChange)="initChart()">
+                      <nb-option value="bw">bw</nb-option>
+                      <nb-option value="size">size</nb-option>
+                      <nb-option value="time">time</nb-option>
+                    </nb-select>
+              </nb-card-header>
+              <nb-card-body>
+                <div style="width: 95%;" echarts [options]="scoreChartOptions" class="echart"></div>
+              </nb-card-body>
+        </nb-card>
+      </div>
+    </div>
+
+
+</div>
+
+
