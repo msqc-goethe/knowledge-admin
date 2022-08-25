@@ -1,0 +1,33 @@
+<div class="row" style="margin-bottom: 1.875rem;">
+    <div class="col-md-12">
+        <nb-select style="min-width: 95%" placeholder="Select IO-500 Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectIO500()">
+          <nb-option *ngFor="let run of io500" [value]="run"> {{run.version}}: {{run.start}} - {{run.end}} on {{run.name}} ({{run.processor_model}} , {{run.processor_architecture}}) with {{run.procs}} Procs</nb-option>
+      </nb-select>
+      <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+    </div>
+</div>
+
+<div class="row" style="margin-bottom: 1.875rem;">
+    <div class="col-md-12">
+        <nb-select style="min-width: 95%" placeholder="Select IOR Run" [(selected)]="selectedValueIOR" name="p" (selectedChange)="getSummary()">
+            <nb-option *ngFor="let p of performances" [value]="p"> {{ p.cmd }}</nb-option>
+        </nb-select>
+      <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+      <nb-card size="small">
+        <nb-card-header>
+          performanc Comparison
+        </nb-card-header>
+        
+        <nb-card-body>
+        </nb-card-body>
+      </nb-card>
+  </div>
+</div>
+  
+  
+  
