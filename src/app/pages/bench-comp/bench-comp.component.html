@@ -17,16 +17,55 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8">
-      <nb-card size="small">
+    <div class="col-md-8" *ngIf="selectedValue && selectedValueIOR">
+      <nb-card size="large">
         <nb-card-header>
-          performanc Comparison
+          Performance Comparison
         </nb-card-header>
         
         <nb-card-body>
+          <div style="width: 95%;" echarts [options]="boundingboxOptions" class="echart"></div>
         </nb-card-body>
       </nb-card>
   </div>
+</div>
+
+<!--<div class="row">
+  <div class="col-md-12">
+    <nb-card *ngIf="selectedValueIOR" size="large">
+      <nb-card-body>
+        <nb-tabset>
+          <nb-tab *ngIf="selectedValueIOR" tabTitle="Benchmark Settings">
+          <div class="col-md-3" style="display:inline-block" *ngFor="let poptions of selectedValueIOR | keyvalue" >
+            <label class="label col-md-5" for="input-name">{{poptions.key}}:</label>
+            <input type="text"  class="col-md-7" nbInput  placeholder="Value" name={{poptions.key}} value={{poptions.value}}>
+          </div>
+          </nb-tab>
+          <nb-tab tabTitle="Dashboard" *ngIf="selectedValueIOR">
+            <nb-select placeholder="Select Showcase" [(selected)]="selectedsOp" (selectedChange)="sOpSelection()">
+              <nb-option *ngFor="let o of sOptions" [value]="o"> {{o}} </nb-option>
+            </nb-select>
+            <div style="width: 95%; height: 300px;" echarts [options]="options_multi" class="echart"></div>
+          </nb-tab>
+
+        </nb-tabset>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>-->
+
+<div class="row">
+  <div class="col-md-12" *ngIf="selectedValue && selectedValueIOR">
+    <nb-card size="large">
+      <nb-card-header>
+        Performance Comparison
+      </nb-card-header>
+      
+      <nb-card-body>
+        <div style="width: 95%;" echarts [options]="options_bar" class="echart"></div>
+      </nb-card-body>
+    </nb-card>
+</div>
 </div>
   
   

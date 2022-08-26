@@ -19,7 +19,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ThemeModule } from '../../@theme/theme.module';
 import { IO500Component } from './io500.component';
 import {IO500WindowFormComponent} from './io500-window-form.component';
-import {ChartTestComponent} from './boxChart.component'
+
 
 
 @NgModule({
@@ -41,7 +41,7 @@ import {ChartTestComponent} from './boxChart.component'
     NbRadioModule,
   ],
   declarations: [
-    IO500Component, IO500WindowFormComponent, ChartTestComponent
+    IO500Component, IO500WindowFormComponent
   ],
 })
 export class IO500Module { }
