@@ -24,6 +24,10 @@ export class DarshanResultViewerComponent implements OnInit {
   summariesP = false;
   data: TreeNode<Result>[] = [];
 
+  //some information
+  testMounts: any;
+  testFiles: any;
+
   
   customColumn = 'name';
   defaultColumns = [ "blockKiB","bwMiB","closeTime","iops","latency","openTime", "totalTime", "wrRdTime", "xferKiB"];
@@ -84,6 +88,8 @@ export class DarshanResultViewerComponent implements OnInit {
 
   getSummary(){
     console.log("selected: ",this.selectedSummary)
+    this.initTestMount()
+    this.initTestFiles()
     this.initHistChart()
     this.initIoopsCharts()
   }
@@ -318,4 +324,22 @@ pushops(obj, ops, ioops, key){
   obj[ops].push(ioops[key].Write)
 }
 
+initTestMount(){
+  this.testMounts = {
+    1: "Mount 1",
+    2: "Mount 2",
+    3: "Mount 3",
+    4: "Mount 4"
+}
+
+}
+
+initTestFiles(){
+  this.testFiles = {
+    1: "File 1",
+    2: "File 2",
+    3: "File 3",
+    4: "File 4"
+}
+}
 }

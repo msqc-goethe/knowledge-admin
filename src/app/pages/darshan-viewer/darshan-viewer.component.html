@@ -26,9 +26,33 @@
     </div>
     <div class="col-md-9">
       <nb-card size="small">
-        <nb-card-header>
-          Some Other Information
-        </nb-card-header>
+        <nb-tabset>
+          <nb-tab tabTitle="Mounts">
+            <div *ngFor="let mounts of this.testMounts | keyvalue" >
+              <div class="col-md-12" *ngIf= "!isObj(mounts.value)">
+                {{mounts.value}}
+              </div>
+              <div class="col-md-12" *ngIf="isObj(mounts.value)">
+                <div *ngFor="let item of mounts.value | keyvalue" >
+                  <label class="label">{{item.key}}: </label>{{item.value}}
+                </div>
+              </div>
+            </div>
+          </nb-tab>
+          <nb-tab tabTitle="Written Files">
+            <div *ngFor="let file of this.testFiles | keyvalue" >
+              <div class="col-md-12" *ngIf= "!isObj(file.value)">
+                {{file.value}}
+              </div>
+              <div class="col-md-12" *ngIf="isObj(file.value)">
+                <div *ngFor="let item of file.value | keyvalue" >
+                  <label class="label">{{item.key}}: </label>{{item.value}}
+                </div>
+              </div>
+            </div>
+          </nb-tab>
+
+        </nb-tabset>
       </nb-card>
     </div>
 

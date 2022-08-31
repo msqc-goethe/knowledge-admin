@@ -17,10 +17,10 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8" *ngIf="selectedValue && selectedValueIOR">
+    <div class="col-md-12" *ngIf="selectedValue && selectedValueIOR">
       <nb-card size="large">
         <nb-card-header>
-          Performance Comparison
+          Performance Comparison [bwMiB]
         </nb-card-header>
         
         <nb-card-body>
@@ -58,11 +58,25 @@
   <div class="col-md-12" *ngIf="selectedValue && selectedValueIOR">
     <nb-card size="large">
       <nb-card-header>
-        Performance Comparison
+        Performance Comparison [bwMiB]
       </nb-card-header>
       
       <nb-card-body>
         <div style="width: 95%;" echarts [options]="options_bar" class="echart"></div>
+      </nb-card-body>
+    </nb-card>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-md-12" *ngIf="selectedValue && selectedValueIOR">
+    <nb-card size="large">
+      <nb-card-header>
+        TestChart
+      </nb-card-header>
+      
+      <nb-card-body>
+        <div style="width: 95%;" echarts [options]="options_scatter" class="echart"></div>
       </nb-card-body>
     </nb-card>
 </div>

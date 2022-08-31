@@ -72,6 +72,9 @@ export class BenchCompComponent implements OnInit {
     readyIO500: any = false;
     readyIOR: any = false;
 
+    //
+    options_scatter: any={}
+
   
   constructor(private theme: NbThemeService, public ws: WebServiceService, private windowService: NbWindowService, private dataSourceBuilder: NbTreeGridDataSourceBuilder<Result>) {
   }
@@ -89,13 +92,13 @@ export class BenchCompComponent implements OnInit {
   selectIO500(){
     this.ws.getIO500_testcases(this.selectedValue.run_id).then(x=>{
       this.selectedTestCases = x;
-      console.log("TC: ", this.selectedTestCases)
+
       this.ws.getIO500_results(this.selectedValue.run_id).then(res => {
         this.selectedTestCasesResults = res;
-        console.log("TCR: ", this.selectedTestCasesResults)
+
         this.ws.getIO500_options (this.selectedValue.run_id).then(op =>{
           this.selectedTestCaseOptions = op;
-          console.log("TCO ", this.selectedTestCaseOptions)
+
 
           this.readyIO500 = true
           if(this.readyIO500 && this.readyIOR){
@@ -107,11 +110,11 @@ export class BenchCompComponent implements OnInit {
   }
 
   getSummary(rkey = "ops"){
-    console.log(this.selectedValueIOR)
+
     this.ws.getSummaries(this.selectedValueIOR.id).then(()=>{
-     //console.log( this.selectedValue)
+
       this.summaries = this.ws.summaries;
-     //console.log(this.summaries)
+
       this.summariesP = true;
       let parr = [];
       this.summaries.forEach(sum => {
@@ -140,10 +143,10 @@ export class BenchCompComponent implements OnInit {
       Promise.all(parr).then(() => {
         this.initMulti();
         this.initBarChart();
+        this.scatterChart();
         this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
           this.selectedFilesystem = x;
           this.selectedFilesystem = JSON.parse(this.selectedFilesystem[0].settings)
-         console.log(this.selectedFilesystem)
         })
       });
     });
@@ -165,12 +168,13 @@ export class BenchCompComponent implements OnInit {
       textStyle: {
         color: echarts.textColor,
       },
+
       toolbox: {
         show: true,
         feature: {
           mark: { show: true },
-          dataView: { show: true, readOnly: false },
-          saveAsImage: { show: true }
+          dataView: { title: "Data",show: true, readOnly: false },
+          saveAsImage: {title: "Download", show: true }
         }
       },
       tooltip:{},
@@ -180,6 +184,7 @@ export class BenchCompComponent implements OnInit {
         left: 'center'
       },
       radar: {
+        startAngle: 45,
         //shape: 'square',
         //indicator: this.getIndicator(this.selectedTestCasesResults, 'bwMiB')
         indicator: this.boxIndicator('bwMiB')
@@ -191,15 +196,16 @@ export class BenchCompComponent implements OnInit {
           data: [
             {
               value: this.transformDim(this.selectedTestCasesResults, 'bwMiB'),
-              name: 'Min/Max IO'
+              name: 'IO500'
             },
             {
-              value: [this.summaries[0].bwMeanMIB,0,this.summaries[1].bwMeanMIB,0],
+              value: [this.summaries[0].bwMeanMIB,2500,this.summaries[1].bwMeanMIB,1600],
               name: 'IOR',
+              symbol: 'triangle',
+              symbolOffset: ['50%','50%'],
               lineStyle:{
-                opacity: 0
-              }
-
+                opacity: 0,
+              },
             }
           ]
         }
@@ -220,8 +226,7 @@ export class BenchCompComponent implements OnInit {
           indi.push({ name: ob.name, max: result[rkey]})
         }
       });
-      console.log("HERE")
-      console.log(indi)
+
       return indi;
   }
 
@@ -248,7 +253,7 @@ export class BenchCompComponent implements OnInit {
     });
     results[0].push(this.summaries[0].bwMeanMIB)
     results[2].push(this.summaries[1].bwMeanMIB)
-    console.log(results[0])
+
     results.forEach(res =>{
       finalresult.push(Math.max(...res))
     })
@@ -259,8 +264,6 @@ export class BenchCompComponent implements OnInit {
       count = count + 1
     })
 
-    console.log("There u are")
-    console.log(indicator)
     return indicator
   }
 
@@ -363,7 +366,7 @@ export class BenchCompComponent implements OnInit {
         toolbox: {
           show: true,
           feature: {
-            saveAsImage: { show: true }
+            saveAsImage: { title: "Download", show: true }
           }
         },
         xAxis: {
@@ -425,5 +428,135 @@ export class BenchCompComponent implements OnInit {
     })
     xAxis.push("IORMeanWrite", "IORMeanRead")
     return xAxis
+  }
+
+  scatterChart(){
+    this.themeSubscriptionBarChart = this.theme.getJsTheme().subscribe(config => {
+
+      const colors: any = config.variables;
+      const echarts: any = config.variables.echarts;
+      this.options_scatter = {
+        grid: {
+          left: '3%',
+          right: '7%',
+          bottom: '7%',
+          containLabel: true
+        },
+        tooltip: {
+          // trigger: 'axis',
+          showDelay: 0,
+          formatter: function (params) {
+            if (params.value.length > 1) {
+              return (
+                params.seriesName +
+                ' :<br/>' +
+                params.value[0] +
+                'bwMib ' +
+                params.value[1] +
+                'bwMib '
+              );
+            } else {
+              return (
+                params.seriesName +
+                ' :<br/>' +
+                params.name +
+                ' : ' +
+                params.value +
+                'bwMib '
+              );
+            }
+          },
+          axisPointer: {
+            show: true,
+            type: 'cross',
+            lineStyle: {
+              type: 'dashed',
+              width: 1
+            }
+          }
+        },
+        toolbox: {
+          feature: {
+            dataZoom: {},
+            brush: {
+              type: ['rect', 'polygon', 'clear']
+            }
+          }
+        },
+        brush: {},
+        legend: {
+          data: ['IO500', 'Other'],
+          left: 'center',
+          bottom: 10
+        },
+        xAxis: [
+          {
+            type: 'value',
+            scale: true,
+            axisLabel: {
+              formatter: '{value} bwMib'
+            },
+            splitLine: {
+              show: false
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            scale: true,
+            axisLabel: {
+              formatter: '{value} bwMiB'
+            },
+            splitLine: {
+              show: false
+            }
+          }
+        ],
+        series: [
+          {
+            name: 'IO500',
+            type: 'scatter',
+            emphasis: {
+              focus: 'series'
+            },
+            // prettier-ignore
+            data: [[30,30 ], [1860, 5490],
+                  ],
+            markArea: {
+              silent: true,
+              itemStyle: {
+                color: 'transparent',
+                borderWidth: 1,
+                borderType: 'solid'
+              },
+              data: [
+                [
+                  {
+                    name: 'IO500',
+                    xAxis: 'min',
+                    yAxis: 'min'
+                  },
+                  {
+                    xAxis: 'max',
+                    yAxis: 'max'
+                  }
+                ]
+              ]
+            },
+          },
+          {
+            name: 'Other',
+            type: 'scatter',
+            emphasis: {
+              focus: 'series'
+            },
+            // prettier-ignore
+            data: [[5448, 3900], [8818, 4317], [6341, 4087], [7056, 3760], [7766, 4355],
+                  ],
+          }
+        ]
+      };
+    });
   }
 }
