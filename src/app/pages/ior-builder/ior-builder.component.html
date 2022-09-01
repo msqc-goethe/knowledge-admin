@@ -1,9 +1,17 @@
 <div class="row">
+  <div class="col-md-12" style="margin-bottom: 1.875rem;">
+    <nb-select style="min-width: 95%" placeholder="Select IOR Run" [(selected)]="selectedValue" name="p" (selectedChange)="parseCmd()">
+      <nb-option *ngFor="let p of performances" [value]="p"> {{ p.cmd }}</nb-option>
+  </nb-select>
+  <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+  </div>
+</div>
+<div class="row">
       <div class="col-md-12">
         <nb-card size="medium">
           <nb-card-body>
             <nb-select style="min-width: 85%; margin-bottom: 10px; margin-right:10px; " multiple placeholder="Multiple Select" [(selected)]="sSelects">
-              <nb-option style="margin-bottom: 10px;" *ngFor="let s of selects" value={{s[0]}}>{{s}}</nb-option>
+              <nb-option style="margin-bottom: 10px;" *ngFor="let s of selects" [value]=s[0]>{{s}}</nb-option>
             </nb-select>
             <button nbButton (click)="generate()" >Generate</button>
             <button nbButton (click)="clear()" >Clear</button>
