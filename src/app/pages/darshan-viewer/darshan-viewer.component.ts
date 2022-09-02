@@ -80,7 +80,7 @@ export class DarshanResultViewerComponent implements OnInit {
   ngOnInit(): void {
     this.ws.getDarshan().then((darshans:any)=>{
       this.darshans = darshans.map((darshan) =>{
-        return {id: darshan.id, meta: JSON.parse(darshan.meta), summary: JSON.parse(darshan.summary)}
+        return {id: darshan.id, meta: JSON.parse(darshan.meta), summary: JSON.parse(darshan.summary), mounts: JSON.parse(darshan.mounts), writtenFiles: JSON.parse(darshan.writtenFiles)}
       })
       console.log(this.darshans)
     })
@@ -325,21 +325,15 @@ pushops(obj, ops, ioops, key){
 }
 
 initTestMount(){
-  this.testMounts = {
-    1: "Mount 1",
-    2: "Mount 2",
-    3: "Mount 3",
-    4: "Mount 4"
-}
-
+  let mountdata = {}
+  this.selectedSummary.mounts.forEach(mount => {
+    mountdata[mount[0]] = mount[1]
+    
+  });
+  this.testMounts = mountdata
 }
 
 initTestFiles(){
-  this.testFiles = {
-    1: "File 1",
-    2: "File 2",
-    3: "File 3",
-    4: "File 4"
-}
+  this.testFiles = this.selectedSummary.writtenFiles
 }
 }
