@@ -28,28 +28,34 @@
       <nb-card size="small">
         <nb-tabset>
           <nb-tab tabTitle="Mounts">
-            <div *ngFor="let mounts of this.testMounts | keyvalue" >
-              <div class="col-md-12" *ngIf= "!isObj(mounts.value)">
-                {{mounts.value}}
-              </div>
-              <div class="col-md-12" *ngIf="isObj(mounts.value)">
-                <div *ngFor="let item of mounts.value | keyvalue" >
-                  <label class="label">{{item.key}}: </label>{{item.value}}
-                </div>
+
+            <nb-card size="tiny">
+              <nb-card-body>
+            <div  *ngFor="let mounts of this.testMounts | keyvalue" >
+              <div  class="col-md-12" *ngIf= "!isObj(mounts.value)">
+                <label class="label"> {{mounts.key}}:  </label>{{mounts.value}}
               </div>
             </div>
+          </nb-card-body>
+
+          </nb-card>
+
+
           </nb-tab>
           <nb-tab tabTitle="Written Files">
-            <div *ngFor="let file of this.testFiles | keyvalue" >
-              <div class="col-md-12" *ngIf= "!isObj(file.value)">
+
+
+            <nb-card size="tiny">
+              <nb-card-body>
+                <div *ngFor="let file of this.testFiles | keyvalue" >
+                  <div class="col-md-12" *ngIf= "!isObj(file.value)">
                 {{file.value}}
-              </div>
-              <div class="col-md-12" *ngIf="isObj(file.value)">
-                <div *ngFor="let item of file.value | keyvalue" >
-                  <label class="label">{{item.key}}: </label>{{item.value}}
+                  </div>
                 </div>
-              </div>
-            </div>
+              </nb-card-body>
+            </nb-card>
+
+
           </nb-tab>
 
         </nb-tabset>

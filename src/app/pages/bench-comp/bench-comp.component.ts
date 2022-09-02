@@ -475,15 +475,6 @@ export class BenchCompComponent implements OnInit {
             }
           }
         },
-        toolbox: {
-          feature: {
-            dataZoom: {},
-            brush: {
-              type: ['rect', 'polygon', 'clear']
-            }
-          }
-        },
-        brush: {},
         legend: {
           data: ['IO500', 'Other'],
           left: 'center',
@@ -517,11 +508,12 @@ export class BenchCompComponent implements OnInit {
           {
             name: 'IO500',
             type: 'scatter',
+            symbolSize: 1 ,
             emphasis: {
               focus: 'series'
             },
             // prettier-ignore
-            data: [[30,30 ], [1860, 5490],
+            data: [[30,30 ], [9000, 5490],
                   ],
             markArea: {
               silent: true,
