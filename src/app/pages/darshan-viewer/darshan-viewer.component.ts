@@ -335,16 +335,16 @@ initTestMount(){
 
 initTestFiles(){
   this.testFiles = this.selectedSummary.writtenFiles
-  /*let filedata = {}
+  let filedata = {}
   let count = 0
-  this.selectedSummary.writtenFiles.forEach(file =>{
-    if (file[1] == "<STDIN>" || file[1] == "<STDOUT>" || file[1] == "<STDERR>"){
+  this.selectedSummary.writtenFiles.forEach(function(key,value){
+    if (value == "<STDIN>" || value == "<STDOUT>" || value == "<STDERR>"){
     }else{
-          filedata[count] = file[1]
+          filedata[count] = value
           count++
     }
-    this.testFiles = filedata
 
-  })*/
+  })
+  this.testFiles = filedata
 }
 }
