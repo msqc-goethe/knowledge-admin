@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {WebServiceService, Performance} from '../../webservice.service';
 import { NbTreeGridDataSourceBuilder } from '@nebular/theme';
 import { Result} from '../../webservice.service';
@@ -35,6 +35,7 @@ export class IorBuilderComponent implements OnInit {
     this.preSelect(this.commands);
     this.ws.getPerformances().then(()=>{
       this.performances = this.ws.performances;
+      this.sSelects = []
     })
 
   }
@@ -47,6 +48,11 @@ export class IorBuilderComponent implements OnInit {
           this.selects.push(cmd)
         }
       });
+      /*
+      this.selects.forEach(select => {
+        select.push(true);
+      });
+      */
       console.log(this.selects, this.inputs)
   }
 
@@ -110,8 +116,5 @@ for (let i = 0; i < this.commands.length; i ++){
 
 }
 
-testf(s){
-  console.log(s)
-}
 
 }
