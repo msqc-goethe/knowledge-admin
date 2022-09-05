@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {WebServiceService, Performance} from '../../webservice.service';
 import { NbTreeGridDataSourceBuilder } from '@nebular/theme';
 import { Result} from '../../webservice.service';
@@ -23,6 +23,8 @@ export class IorBuilderComponent implements OnInit {
   taskPerNodeOffset:"", segmentCount:"", transferSize:"", maxTimeDuration:"", hintsFileName:"", reorderTasksRandomSeed:""}
 
   final = "ior "
+  performances:any;
+  selectedValue:any;
 
 
   constructor(private theme: NbThemeService, public ws: WebServiceService, private dataSourceBuilder: NbTreeGridDataSourceBuilder<Result>) {
@@ -31,6 +33,11 @@ export class IorBuilderComponent implements OnInit {
 
   ngOnInit(): void {
     this.preSelect(this.commands);
+    this.ws.getPerformances().then(()=>{
+      this.performances = this.ws.performances;
+      this.sSelects = []
+    })
+
   }
 
   preSelect(arr){
@@ -41,6 +48,11 @@ export class IorBuilderComponent implements OnInit {
           this.selects.push(cmd)
         }
       });
+      /*
+      this.selects.forEach(select => {
+        select.push(true);
+      });
+      */
       console.log(this.selects, this.inputs)
   }
 
@@ -80,6 +92,28 @@ clear(){
     console.log(this.sInputs[key])
     this.sInputs[key] = "";
   });
+}
+
+parseCmd(){
+  let cCmd = this.selectedValue.cmd.split(' ');
+  console.log(this.commands, cCmd)
+for (let i = 0; i < this.commands.length; i ++){
+  for (let j = 0; j < cCmd.length; j ++){
+    if( this.commands[i][0].split(" ")[0] === cCmd[j]){
+      if ((j!==cCmd.length -1) && (cCmd[j+1].includes('-'))){
+        console.log("no value ", cCmd[j])
+
+        this.sSelects.push(cCmd[j])
+      }else {
+        console.log("with value ", cCmd[j +1])
+        this.sInputs[this.commands[i][1]] = cCmd[j +1]
+      }
+      
+    }
+  }
+}
+  //console.log(this.selectedValue.cmd.split(' '))
+
 }
 
 
