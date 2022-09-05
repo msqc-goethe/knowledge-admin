@@ -99,6 +99,7 @@ export class DarshanResultViewerComponent implements OnInit {
 
 initHistChart(){
   const op = this.transformToData(this.selectedSummary.summary.agg_iohist.POSIX)
+  console.log(op)
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors: any = config.variables;
@@ -337,13 +338,12 @@ initTestFiles(){
   this.testFiles = this.selectedSummary.writtenFiles
   let filedata = {}
   let count = 0
-  this.selectedSummary.writtenFiles.forEach(function(key,value){
-    if (value == "<STDIN>" || value == "<STDOUT>" || value == "<STDERR>"){
+  Object.keys(this.selectedSummary.writtenFiles).forEach((key)=>{
+    if (this.selectedSummary.writtenFiles[key] == "<STDIN>" || this.selectedSummary.writtenFiles[key]  == "<STDOUT>" || this.selectedSummary.writtenFiles[key]  == "<STDERR>"){
     }else{
-          filedata[count] = value
-          count++
-    }
-
+      filedata[count] = this.selectedSummary.writtenFiles[key]
+      count++
+}
   })
   this.testFiles = filedata
 }
