@@ -1,1 +1,0 @@
-:host{display:flex;align-items:center;width:25rem;margin:0.5rem}:host .title{margin-right:0.25rem}:host.default .content-container,:host:not(.has-icon) .content-container{display:flex;flex-direction:row}:host.destroy-by-click{cursor:pointer}:host nb-icon{font-size:2.5rem}:host svg{width:2.5rem;height:2.5rem}

@@ -1,1 +1,0 @@
-{"version":3,"file":"component-shape.js","sourceRoot":"","sources":["../../../../../.ng_build/theme/components/component-shape.ts"],"names":[],"mappings":"","sourcesContent":["export type NbComponentShape = 'rectangle' | 'semi-round' | 'round';\n"]}

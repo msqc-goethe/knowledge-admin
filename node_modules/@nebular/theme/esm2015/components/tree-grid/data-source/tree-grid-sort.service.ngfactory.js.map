@@ -1,1 +1,0 @@
-{"version":3,"file":"tree-grid-sort.service.ngfactory.js","sourceRoot":"","sources":["../../../../../../../.ng_build/theme/components/tree-grid/data-source/tree-grid-sort.service.ngfactory.ts"],"names":[],"mappings":"","sourcesContent":["import * as i0 from '@angular/core';\ni0.ComponentFactory;\n"]}
