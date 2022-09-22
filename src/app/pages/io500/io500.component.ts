@@ -11,9 +11,10 @@ import {IO500WindowFormComponent} from './io500-window-form.component';
 export class IO500Component implements OnInit {
 
 
-
   public selectedValue: any;
   public io500: any;
+
+  //selected variables
   public selectedTestCases: any;
   public selectedTestCaseOptions: any;
   public selectedTestCasesResults: any;
