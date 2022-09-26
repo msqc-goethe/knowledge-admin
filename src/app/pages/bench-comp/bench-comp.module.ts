@@ -18,6 +18,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { BenchCompComponent } from './bench-comp.component';
+import {BenchCompWindowFormComponent} from './bench-comp-window-form.component';
 
 
 
@@ -42,7 +43,7 @@ import { BenchCompComponent } from './bench-comp.component';
     Ng2SmartTableModule
   ],
   declarations: [
-   BenchCompComponent,
+   BenchCompComponent,BenchCompWindowFormComponent,
   ],
 })
 export class BenchCompModule { }

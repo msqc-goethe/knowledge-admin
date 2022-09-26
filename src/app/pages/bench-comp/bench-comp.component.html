@@ -81,6 +81,20 @@
     </nb-card>
 </div>
 </div>
+
+<div class="col-md-12" *ngIf="selectedValue && selectedValueIOR">
+    
+  <nb-card>
+    <nb-card-header>
+      Table
+     <!-- <button *ngIf="!isDisabled" style="float: right;" (click)="openWindowForm()" nbButton>Inspect View</button>-->
+    </nb-card-header>
   
+    <nb-card-body>
+      <ng2-smart-table [settings]="settingsTable" [source]="sourceTable" (deleteConfirm)="onDeleteConfirm($event)" (userRowSelect)="testTable($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
+</div>
   
   

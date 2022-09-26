@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {WebServiceService, Performance, Result} from '../../webservice.service';
 import { NbThemeService, NbWindowService, NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder} from '@nebular/theme';
+import { LocalDataSource } from 'ng2-smart-table';
+import { SmartTableData } from '../../@core/data/smart-table';
+import {BenchCompWindowFormComponent} from './bench-comp-window-form.component';
 
 /*
 import {WebServiceService, Performance} from '../../webservice.service';
@@ -74,6 +77,109 @@ export class BenchCompComponent implements OnInit {
 
     //
     options_scatter: any={}
+    scatter_series = [
+      {
+        name: 'IO500',
+        type: 'scatter',
+        symbolSize: 1 ,
+        emphasis: {
+          focus: 'series'
+        },
+        // prettier-ignore
+        data: [[30,30 ], [9000, 5490],
+              ],
+        markArea: {
+          silent: true,
+          itemStyle: {
+            color: 'transparent',
+            borderWidth: 1,
+            borderType: 'solid'
+          },
+          data: [
+            [
+              {
+                name: 'IO500',
+                xAxis: 'min',
+                yAxis: 'min'
+              },
+              {
+                xAxis: 'max',
+                yAxis: 'max'
+              }
+            ]
+          ]
+        },
+      },
+      /*{
+        name: 'Other',
+        type: 'scatter',
+        emphasis: {
+          focus: 'series'
+        },
+        // prettier-ignore
+        data: [[5448, 3900], [8818, 4317], [6341, 4087], [7056, 3760], [7766, 4355],
+              ],
+      }*/
+    ]
+
+
+    //SmartTableBase
+    settingsTable = {
+      selectMode:"multi",
+      pager:{
+        perPage: 100,
+      }, 
+      add: {
+        addButtonContent: '<i class="nb-plus"></i>',
+        createButtonContent: '<i class="nb-checkmark"></i>',
+        cancelButtonContent: '<i class="nb-close"></i>',
+      },
+      edit: {
+        editButtonContent: '<i class="nb-edit"></i>',
+        saveButtonContent: '<i class="nb-checkmark"></i>',
+        cancelButtonContent: '<i class="nb-close"></i>',
+      },
+      delete: {
+        deleteButtonContent: '<i class="nb-trash"></i>',
+        confirmDelete: true,
+      },
+      columns: {
+        id: {
+          title: 'ID',
+          type: 'number',
+        },
+        name: {
+          title: 'Name',
+          type: 'string',
+        },
+        type: {
+          title: 'Type',
+          type: 'string',
+        },
+        sysName: {
+          title: 'Cluster',
+          type: 'string',
+        },
+        bw: {
+          title: 'BW(MB/s)',
+          type: 'number',
+        },
+        size: {
+          title: 'Size(Bytes)',
+          type: 'number',
+        },
+  
+        time: {
+          title: 'T(sec)',
+          type: 'string',
+        },
+      },
+    };
+
+    sourceTable: LocalDataSource = new LocalDataSource();
+
+  clickedRows: any;
+  isDisabled = true;
 
   
   constructor(private theme: NbThemeService, public ws: WebServiceService, private windowService: NbWindowService, private dataSourceBuilder: NbTreeGridDataSourceBuilder<Result>) {
@@ -86,7 +192,24 @@ export class BenchCompComponent implements OnInit {
     });
     this.ws.getPerformances().then(()=>{
         this.performances = this.ws.performances;
-      })
+    })
+    this.ws.getCustom().then((cu: any[])=>{
+      const data = cu.map(val => ({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+        sysName: JSON.parse(val['sysinfo']).name,
+        size: (Number(JSON.parse(val['summary'])[0].size[0]) + Number(JSON.parse(val['summary'])[1].size[0]))/2,
+        bw: (Number(JSON.parse(val['summary'])[0].bw[0]) + Number(JSON.parse(val['summary'])[1].bw[0]))/2,
+        time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
+      }));;
+      //console.log(data);
+      this.sourceTable.load(data);
+
+    });
   }
 
   selectIO500(){
@@ -152,9 +275,6 @@ export class BenchCompComponent implements OnInit {
     });
   }
 
-  initBoxChart(){
-
-  }
 
   initBoundingbox(){
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
@@ -191,7 +311,7 @@ export class BenchCompComponent implements OnInit {
       },
       series: [
         {
-          name: 'Budget vs spending',
+          name: 'IO500',
           type: 'radar',
           data: [
             {
@@ -504,51 +624,60 @@ export class BenchCompComponent implements OnInit {
             }
           }
         ],
-        series: [
-          {
-            name: 'IO500',
-            type: 'scatter',
-            symbolSize: 1 ,
-            emphasis: {
-              focus: 'series'
-            },
-            // prettier-ignore
-            data: [[30,30 ], [9000, 5490],
-                  ],
-            markArea: {
-              silent: true,
-              itemStyle: {
-                color: 'transparent',
-                borderWidth: 1,
-                borderType: 'solid'
-              },
-              data: [
-                [
-                  {
-                    name: 'IO500',
-                    xAxis: 'min',
-                    yAxis: 'min'
-                  },
-                  {
-                    xAxis: 'max',
-                    yAxis: 'max'
-                  }
-                ]
-              ]
-            },
-          },
-          {
-            name: 'Other',
-            type: 'scatter',
-            emphasis: {
-              focus: 'series'
-            },
-            // prettier-ignore
-            data: [[5448, 3900], [8818, 4317], [6341, 4087], [7056, 3760], [7766, 4355],
-                  ],
-          }
-        ]
+        series: this.scatter_series
       };
     });
   }
+
+  addSeriesToScatter(name,value){
+    let lol = {
+        name: 'name',
+        type: 'scatter',
+        emphasis: {
+          focus: 'series'
+        },
+        // prettier-ignore
+        data: [[value, value]
+              ],
+        //date: [[value,value]]
+    }
+    this.options_scatter.series.push(lol)
+
+    /*let lol2 = {
+      name: 'name',
+      type: 'scatter',
+      emphasis: {
+        focus: 'series'
+      },
+      // prettier-ignore
+      data: [[1000, 1000], [2000, 2000], [3000, 3000], [4000, 4000], [5000, 5000],
+            ],
+      //date: [[value]]
+  }
+  this.options_scatter.series.push(lol2)*/
+  }
+
+  testTable($event){
+    this.clickedRows = $event.selected
+    console.log(this.clickedRows)
+
+    this.clickedRows.forEach(row => {
+      //
+      console.log(row)
+      this.addSeriesToScatter(row.name,row.bw)
+
+      
+    });
+
+    this.scatterChart()
+    if (this.clickedRows.length==0){
+      this.isDisabled = true;
+    }
+    else{
+      this.isDisabled =false;
+    }
+  }
+
+
+
 }
