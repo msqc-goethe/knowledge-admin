@@ -110,18 +110,11 @@ export class BenchCompComponent implements OnInit {
           ]
         },
       },
-      /*{
-        name: 'Other',
-        type: 'scatter',
-        emphasis: {
-          focus: 'series'
-        },
-        // prettier-ignore
-        data: [[5448, 3900], [8818, 4317], [6341, 4087], [7056, 3760], [7766, 4355],
-              ],
-      }*/
     ]
 
+    scatter_backup = this.scatter_series
+
+    //used to reset scatter chart when deselcting items from smarttable
 
     //SmartTableBase
     settingsTable = {
@@ -181,6 +174,9 @@ export class BenchCompComponent implements OnInit {
   clickedRows: any;
   isDisabled = true;
 
+  smartdata: any[]
+  smartdata2: any[]
+
   
   constructor(private theme: NbThemeService, public ws: WebServiceService, private windowService: NbWindowService, private dataSourceBuilder: NbTreeGridDataSourceBuilder<Result>) {
   }
@@ -188,13 +184,35 @@ export class BenchCompComponent implements OnInit {
   ngOnInit(): void {
    this.ws.getIO500().then(x =>{
       this.io500 = x;
-      console.log(this.io500)
+      //console.log(this.io500)
     });
     this.ws.getPerformances().then(()=>{
         this.performances = this.ws.performances;
     })
+
+    let parr = []
+
+    this.ws.getPerformances().then((performances: Performance[])=>{
+      parr.push(performances.map(p => ({
+        id: p.id,
+        name: p.testFileName,
+        type: "IOR",
+        summary: "score",
+        sysinfo: p.cmd,
+        sysName: p.platform,
+        size:p.transferSize,
+        bw:"empty",
+        writebw: "Empty",
+        readbw: "empty",
+        time:5,
+      })));;
+      //this.sourceTable.load(this.smartdata2)
+      console.log(parr)
+    });
+
+
     this.ws.getCustom().then((cu: any[])=>{
-      const data = cu.map(val => ({
+      parr.push(cu.map(val => ({
         id: val['id'],
         name: val['name_app'],
         type: val['type'],
@@ -204,12 +222,30 @@ export class BenchCompComponent implements OnInit {
         sysName: JSON.parse(val['sysinfo']).name,
         size: (Number(JSON.parse(val['summary'])[0].size[0]) + Number(JSON.parse(val['summary'])[1].size[0]))/2,
         bw: (Number(JSON.parse(val['summary'])[0].bw[0]) + Number(JSON.parse(val['summary'])[1].bw[0]))/2,
+        writebw: Number(JSON.parse(val['summary'])[0].bw[0]),
+        readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
         time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
-      }));;
-      //console.log(data);
-      this.sourceTable.load(data);
+      })));;
+      console.log("Here")
+      console.log(parr);
+      //this.sourceTable.load(this.smartdata);
+      this.addDataToSmartTable(parr)
+
 
     });
+
+    //this.addDataToSmartTable(parr)
+  }
+
+  addDataToSmartTable(parr){
+    let smart = []
+      parr.forEach(e => {
+        e.forEach(s => {
+          smart.push(s)
+        })
+      })
+      console.log(smart)
+      this.sourceTable.load(smart)
   }
 
   selectIO500(){
@@ -550,6 +586,8 @@ export class BenchCompComponent implements OnInit {
     return xAxis
   }
 
+  
+
   scatterChart(){
     this.themeSubscriptionBarChart = this.theme.getJsTheme().subscribe(config => {
 
@@ -624,48 +662,69 @@ export class BenchCompComponent implements OnInit {
             }
           }
         ],
-        series: this.scatter_series
+        series: [
+          {
+            name: 'IO500',
+            type: 'scatter',
+            symbolSize: 1 ,
+            emphasis: {
+              focus: 'series'
+            },
+            // prettier-ignore
+            data: [[30,30 ], [9000, 5490],
+                  ],
+            markArea: {
+              silent: true,
+              itemStyle: {
+                color: 'transparent',
+                borderWidth: 1,
+                borderType: 'solid'
+              },
+              data: [
+                [
+                  {
+                    name: 'IO500',
+                    xAxis: 'min',
+                    yAxis: 'min'
+                  },
+                  {
+                    xAxis: 'max',
+                    yAxis: 'max'
+                  }
+                ]
+              ]
+            },
+          },
+        ],
       };
     });
   }
 
-  addSeriesToScatter(name,value){
-    let lol = {
-        name: 'name',
+  addSeriesToScatter(id,name,read,write){
+    let serie = {
+        name: '' + name.toString() + id.toString(),
         type: 'scatter',
         emphasis: {
           focus: 'series'
         },
         // prettier-ignore
-        data: [[value, value]
+        data: [[read, write]
               ],
-        //date: [[value,value]]
     }
-    this.options_scatter.series.push(lol)
-
-    /*let lol2 = {
-      name: 'name',
-      type: 'scatter',
-      emphasis: {
-        focus: 'series'
-      },
-      // prettier-ignore
-      data: [[1000, 1000], [2000, 2000], [3000, 3000], [4000, 4000], [5000, 5000],
-            ],
-      //date: [[value]]
-  }
-  this.options_scatter.series.push(lol2)*/
+    this.options_scatter.series[name.toString()+ id.toString()] = (serie)
+    //this.scatterChart()
   }
 
   testTable($event){
     this.clickedRows = $event.selected
-    console.log(this.clickedRows)
+
+    this.options_scatter.series = []
+    this.options_scatter = this.scatter_backup
 
     this.clickedRows.forEach(row => {
-      //
       console.log(row)
-      this.addSeriesToScatter(row.name,row.bw)
-
+      this.addSeriesToScatter(row.id,row.name,row.readbw,row.writebw)
+      //this,this.addSeriesToScatter(row.id,row.name,100,100)
       
     });
 
