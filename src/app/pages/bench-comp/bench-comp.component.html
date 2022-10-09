@@ -58,7 +58,7 @@
   <div class="col-md-12" *ngIf="selectedValue && selectedValueIOR">
     <nb-card size="large">
       <nb-card-header>
-        Performance Comparison [bwMiB]
+        Performance Comparison [bwMiB] 
       </nb-card-header>
       
       <nb-card-body>
@@ -73,6 +73,15 @@
     <nb-card size="large">
       <nb-card-header>
         Benchmark Comparison 
+        <nb-select style="min-width: 20%" placeholder="Select IO-500 Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectIO500()">
+          <nb-option *ngFor="let run of io500" [value]="run"> {{run.version}}: {{run.start}} - {{run.end}} on {{run.name}} ({{run.processor_model}} , {{run.processor_architecture}}) with {{run.procs}} Procs</nb-option>
+      </nb-select>
+      <nb-select style="min-width: 20%" placeholder="X-Axis">
+
+      </nb-select>
+      <nb-select style="min-width: 20%" placeholder="Y-Axis">
+
+      </nb-select>
       </nb-card-header>
       
       <nb-card-body>
