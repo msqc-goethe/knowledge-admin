@@ -256,7 +256,6 @@ export class BenchCompComponent implements OnInit {
 
 
     });
-
     //this.addDataToSmartTable(parr)
   }
 
@@ -410,14 +409,12 @@ export class BenchCompComponent implements OnInit {
       return indi;
   }
 
-
   getTestCase(tid){
     let ob =  this.selectedTestCases.find((x)=>{
       return x.id == tid;
         });
         return ob;
   }
-
 
   boxIndicator(rkey){
     let indicator = [];
@@ -447,93 +444,91 @@ export class BenchCompComponent implements OnInit {
     return indicator
   }
 
+  //IOR
+  sOpSelection(){
+    this.getSummary()
+  }
 
-
-      //IOR
-      sOpSelection(){
-        this.getSummary()
+  transformToData(cRW, rkey){
+    let read = [];
+    let write = [];
+    cRW.forEach(rw => {
+      if(rw.access=== "read"){
+        read.push(rw[rkey]);
+      }else{
+        write.push(rw[rkey]);
       }
+    });
+    if(read.length === 1){
+      read.push(read[0],read[0],read[0])
+    }
+    if (write.length === 1){
+      write.push(write[0],write[0],write[0])
+    }
+    let obj = [read,write]
+    //console.log("my data: ", obj)
+    return obj
+    }
 
-      transformToData(cRW, rkey){
-        let read = [];
-        let write = [];
-        cRW.forEach(rw => {
-          if(rw.access=== "read"){
-            read.push(rw[rkey]);
-          }else{
-            write.push(rw[rkey]);
+  initMulti(){
+    this.themeSubscription2= this.theme.getJsTheme().subscribe(config => {
+
+      const colors: any = config.variables;
+      const echarts: any = config.variables.echarts;
+      this.options_multi = {
+                backgroundColor: echarts.bg,
+        color: [colors.danger, colors.primary, colors.info],
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: { show: true }
           }
-        });
-        if(read.length === 1){
-          read.push(read[0],read[0],read[0])
-        }
-        if (write.length === 1){
-          write.push(write[0],write[0],write[0])
-        }
-        let obj = [read,write]
-        //console.log("my data: ", obj)
-        return obj
-        }
+        },
+        xAxis: {
+          data: ['Read',"Write"],
+          axisTick: {
+            alignWithLabel: true,
+          },
+          axisLine: {
+            lineStyle: {
+              color: echarts.axisLineColor,
+            },
+          },
+          axisLabel: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },
+        },
+        yAxis: {name:this.selectedsOp,
+          axisLine: {
+            lineStyle: {
+              color: echarts.axisLineColor,
+            },
+          },
+          splitLine: {
+            lineStyle: {
+              color: echarts.splitLineColor,
+            },
+          },
+          axisLabel: {
+            textStyle: {
+              color: echarts.textColor,
+            },
+          },},
+        series: [
+          {
+            type: 'candlestick',
+            data: this.transformToData(this.chartRW,this.selectedsOp)
+          }
+        ]
+      };
 
-      initMulti(){
-        this.themeSubscription2= this.theme.getJsTheme().subscribe(config => {
+    });
+
     
-          const colors: any = config.variables;
-          const echarts: any = config.variables.echarts;
-          this.options_multi = {
-                    backgroundColor: echarts.bg,
-            color: [colors.danger, colors.primary, colors.info],
-            toolbox: {
-              show: true,
-              feature: {
-                saveAsImage: { show: true }
-              }
-            },
-            xAxis: {
-              data: ['Read',"Write"],
-              axisTick: {
-                alignWithLabel: true,
-              },
-              axisLine: {
-                lineStyle: {
-                  color: echarts.axisLineColor,
-                },
-              },
-              axisLabel: {
-                textStyle: {
-                  color: echarts.textColor,
-                },
-              },
-            },
-            yAxis: {name:this.selectedsOp,
-              axisLine: {
-                lineStyle: {
-                  color: echarts.axisLineColor,
-                },
-              },
-              splitLine: {
-                lineStyle: {
-                  color: echarts.splitLineColor,
-                },
-              },
-              axisLabel: {
-                textStyle: {
-                  color: echarts.textColor,
-                },
-              },},
-            series: [
-              {
-                type: 'candlestick',
-                data: this.transformToData(this.chartRW,this.selectedsOp)
-              }
-            ]
-          };
-    
-        });
-    
-       
-        this.chartRW = [];
-      }
+    this.chartRW = [];
+  }
 
   initBarChart(){
     this.themeSubscriptionBarChart = this.theme.getJsTheme().subscribe(config => {
@@ -609,8 +604,6 @@ export class BenchCompComponent implements OnInit {
     xAxis.push("IORMeanWrite", "IORMeanRead")
     return xAxis
   }
-
-  
 
   scatterChart(){
     this.themeSubscriptionScatterChart = this.theme.getJsTheme().subscribe(config => {
@@ -796,7 +789,4 @@ export class BenchCompComponent implements OnInit {
       this.isDisabled =false;
     }
   }
-
-
-
 }
