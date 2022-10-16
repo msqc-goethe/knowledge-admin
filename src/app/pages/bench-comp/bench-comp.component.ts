@@ -75,10 +75,17 @@ export class BenchCompComponent implements OnInit {
     readyIO500: any = false;
     readyIOR: any = false;
 
-    //
+    //ScatterChart
+    selectXAxis: any = [];
+    selectYAxis: any = [];
+
+    selectX: any = "";
+    selectY: any = "";
+    
+
     themeSubscriptionScatterChart: any;
     options_scatter: any={}
-    /*scatter_series = [
+    scatter_series = [
       {
         name: 'IO500',
         type: 'scatter',
@@ -111,7 +118,7 @@ export class BenchCompComponent implements OnInit {
           ]
         },
       },
-    ]*/
+    ]
 
     //scatter_backup = this.scatter_series
 
@@ -208,7 +215,7 @@ export class BenchCompComponent implements OnInit {
         time:5,
       })));;
       //this.sourceTable.load(this.smartdata2)
-      console.log(parr)
+      //console.log(parr)
       this.addDataToSmartTable(parr)
     });
 
@@ -218,7 +225,7 @@ export class BenchCompComponent implements OnInit {
         id: darshan.id, 
         name: "Darshan",
         type: "Benshmark", 
-        summary: JSON.parse(darshan.summary),
+        summary: JSON.parse(darshan.summary), 
         //meta: JSON.parse(darshan.meta),
         sysinfo: "System",
         sysName: "Platform",
@@ -228,8 +235,8 @@ export class BenchCompComponent implements OnInit {
         time: 18000
        
       }))))
-      console.log("Darshan")
-      console.log(parr)
+      //console.log("Darshan")
+      //console.log(parr)
       this.addDataToSmartTable(parr)
     })
 
@@ -249,8 +256,8 @@ export class BenchCompComponent implements OnInit {
         readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
         time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
       })));;
-      console.log("Here")
-      console.log(parr);
+      //console.log("Here")
+      //console.log(parr);
       //this.sourceTable.load(this.smartdata);
       this.addDataToSmartTable(parr)
 
@@ -274,19 +281,27 @@ export class BenchCompComponent implements OnInit {
   selectIO500(){
     this.ws.getIO500_testcases(this.selectedValue.run_id).then(x=>{
       this.selectedTestCases = x;
+      this.selectedTestCases.forEach(e =>{
+
+        //Fill Selcet for axis
+        this.selectXAxis.push({name: e.name, id: e.id})
+        this.selectYAxis.push({name: e.name, id: e.id})
+      })
 
       this.ws.getIO500_results(this.selectedValue.run_id).then(res => {
         this.selectedTestCasesResults = res;
+        
 
         this.ws.getIO500_options (this.selectedValue.run_id).then(op =>{
           this.selectedTestCaseOptions = op;
-
+          console.log(op)
 
           this.readyIO500 = true
           if(this.readyIO500 && this.readyIOR){
             this.initBoundingbox();
           }
-          this.scatterChart();
+          //this.scatterChart();
+          this.setupscatterseries()
       })
       });
     })
@@ -326,7 +341,8 @@ export class BenchCompComponent implements OnInit {
       Promise.all(parr).then(() => {
         this.initMulti();
         this.initBarChart();
-        this.scatterChart();
+        this.scatterIO500indicator()
+        //this.scatterChart();
         this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
           this.selectedFilesystem = x;
           this.selectedFilesystem = JSON.parse(this.selectedFilesystem[0].settings)
@@ -610,7 +626,45 @@ export class BenchCompComponent implements OnInit {
     return xAxis
   }
 
-  
+
+  //Everything related to the scatter chart and smartable -->
+
+  setupscatterseries(){
+    this.scatter_series = [
+      {
+        name: 'IO500',
+        type: 'scatter',
+        symbolSize: 1 ,
+        emphasis: {
+          focus: 'series'
+        },
+        data: this.scatterIO500indicator(),
+        markArea: {
+          silent: true,
+          itemStyle: {
+            color: 'transparent',
+            borderWidth: 1,
+            borderType: 'solid'
+          },
+          data: [
+            [
+              {
+                name: 'IO500',
+                xAxis: 'min',
+                yAxis: 'min'
+              },
+              {
+                xAxis: 'max',
+                yAxis: 'max'
+              }
+            ]
+          ]
+        },
+      },
+    ]
+
+    this.scatterChart();
+  }
 
   scatterChart(){
     this.themeSubscriptionScatterChart = this.theme.getJsTheme().subscribe(config => {
@@ -664,10 +718,11 @@ export class BenchCompComponent implements OnInit {
         },
         xAxis: [
           {
+            name: this.selectX,
             type: 'value',
             scale: true,
             axisLabel: {
-              formatter: '{value} bwMib'
+              formatter: '{value} bwMiB'
             },
             splitLine: {
               show: false
@@ -686,7 +741,8 @@ export class BenchCompComponent implements OnInit {
             }
           }
         ],
-        series: [
+        series: this.scatter_series
+        /*series: [
           {
             name: 'IO500',
             type: 'scatter',
@@ -717,15 +773,8 @@ export class BenchCompComponent implements OnInit {
                 ]
               ]
             },
-          },{
-            name: "Other",
-            type: "scatter",
-            symbolsize: 10,
-            data: []
-
-
-          }
-        ],
+          },
+        ],*/
       };
     });
   }
@@ -767,12 +816,11 @@ export class BenchCompComponent implements OnInit {
         data: [[read, write]
               ],
     }
-    console.log(this.options_scatter)
-    this.options_scatter.series[2] = serie
+    this.options_scatter.series.push(serie)
     //console.log(this.options_scatter)
     //this.updatescatter(this.options_scatter)
     
-    //this.scatterChart()
+    this.scatterChart()
   }
 
   testTable($event){
