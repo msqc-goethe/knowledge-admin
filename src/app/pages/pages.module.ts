@@ -15,6 +15,7 @@ import {IO500CompModule} from './io500-comp/io500-comp.module';
 import {CustomModule} from './custom/custom.module';
 import {CustomCompModule} from './custom-comp/custom-comp.module';
 import { BenchCompModule } from './bench-comp/bench-comp.module';
+import {Io500IorCompModule} from './io500-ior-comp/io500-ior-comp.module';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { BenchCompModule } from './bench-comp/bench-comp.module';
     IO500CompModule,
     CustomModule,
     CustomCompModule,
-    BenchCompModule
+    BenchCompModule,
+    Io500IorCompModule
   ],
   declarations: [
     PagesComponent,

@@ -18,6 +18,7 @@ import {IO500CompComponent} from './io500-comp/io500-comp.component';
 import {CustomComponent} from './custom/custom.component';
 import {CustomCompComponent} from './custom-comp/custom-comp.component';
 import { BenchCompComponent } from './bench-comp/bench-comp.component';
+import {Io500IorCompComponent} from './io500-ior-comp/io500-ior-comp.component';
 
 
 
@@ -59,6 +60,10 @@ const routes: Routes = [{
     {
       path: 'io500-comp',
       component: IO500CompComponent,
+    },
+    {
+      path: 'io500-ior-comp',
+      component: Io500IorCompComponent,
     },
     {
       path: 'bench-comp',

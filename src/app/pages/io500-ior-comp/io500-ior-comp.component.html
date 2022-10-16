@@ -1,0 +1,68 @@
+<div class="row" style="margin-bottom: 1.875rem;">
+    <div class="col-md-12">
+        <nb-select style="min-width: 95%" placeholder="Select IO-500 Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectIO500()">
+          <nb-option *ngFor="let run of io500" [value]="run"> {{run.version}}: {{run.start}} - {{run.end}} on {{run.name}} ({{run.processor_model}} , {{run.processor_architecture}}) with {{run.procs}} Procs</nb-option>
+      </nb-select>
+      <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+    </div>
+</div>
+
+<div class="row" style="margin-bottom: 1.875rem;">
+    <div class="col-md-12">
+        <nb-select style="min-width: 95%" placeholder="Select IOR Run" [(selected)]="selectedValueIOR" name="p" (selectedChange)="getSummary()">
+            <nb-option *ngFor="let p of performances" [value]="p"> {{ p.cmd }}</nb-option>
+        </nb-select>
+      <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6" *ngIf="selectedValue && selectedValueIOR">
+      <nb-card size="large">
+        <nb-card-header>
+          Performance Comparison [bwMiB]
+        </nb-card-header>
+        
+        <nb-card-body>
+          <div style="width: 95%;" echarts [options]="boundingboxOptions" class="echart"></div>
+        </nb-card-body>
+      </nb-card>
+  </div>
+  <div class="col-md-6" *ngIf="selectedValue && selectedValueIOR">
+    <nb-card size="large">
+      <nb-card-header>
+        Performance Comparison [bwMiB]
+      </nb-card-header>
+      <nb-card-body>
+        <div style="width: 95%;" echarts [options]="options_bar" class="echart"></div>
+      </nb-card-body>
+    </nb-card>
+</div>
+  
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <nb-card *ngIf="selectedValueIOR" size="large">
+      <nb-card-body>
+        <nb-tabset>
+          <nb-tab *ngIf="selectedValueIOR" tabTitle="IOR Settings">
+          <div class="col-md-3" style="display:inline-block" *ngFor="let poptions of selectedValueIOR | keyvalue" >
+            <label class="label col-md-5" for="input-name">{{poptions.key}}:</label>
+            <input type="text"  class="col-md-7" nbInput  placeholder="Value" name={{poptions.key}} value={{poptions.value}}>
+          </div>
+          </nb-tab>
+          <nb-tab tabTitle="Dashboard" *ngIf="selectedValueIOR">
+            <nb-select placeholder="Select Showcase" [(selected)]="selectedsOp" (selectedChange)="sOpSelection()">
+              <nb-option *ngFor="let o of sOptions" [value]="o"> {{o}} </nb-option>
+            </nb-select>
+            <div style="width: 95%; height: 300px;" echarts [options]="options_multi" class="echart"></div>
+          </nb-tab>
+
+        </nb-tabset>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+  

@@ -37,7 +37,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/pages/io500-comp',
       },
       {
-        title: 'Benchmark Comparison',
+        title: 'IOR Comparison',
+        link: '/pages/io500-ior-comp',
+      },
+      {
+        title: 'Performance Boundingbox',
         link: '/pages/bench-comp',
       },
     ],
