@@ -614,10 +614,39 @@ export class BenchCompComponent implements OnInit {
   barChartData(){
     let data = this.transformDim(this.selectedTestCasesResults, 'bwMiB')
     //let dataMulti = this.transformToData(this.chartRW,this.selectedsOp)
-    data.push(this.summaries[0].bwMeanMIB, this.summaries[1].bwMeanMIB)
+    let data1 = {
+      value: this.summaries[0].bwMeanMIB,
+      itemStyle: {
+        color: '#0000a9'
+      }
+    }
+    let data2 = {
+      value: this.summaries[1].bwMeanMIB,
+      itemStyle: {
+        color: '#0000a9'
+      }
+    }
+    data.push(data1, data2)
     
     return data;
   }
+
+  /*barChartSeries(){
+    let series = [
+      {
+        name: 'IOR',
+        type: 'bar',
+        data: this.transformDim(this.selectedTestCasesResults, 'bwMiB')
+      },
+      {
+        name: 'IOR',
+        type: 'bar',
+        data: [this.summaries[0].bwMeanMIB, this.summaries[1].bwMeanMIB]
+      }
+    ]
+
+    return series
+  }*/
 
   barChartXaxis(){
     let xAxis = []
@@ -870,7 +899,7 @@ export class BenchCompComponent implements OnInit {
     }
   }
 
-  
+
 
 
 
