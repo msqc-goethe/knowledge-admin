@@ -75,10 +75,17 @@ export class BenchCompComponent implements OnInit {
     readyIO500: any = false;
     readyIOR: any = false;
 
-    //
+    //ScatterChart
+    selectXAxis: any = [];
+    selectYAxis: any = [];
+
+    selectX: any = "";
+    selectY: any = "";
+    
+
     themeSubscriptionScatterChart: any;
     options_scatter: any={}
-    /*scatter_series = [
+    scatter_series = [
       {
         name: 'IO500',
         type: 'scatter',
@@ -86,7 +93,7 @@ export class BenchCompComponent implements OnInit {
         emphasis: {
           focus: 'series'
         },
-        // prettier-ignore
+        // custome data gets changed afterwards
         data: [[30,30 ], [9000, 5490],
               ],
         markArea: {
@@ -111,7 +118,7 @@ export class BenchCompComponent implements OnInit {
           ]
         },
       },
-    ]*/
+    ]
 
     //scatter_backup = this.scatter_series
 
@@ -172,7 +179,7 @@ export class BenchCompComponent implements OnInit {
 
     sourceTable: LocalDataSource = new LocalDataSource();
 
-  clickedRows: any;
+  clickedRows: any = [];
   isDisabled = true;
 
   smartdata: any[]
@@ -189,11 +196,15 @@ export class BenchCompComponent implements OnInit {
     });
     this.ws.getPerformances().then(()=>{
         this.performances = this.ws.performances;
+        //console.log(this.performances)
     })
 
+    //Array which fills the smartable
     let parr = []
 
     this.ws.getPerformances().then((performances: Performance[])=>{
+
+      //Mabye get summaries too
       parr.push(performances.map(p => ({
         id: p.id,
         name: "IOR",
@@ -208,7 +219,7 @@ export class BenchCompComponent implements OnInit {
         time:5,
       })));;
       //this.sourceTable.load(this.smartdata2)
-      console.log(parr)
+      //console.log(parr)
       this.addDataToSmartTable(parr)
     });
 
@@ -218,7 +229,7 @@ export class BenchCompComponent implements OnInit {
         id: darshan.id, 
         name: "Darshan",
         type: "Benshmark", 
-        summary: JSON.parse(darshan.summary),
+        summary: JSON.parse(darshan.summary), 
         //meta: JSON.parse(darshan.meta),
         sysinfo: "System",
         sysName: "Platform",
@@ -228,8 +239,8 @@ export class BenchCompComponent implements OnInit {
         time: 18000
        
       }))))
-      console.log("Darshan")
-      console.log(parr)
+      //console.log("Darshan")
+      //console.log(parr)
       this.addDataToSmartTable(parr)
     })
 
@@ -249,8 +260,8 @@ export class BenchCompComponent implements OnInit {
         readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
         time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
       })));;
-      console.log("Here")
-      console.log(parr);
+      //console.log("Here")
+      //console.log(parr);
       //this.sourceTable.load(this.smartdata);
       this.addDataToSmartTable(parr)
 
@@ -266,26 +277,34 @@ export class BenchCompComponent implements OnInit {
           smart.push(s)
         })
       })
-      console.log(smart)
+      //console.log(smart)
       this.sourceTable.load(smart)
   }
 
   selectIO500(){
     this.ws.getIO500_testcases(this.selectedValue.run_id).then(x=>{
       this.selectedTestCases = x;
+      this.selectedTestCases.forEach(e =>{
+
+        //Fill Selcet for X&Y axis
+        this.selectXAxis.push({name: e.name, id: e.id})
+        this.selectYAxis.push({name: e.name, id: e.id})
+      })
 
       this.ws.getIO500_results(this.selectedValue.run_id).then(res => {
         this.selectedTestCasesResults = res;
+        
 
         this.ws.getIO500_options (this.selectedValue.run_id).then(op =>{
           this.selectedTestCaseOptions = op;
-
+          //console.log(op)
 
           this.readyIO500 = true
           if(this.readyIO500 && this.readyIOR){
             this.initBoundingbox();
           }
-          this.scatterChart();
+          //this.scatterChart();
+          this.setupscatterseries()
       })
       });
     })
@@ -325,7 +344,8 @@ export class BenchCompComponent implements OnInit {
       Promise.all(parr).then(() => {
         this.initMulti();
         this.initBarChart();
-        this.scatterChart();
+        this.scatterIO500indicator()
+        //this.scatterChart();
         this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
           this.selectedFilesystem = x;
           this.selectedFilesystem = JSON.parse(this.selectedFilesystem[0].settings)
@@ -589,10 +609,39 @@ export class BenchCompComponent implements OnInit {
   barChartData(){
     let data = this.transformDim(this.selectedTestCasesResults, 'bwMiB')
     //let dataMulti = this.transformToData(this.chartRW,this.selectedsOp)
-    data.push(this.summaries[0].bwMeanMIB, this.summaries[1].bwMeanMIB)
+    let data1 = {
+      value: this.summaries[0].bwMeanMIB,
+      itemStyle: {
+        color: '#0000a9'
+      }
+    }
+    let data2 = {
+      value: this.summaries[1].bwMeanMIB,
+      itemStyle: {
+        color: '#0000a9'
+      }
+    }
+    data.push(data1, data2)
     
     return data;
   }
+
+  /*barChartSeries(){
+    let series = [
+      {
+        name: 'IOR',
+        type: 'bar',
+        data: this.transformDim(this.selectedTestCasesResults, 'bwMiB')
+      },
+      {
+        name: 'IOR',
+        type: 'bar',
+        data: [this.summaries[0].bwMeanMIB, this.summaries[1].bwMeanMIB]
+      }
+    ]
+
+    return series
+  }*/
 
   barChartXaxis(){
     let xAxis = []
@@ -603,6 +652,53 @@ export class BenchCompComponent implements OnInit {
     })
     xAxis.push("IORMeanWrite", "IORMeanRead")
     return xAxis
+  }
+
+
+  //Everything related to the scatter chart and smartable -->
+
+  setupscatterseries(){
+    this.scatter_series = [
+      {
+        name: 'IO500',
+        type: 'scatter',
+        symbolSize: 1 ,
+        emphasis: {
+          focus: 'series'
+        },
+        data: this.scatterIO500indicator(),
+        markArea: {
+          silent: true,
+          itemStyle: {
+            color: 'transparent',
+            borderWidth: 1,
+            borderType: 'solid'
+          },
+          data: [
+            [
+              {
+                name: 'IO500',
+                xAxis: 'min',
+                yAxis: 'min'
+              },
+              {
+                xAxis: 'max',
+                yAxis: 'max'
+              }
+            ]
+          ]
+        },
+      },
+    ]
+
+    this.clickedRows.forEach(row => {
+      //console.log(row)
+      this.addSeriesToScatter(row.id,row.name,row.readbw,row.writebw)
+      //this,this.addSeriesToScatter(row.id,row.name,100,100)
+      this.scatterChart();
+    });
+
+    this.scatterChart();
   }
 
   scatterChart(){
@@ -657,18 +753,7 @@ export class BenchCompComponent implements OnInit {
         },
         xAxis: [
           {
-            type: 'value',
-            scale: true,
-            axisLabel: {
-              formatter: '{value} bwMib'
-            },
-            splitLine: {
-              show: false
-            }
-          }
-        ],
-        yAxis: [
-          {
+            name: this.selectX.name,
             type: 'value',
             scale: true,
             axisLabel: {
@@ -679,7 +764,21 @@ export class BenchCompComponent implements OnInit {
             }
           }
         ],
-        series: [
+        yAxis: [
+          {
+            name: this.selectY.name,
+            type: 'value',
+            scale: true,
+            axisLabel: {
+              formatter: '{value} bwMiB'
+            },
+            splitLine: {
+              show: false
+            }
+          }
+        ],
+        series: this.scatter_series
+        /*series: [
           {
             name: 'IO500',
             type: 'scatter',
@@ -687,7 +786,6 @@ export class BenchCompComponent implements OnInit {
             emphasis: {
               focus: 'series'
             },
-            // prettier-ignore
             data: this.scatterIO500indicator(),
             markArea: {
               silent: true,
@@ -710,15 +808,8 @@ export class BenchCompComponent implements OnInit {
                 ]
               ]
             },
-          },{
-            name: "Other",
-            type: "scatter",
-            symbolsize: 10,
-            data: []
-
-
-          }
-        ],
+          },
+        ],*/
       };
     });
   }
@@ -729,7 +820,7 @@ export class BenchCompComponent implements OnInit {
       const colors: any = config.variables;
       const echarts: any = config.variables.echarts;
       this.options_scatter = options
-      console.log(this.options_scatter[1])
+      //console.log(this.options_scatter[1])
     })
   }
 
@@ -737,7 +828,9 @@ export class BenchCompComponent implements OnInit {
     //let names = []
     let results = []
     this.selectedTestCasesResults.forEach(res => {
+      //console.log(res)
       let ob = this.getTestCase(res.testcase_id);
+      console.log(ob)
       if(ob){
         //names.push(ob.name)
         results.push([res['bwMiB']])
@@ -746,6 +839,17 @@ export class BenchCompComponent implements OnInit {
     //return indicator
     return [[results[3],results[1] ], [results[2], results[0]],
 ]
+  }
+
+  scatterIO500XYindicator(x,y){
+    let results = []
+    this.selectedTestCasesResults.forEach(res => {
+      let ob = this.getTestCase(res.testcase_id);
+      if(ob){
+        //names.push(ob.name)
+        results.push([res['bwMiB']])
+      }
+    });
   }
 
   addSeriesToScatter(id,name,read,write){
@@ -760,22 +864,22 @@ export class BenchCompComponent implements OnInit {
         data: [[read, write]
               ],
     }
-    console.log(this.options_scatter)
-    this.options_scatter.series[2] = serie
+    this.options_scatter.series.push(serie)
     //console.log(this.options_scatter)
     //this.updatescatter(this.options_scatter)
     
-    //this.scatterChart()
+    this.scatterChart()
   }
 
   testTable($event){
     this.clickedRows = $event.selected
+    //console.log(this.clickedRows)
 
    // this.options_scatter.series = []
     //this.options_scatter = this.scatter_backup
-
+    this.setupscatterseries()
     this.clickedRows.forEach(row => {
-      console.log(row)
+      //console.log(row)
       this.addSeriesToScatter(row.id,row.name,row.readbw,row.writebw)
       //this,this.addSeriesToScatter(row.id,row.name,100,100)
       

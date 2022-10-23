@@ -6,12 +6,16 @@
         <nb-select style="min-width: 20%" placeholder="Select IO-500 Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectIO500()">
           <nb-option *ngFor="let run of io500" [value]="run"> {{run.version}}: {{run.start}} - {{run.end}} on {{run.name}} ({{run.processor_model}} , {{run.processor_architecture}}) with {{run.procs}} Procs</nb-option>
       </nb-select>
-      <nb-select style="min-width: 20%" placeholder="X-Axis">
+      <div>
+        <nb-select  style="min-width: 20%" margin="3px" placeholder="X-Axis" [(selected)]="selectX" (selectedChange)="scatterChart()">
+          <nb-option *ngFor="let x of selectXAxis" [value]="x"> {{x.name}}</nb-option>
 
-      </nb-select>
-      <nb-select style="min-width: 20%" placeholder="Y-Axis">
+        </nb-select>
+        <nb-select style="min-width: 20%" placeholder="Y-Axis" [(selected)]="selectY" (selectedChange)="scatterChart()">
+          <nb-option *ngFor="let y of selectYAxis" [value]="y"> {{y.name}}</nb-option>
 
-      </nb-select>
+        </nb-select>
+      </div>
       </nb-card-header>
       
       <nb-card-body>
