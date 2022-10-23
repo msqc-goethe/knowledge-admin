@@ -208,7 +208,7 @@ export class Io500IorCompComponent implements OnInit {
         time:5,
       })));;
       //this.sourceTable.load(this.smartdata2)
-      console.log(parr)
+      //console.log(parr)
       this.addDataToSmartTable(parr)
     });
 
@@ -228,8 +228,8 @@ export class Io500IorCompComponent implements OnInit {
         time: 18000
        
       }))))
-      console.log("Darshan")
-      console.log(parr)
+      //console.log("Darshan")
+      //console.log(parr)
       this.addDataToSmartTable(parr)
     })
 
@@ -249,8 +249,8 @@ export class Io500IorCompComponent implements OnInit {
         readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
         time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
       })));;
-      console.log("Here")
-      console.log(parr);
+      //console.log("Here")
+      //console.log(parr);
       //this.sourceTable.load(this.smartdata);
       this.addDataToSmartTable(parr)
 
@@ -267,7 +267,7 @@ export class Io500IorCompComponent implements OnInit {
           smart.push(s)
         })
       })
-      console.log(smart)
+      //console.log(smart)
       this.sourceTable.load(smart)
   }
 
@@ -437,7 +437,7 @@ export class Io500IorCompComponent implements OnInit {
     results.forEach(res =>{
       finalresult.push(Math.max(...res))
     })
-    console.log(finalresult)
+   //console.log(finalresult)
     let count = 0;
     names.forEach(n => {
       indicator.push({name: n, max: finalresult[count]})
@@ -594,7 +594,19 @@ export class Io500IorCompComponent implements OnInit {
   barChartData(){
     let data = this.transformDim(this.selectedTestCasesResults, 'bwMiB')
     //let dataMulti = this.transformToData(this.chartRW,this.selectedsOp)
-    data.push(this.summaries[0].bwMeanMIB, this.summaries[1].bwMeanMIB)
+    let data1 = {
+      value: this.summaries[0].bwMeanMIB,
+      itemStyle: {
+        color: '#0000a9'
+      }
+    }
+    let data2 = {
+      value: this.summaries[1].bwMeanMIB,
+      itemStyle: {
+        color: '#0000a9'
+      }
+    }
+    data.push(data1, data2)
     
     return data;
   }
@@ -736,7 +748,7 @@ export class Io500IorCompComponent implements OnInit {
       const colors: any = config.variables;
       const echarts: any = config.variables.echarts;
       this.options_scatter = options
-      console.log(this.options_scatter[1])
+      //console.log(this.options_scatter[1])
     })
   }
 
@@ -767,7 +779,7 @@ export class Io500IorCompComponent implements OnInit {
         data: [[read, write]
               ],
     }
-    console.log(this.options_scatter)
+    //console.log(this.options_scatter)
     this.options_scatter.series[2] = serie
     //console.log(this.options_scatter)
     //this.updatescatter(this.options_scatter)
@@ -782,7 +794,7 @@ export class Io500IorCompComponent implements OnInit {
     //this.options_scatter = this.scatter_backup
 
     this.clickedRows.forEach(row => {
-      console.log(row)
+      //console.log(row)
       this.addSeriesToScatter(row.id,row.name,row.readbw,row.writebw)
       //this,this.addSeriesToScatter(row.id,row.name,100,100)
       

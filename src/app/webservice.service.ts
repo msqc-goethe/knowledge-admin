@@ -108,7 +108,7 @@ box_key_x="";
     return new Promise((resolve, reject)=>{
       this.http.get(this.url+ "darshan").subscribe((res)=>{
         if(res){
-          console.log(res)
+         //console.log(res)
           resolve(<[any]>res);
         }else {
           reject(Error);
@@ -121,7 +121,7 @@ box_key_x="";
     return new Promise((resolve, reject)=>{
       this.http.get(this.url+ "custom").subscribe((res)=>{
         if(res){
-          console.log(res)
+         //console.log(res)
           resolve(<[any]>res);
         }else {
           reject(Error);
@@ -134,7 +134,7 @@ box_key_x="";
     return new Promise((resolve, reject)=>{
       this.http.get(this.url+ "cnt").subscribe((res)=>{
         if(res){
-          console.log(res)
+         //console.log(res)
           resolve(<[any]>res);
         }else {
           reject(Error);
@@ -261,7 +261,7 @@ getResultsForTable(summary: any) {
 }
 
 getMultiSummaries(ids: any[], key, keyc) {
-  console.log(keyc)
+ //console.log(keyc)
   let mult: any[] = [];
   let series: any[] = [];
   return new Promise((resolve, reject)=>{
@@ -272,7 +272,7 @@ getMultiSummaries(ids: any[], key, keyc) {
       if(res){
        //console.log("res: ", res)
         let pid = res[0].performance_id;
-        console.log(res);
+       //console.log(res);
         res.forEach((summary, index) => {
           //console.log(summary, "id: ", index+1);
           if (index != res.length-1){
@@ -289,7 +289,7 @@ getMultiSummaries(ids: any[], key, keyc) {
               pid = summary.performance_id
               series = [];
               let serie = {"name": summary['operation'], "value":summary[key]}
-              console.log()
+             //console.log()
               series.push(serie)
             }
           }else {
@@ -305,7 +305,7 @@ getMultiSummaries(ids: any[], key, keyc) {
         this.multiSum = mult;
         this.multiKey = key;
         this.multiKeyC = keyc;
-        console.log(this.multiSum)
+       //console.log(this.multiSum)
         resolve(true);
       }else {
         reject(false);
@@ -356,7 +356,7 @@ getMultiSummaries_dataset(ids: any[], key, keyc) {
         this.multiSum = mult;
         this.multiKey = key;
         this.multiKeyC = keyc;
-        console.log(this.multiSum)
+       //console.log(this.multiSum)
         resolve(true);
       }else {
         reject(false);
@@ -377,22 +377,22 @@ getBoxSummaries(ids, key_y, key_x, read_or_write?){
     params = params.append('read_or_write', read_or_write)
     this.http.get(this.url+ "summaries/multi/reads", { params: params }).subscribe((data:any)=>{
       if(data){
-        console.log("res: ", data);
+       //console.log("res: ", data);
         let pid = data[0].performance_id;
         data.forEach((res, index) => {
-          console.log(res)
+         //console.log(res)
           if (index != data.length-1){
             if(res.performance_id == pid){
                 series.push({"name": index, "value":res[key_y]})
             }else {
-              console.log(data[index-1][key_x])
+             //console.log(data[index-1][key_x])
                 mult.push({"name": key_x +"_"+ data[index-1][key_x], "series": series})
                 series = [];
                 series.push({"name": index, "value":res[key_y]})
                 pid = res.performance_id
             }
           }else{
-            console.log(data[index][key_x])
+           //console.log(data[index][key_x])
             series.push({"name": index, "value":res[key_y]})
             mult.push({"name":key_x +"_"+ data[index][key_x], "series": series})
           }
@@ -401,7 +401,7 @@ getBoxSummaries(ids, key_y, key_x, read_or_write?){
         this.box_multi = mult;
         this.box_key_y= key_y;
         this.box_key_x = key_x;
-        console.log("this.box_multi: ", this.box_multi)
+       //console.log("this.box_multi: ", this.box_multi)
         resolve(true);
       }else {
         reject(false);
@@ -421,7 +421,7 @@ getBoxSummaries(ids, key_y, key_x, read_or_write?){
     params = params.append('read_or_write', read_or_write)
     this.http.get(this.url+ "summaries/multi/reads", { params: params }).subscribe((res:any)=>{
       if(res){
-        console.log("res: ", res)
+       //console.log("res: ", res)
         let pid = res[0].performance_id;
         let min, mean, max;
         res.forEach((summary, index) => {
@@ -478,7 +478,7 @@ getBoxSummaries(ids, key_y, key_x, read_or_write?){
         this.box_multi = mult;
         this.box_key_y= key_y;
         this.box_key_x = Key_x;
-        console.log("this.box_multi: ", this.box_multi)
+       //console.log("this.box_multi: ", this.box_multi)
         resolve(true);
       }else {
         reject(false);

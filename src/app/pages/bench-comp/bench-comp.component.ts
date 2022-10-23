@@ -260,8 +260,8 @@ export class BenchCompComponent implements OnInit {
         readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
         time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
       })));;
-      console.log("Here")
-      console.log(parr);
+      //console.log("Here")
+      //console.log(parr);
       //this.sourceTable.load(this.smartdata);
       this.addDataToSmartTable(parr)
 
@@ -454,7 +454,7 @@ export class BenchCompComponent implements OnInit {
     results.forEach(res =>{
       finalresult.push(Math.max(...res))
     })
-    console.log(finalresult)
+    //console.log(finalresult)
     let count = 0;
     names.forEach(n => {
       indicator.push({name: n, max: finalresult[count]})
@@ -830,7 +830,7 @@ export class BenchCompComponent implements OnInit {
     this.selectedTestCasesResults.forEach(res => {
       //console.log(res)
       let ob = this.getTestCase(res.testcase_id);
-      console.log(ob)
+      //console.log(ob)
       if(ob){
         //names.push(ob.name)
         results.push([res['bwMiB']])
