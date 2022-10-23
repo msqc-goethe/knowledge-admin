@@ -260,8 +260,8 @@ export class BenchCompComponent implements OnInit {
         readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
         time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
       })));;
-      //console.log("Here")
-      //console.log(parr);
+      console.log("Here")
+      console.log(parr);
       //this.sourceTable.load(this.smartdata);
       this.addDataToSmartTable(parr)
 
