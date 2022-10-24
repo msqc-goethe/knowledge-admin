@@ -76,8 +76,8 @@ export class Io500IorCompComponent implements OnInit {
     readyIOR: any = false;
 
     //
-    themeSubscriptionScatterChart: any;
-    options_scatter: any={}
+    //themeSubscriptionScatterChart: any;
+    //options_scatter: any={}
     /*scatter_series = [
       {
         name: 'IO500',
@@ -118,7 +118,7 @@ export class Io500IorCompComponent implements OnInit {
     //used to reset scatter chart when deselcting items from smarttable
 
     //SmartTableBase
-    settingsTable = {
+   /* settingsTable = {
       selectMode:"multi",
       pager:{
         perPage: 100,
@@ -168,15 +168,15 @@ export class Io500IorCompComponent implements OnInit {
           type: 'string',
         },
       },
-    };
+    };*/
 
-    sourceTable: LocalDataSource = new LocalDataSource();
+    //sourceTable: LocalDataSource = new LocalDataSource();
 
-  clickedRows: any;
-  isDisabled = true;
+  //clickedRows: any;
+  //isDisabled = true;
 
-  smartdata: any[]
-  smartdata2: any[]
+  //smartdata: any[]
+  //smartdata2: any[]
 
   
   constructor(private theme: NbThemeService, public ws: WebServiceService, private windowService: NbWindowService, private dataSourceBuilder: NbTreeGridDataSourceBuilder<Result>) {
@@ -193,83 +193,9 @@ export class Io500IorCompComponent implements OnInit {
 
     let parr = []
 
-    this.ws.getPerformances().then((performances: Performance[])=>{
-      parr.push(performances.map(p => ({
-        id: p.id,
-        name: "IOR",
-        type: "Benchmark",
-        summary: "score",
-        sysinfo: p.cmd,
-        sysName: p.platform,
-        size:p.transferSize,
-        bw:40,
-        writebw: 1000,
-        readbw: 1000,
-        time:5,
-      })));;
-      //this.sourceTable.load(this.smartdata2)
-      //console.log(parr)
-      this.addDataToSmartTable(parr)
-    });
-
-    //DarshanData
-    this.ws.getDarshan().then((darshans:any)=>{
-       parr.push(darshans.map((darshan =>({
-        id: darshan.id, 
-        name: "Darshan",
-        type: "Benshmark", 
-        summary: JSON.parse(darshan.summary),
-        //meta: JSON.parse(darshan.meta),
-        sysinfo: "System",
-        sysName: "Platform",
-        bw: 120,
-        writebw: 2000,
-        readbw: 2000,
-        time: 18000
-       
-      }))))
-      //console.log("Darshan")
-      //console.log(parr)
-      this.addDataToSmartTable(parr)
-    })
-
-
-    this.ws.getCustom().then((cu: any[])=>{
-      parr.push(cu.map(val => ({
-        id: val['id'],
-        name: val['name_app'],
-        type: val['type'],
-        summary: JSON.parse(val['summary']),
-        fs: JSON.parse(val['fs']),
-        sysinfo: JSON.parse(val['sysinfo']),
-        sysName: JSON.parse(val['sysinfo']).name,
-        size: (Number(JSON.parse(val['summary'])[0].size[0]) + Number(JSON.parse(val['summary'])[1].size[0]))/2,
-        bw: (Number(JSON.parse(val['summary'])[0].bw[0]) + Number(JSON.parse(val['summary'])[1].bw[0]))/2,
-        writebw: Number(JSON.parse(val['summary'])[0].bw[0]),
-        readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
-        time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
-      })));;
-      //console.log("Here")
-      //console.log(parr);
-      //this.sourceTable.load(this.smartdata);
-      this.addDataToSmartTable(parr)
-
-
-    });
-
-    //this.addDataToSmartTable(parr)
+    
   }
 
-  addDataToSmartTable(parr){
-    let smart = []
-      parr.forEach(e => {
-        e.forEach(s => {
-          smart.push(s)
-        })
-      })
-      //console.log(smart)
-      this.sourceTable.load(smart)
-  }
 
   selectIO500(){
     this.ws.getIO500_testcases(this.selectedValue.run_id).then(x=>{
@@ -286,7 +212,7 @@ export class Io500IorCompComponent implements OnInit {
           if(this.readyIO500 && this.readyIOR){
             this.initBoundingbox();
           }
-          this.scatterChart();
+         
       })
       });
     })
@@ -326,7 +252,6 @@ export class Io500IorCompComponent implements OnInit {
       Promise.all(parr).then(() => {
         this.initMulti();
         this.initBarChart();
-        this.scatterChart();
         this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
           this.selectedFilesystem = x;
           this.selectedFilesystem = JSON.parse(this.selectedFilesystem[0].settings)
@@ -621,194 +546,5 @@ export class Io500IorCompComponent implements OnInit {
     xAxis.push("IORMeanWrite", "IORMeanRead")
     return xAxis
   }
-
-  
-
-  scatterChart(){
-    this.themeSubscriptionScatterChart = this.theme.getJsTheme().subscribe(config => {
-
-      const colors: any = config.variables;
-      const echarts: any = config.variables.echarts;
-      this.options_scatter = {
-        grid: {
-          left: '3%',
-          right: '7%',
-          bottom: '7%',
-          containLabel: true
-        },
-        tooltip: {
-          // trigger: 'axis',
-          showDelay: 0,
-          formatter: function (params) {
-            if (params.value.length > 1) {
-              return (
-                params.seriesName +
-                ' :<br/>' +
-                params.value[0] +
-                'bwMib ' +
-                params.value[1] +
-                'bwMib '
-              );
-            } else {
-              return (
-                params.seriesName +
-                ' :<br/>' +
-                params.name +
-                ' : ' +
-                params.value +
-                'bwMib '
-              );
-            }
-          },
-          axisPointer: {
-            show: true,
-            type: 'cross',
-            lineStyle: {
-              type: 'dashed',
-              width: 1
-            }
-          }
-        },
-        legend: {
-          data: ['IO500', 'Other'],
-          left: 'center',
-          bottom: 10
-        },
-        xAxis: [
-          {
-            type: 'value',
-            scale: true,
-            axisLabel: {
-              formatter: '{value} bwMib'
-            },
-            splitLine: {
-              show: false
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            scale: true,
-            axisLabel: {
-              formatter: '{value} bwMiB'
-            },
-            splitLine: {
-              show: false
-            }
-          }
-        ],
-        series: [
-          {
-            name: 'IO500',
-            type: 'scatter',
-            symbolSize: 1 ,
-            emphasis: {
-              focus: 'series'
-            },
-            // prettier-ignore
-            data: this.scatterIO500indicator(),
-            markArea: {
-              silent: true,
-              itemStyle: {
-                color: 'transparent',
-                borderWidth: 1,
-                borderType: 'solid'
-              },
-              data: [
-                [
-                  {
-                    name: 'IO500',
-                    xAxis: 'min',
-                    yAxis: 'min'
-                  },
-                  {
-                    xAxis: 'max',
-                    yAxis: 'max'
-                  }
-                ]
-              ]
-            },
-          },{
-            name: "Other",
-            type: "scatter",
-            symbolsize: 10,
-            data: []
-
-
-          }
-        ],
-      };
-    });
-  }
-
-
-  updatescatter(options){
-    this.themeSubscriptionScatterChart = this.theme.getJsTheme().subscribe(config => {
-      const colors: any = config.variables;
-      const echarts: any = config.variables.echarts;
-      this.options_scatter = options
-      //console.log(this.options_scatter[1])
-    })
-  }
-
-  scatterIO500indicator(){
-    //let names = []
-    let results = []
-    this.selectedTestCasesResults.forEach(res => {
-      let ob = this.getTestCase(res.testcase_id);
-      if(ob){
-        //names.push(ob.name)
-        results.push([res['bwMiB']])
-      }
-    });
-    //return indicator
-    return [[results[3],results[1] ], [results[2], results[0]],
-]
-  }
-
-  addSeriesToScatter(id,name,read,write){
-    let serie = {
-        name: '' + name.toString() + id.toString(),
-        type: 'scatter',
-        symbolSize: 10 ,
-        emphasis: {
-          focus: 'series'
-        },
-        // prettier-ignore
-        data: [[read, write]
-              ],
-    }
-    //console.log(this.options_scatter)
-    this.options_scatter.series[2] = serie
-    //console.log(this.options_scatter)
-    //this.updatescatter(this.options_scatter)
-    
-    //this.scatterChart()
-  }
-
-  testTable($event){
-    this.clickedRows = $event.selected
-
-   // this.options_scatter.series = []
-    //this.options_scatter = this.scatter_backup
-
-    this.clickedRows.forEach(row => {
-      //console.log(row)
-      this.addSeriesToScatter(row.id,row.name,row.readbw,row.writebw)
-      //this,this.addSeriesToScatter(row.id,row.name,100,100)
-      
-    });
-
-    this.scatterChart()
-    if (this.clickedRows.length==0){
-      this.isDisabled = true;
-    }
-    else{
-      this.isDisabled =false;
-    }
-  }
-
-
 
 }

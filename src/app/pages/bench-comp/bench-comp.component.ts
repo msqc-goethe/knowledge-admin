@@ -218,8 +218,6 @@ export class BenchCompComponent implements OnInit {
         readbw: 1000,
         time:5,
       })));;
-      //this.sourceTable.load(this.smartdata2)
-      //console.log(parr)
       this.addDataToSmartTable(parr)
     });
 
@@ -239,8 +237,7 @@ export class BenchCompComponent implements OnInit {
         time: 18000
        
       }))))
-      //console.log("Darshan")
-      //console.log(parr)
+
       this.addDataToSmartTable(parr)
     })
 
@@ -260,9 +257,7 @@ export class BenchCompComponent implements OnInit {
         readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
         time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
       })));;
-      //console.log("Here")
-      //console.log(parr);
-      //this.sourceTable.load(this.smartdata);
+
       this.addDataToSmartTable(parr)
 
 
@@ -299,10 +294,6 @@ export class BenchCompComponent implements OnInit {
           this.selectedTestCaseOptions = op;
           //console.log(op)
 
-          this.readyIO500 = true
-          if(this.readyIO500 && this.readyIOR){
-            this.initBoundingbox();
-          }
           //this.scatterChart();
           this.setupscatterseries()
       })
@@ -336,14 +327,9 @@ export class BenchCompComponent implements OnInit {
         }))
       });
 
-      this.readyIOR = true
-      if(this.readyIO500 && this.readyIOR){
-        this.initBoundingbox();
-      }
-
       Promise.all(parr).then(() => {
-        this.initMulti();
-        this.initBarChart();
+        //this.initMulti();
+        //this.initBarChart();
         this.scatterIO500indicator()
         //this.scatterChart();
         this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
@@ -355,80 +341,6 @@ export class BenchCompComponent implements OnInit {
   }
 
 
-  initBoundingbox(){
-    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
-      const colors: any = config.variables;
-    const echarts: any = config.variables.echarts;
-
-    this.boundingboxOptions = {
-      legend: {},
-      backgroundColor: echarts.bg,
-      color: [colors.danger, colors.primary, colors.info],
-      textStyle: {
-        color: echarts.textColor,
-      },
-
-      toolbox: {
-        show: true,
-        feature: {
-          mark: { show: true },
-          dataView: { title: "Data",show: true, readOnly: false },
-          saveAsImage: {title: "Download", show: true }
-        }
-      },
-      tooltip:{},
-      title:{
-        show:false,
-        text: this.selectedDim,
-        left: 'center'
-      },
-      radar: {
-        startAngle: 45,
-        //shape: 'square',
-        //indicator: this.getIndicator(this.selectedTestCasesResults, 'bwMiB')
-        indicator: this.boxIndicator('bwMiB')
-      },
-      series: [
-        {
-          name: 'IO500',
-          type: 'radar',
-          data: [
-            {
-              value: this.transformDim(this.selectedTestCasesResults, 'bwMiB'),
-              name: 'IO500'
-            },
-            {
-              value: [this.summaries[0].bwMeanMIB,2500,this.summaries[1].bwMeanMIB,1600],
-              name: 'IOR',
-              symbol: 'triangle',
-              symbolOffset: ['50%','50%'],
-              lineStyle:{
-                opacity: 0,
-              },
-            }
-          ]
-        }
-      ]
-    };
-    });
-  }
-  
-  transformDim(src, rkey){
-    return src.map(x => x[rkey]);
-  }
-
-  getIndicator(arr, rkey){
-    let indi= [];
-      arr.forEach(result => {
-        let ob = this.getTestCase(result.testcase_id);
-        if (ob){
-          indi.push({ name: ob.name, max: result[rkey]})
-        }
-      });
-
-      return indi;
-  }
-
   getTestCase(tid){
     let ob =  this.selectedTestCases.find((x)=>{
       return x.id == tid;
@@ -436,223 +348,15 @@ export class BenchCompComponent implements OnInit {
         return ob;
   }
 
-  boxIndicator(rkey){
-    let indicator = [];
-    let names = []
-    let results = []
-    let finalresult = []
-    this.selectedTestCasesResults.forEach(res => {
-      let ob = this.getTestCase(res.testcase_id);
-      if(ob){
-        names.push(ob.name)
-        results.push([res[rkey]])
-      }
-    });
-    results[0].push(this.summaries[0].bwMeanMIB)
-    results[2].push(this.summaries[1].bwMeanMIB)
-
-    results.forEach(res =>{
-      finalresult.push(Math.max(...res))
-    })
-    //console.log(finalresult)
-    let count = 0;
-    names.forEach(n => {
-      indicator.push({name: n, max: finalresult[count]})
-      count = count + 1
-    })
-
-    return indicator
-  }
 
   //IOR
   sOpSelection(){
     this.getSummary()
   }
 
-  transformToData(cRW, rkey){
-    let read = [];
-    let write = [];
-    cRW.forEach(rw => {
-      if(rw.access=== "read"){
-        read.push(rw[rkey]);
-      }else{
-        write.push(rw[rkey]);
-      }
-    });
-    if(read.length === 1){
-      read.push(read[0],read[0],read[0])
-    }
-    if (write.length === 1){
-      write.push(write[0],write[0],write[0])
-    }
-    let obj = [read,write]
-    //console.log("my data: ", obj)
-    return obj
-    }
+  
 
-  initMulti(){
-    this.themeSubscription2= this.theme.getJsTheme().subscribe(config => {
-
-      const colors: any = config.variables;
-      const echarts: any = config.variables.echarts;
-      this.options_multi = {
-                backgroundColor: echarts.bg,
-        color: [colors.danger, colors.primary, colors.info],
-        toolbox: {
-          show: true,
-          feature: {
-            saveAsImage: { show: true }
-          }
-        },
-        xAxis: {
-          data: ['Read',"Write"],
-          axisTick: {
-            alignWithLabel: true,
-          },
-          axisLine: {
-            lineStyle: {
-              color: echarts.axisLineColor,
-            },
-          },
-          axisLabel: {
-            textStyle: {
-              color: echarts.textColor,
-            },
-          },
-        },
-        yAxis: {name:this.selectedsOp,
-          axisLine: {
-            lineStyle: {
-              color: echarts.axisLineColor,
-            },
-          },
-          splitLine: {
-            lineStyle: {
-              color: echarts.splitLineColor,
-            },
-          },
-          axisLabel: {
-            textStyle: {
-              color: echarts.textColor,
-            },
-          },},
-        series: [
-          {
-            type: 'candlestick',
-            data: this.transformToData(this.chartRW,this.selectedsOp)
-          }
-        ]
-      };
-
-    });
-
-    
-    this.chartRW = [];
-  }
-
-  initBarChart(){
-    this.themeSubscriptionBarChart = this.theme.getJsTheme().subscribe(config => {
-
-      const colors: any = config.variables;
-      const echarts: any = config.variables.echarts;
-      this.options_bar = {
-                backgroundColor: echarts.bg,
-        color: [colors.danger, colors.primary, colors.info],
-        toolbox: {
-          show: true,
-          feature: {
-            saveAsImage: { title: "Download", show: true }
-          }
-        },
-        xAxis: {
-          data: this.barChartXaxis(),
-          axisTick: {
-            alignWithLabel: true,
-          },
-          axisLine: {
-            lineStyle: {
-              color: echarts.axisLineColor,
-            },
-          },
-          axisLabel: {
-            textStyle: {
-              color: echarts.textColor,
-            },
-          },
-        },
-        yAxis: {name:this.selectedsOp,
-          axisLine: {
-            lineStyle: {
-              color: echarts.axisLineColor,
-            },
-          },
-          splitLine: {
-            lineStyle: {
-              color: echarts.splitLineColor,
-            },
-          },
-          axisLabel: {
-            textStyle: {
-              color: echarts.textColor,
-            },
-          },},
-        series: [
-          {
-            type: 'bar',
-            data: this.barChartData()
-          }
-        ]
-      };
-    });
-  }
-
-  barChartData(){
-    let data = this.transformDim(this.selectedTestCasesResults, 'bwMiB')
-    //let dataMulti = this.transformToData(this.chartRW,this.selectedsOp)
-    let data1 = {
-      value: this.summaries[0].bwMeanMIB,
-      itemStyle: {
-        color: '#0000a9'
-      }
-    }
-    let data2 = {
-      value: this.summaries[1].bwMeanMIB,
-      itemStyle: {
-        color: '#0000a9'
-      }
-    }
-    data.push(data1, data2)
-    
-    return data;
-  }
-
-  /*barChartSeries(){
-    let series = [
-      {
-        name: 'IOR',
-        type: 'bar',
-        data: this.transformDim(this.selectedTestCasesResults, 'bwMiB')
-      },
-      {
-        name: 'IOR',
-        type: 'bar',
-        data: [this.summaries[0].bwMeanMIB, this.summaries[1].bwMeanMIB]
-      }
-    ]
-
-    return series
-  }*/
-
-  barChartXaxis(){
-    let xAxis = []
-    let names = this.getIndicator(this.selectedTestCasesResults, 'bwMiB')
-
-    names.forEach(n =>{
-      xAxis.push(n.name)
-    })
-    xAxis.push("IORMeanWrite", "IORMeanRead")
-    return xAxis
-  }
+ 
 
 
   //Everything related to the scatter chart and smartable -->
@@ -756,6 +460,7 @@ export class BenchCompComponent implements OnInit {
             name: this.selectX.name,
             type: 'value',
             scale: true,
+            min: 0,
             axisLabel: {
               formatter: '{value} bwMiB'
             },
@@ -769,6 +474,7 @@ export class BenchCompComponent implements OnInit {
             name: this.selectY.name,
             type: 'value',
             scale: true,
+            min: 0,
             axisLabel: {
               formatter: '{value} bwMiB'
             },
@@ -778,38 +484,6 @@ export class BenchCompComponent implements OnInit {
           }
         ],
         series: this.scatter_series
-        /*series: [
-          {
-            name: 'IO500',
-            type: 'scatter',
-            symbolSize: 1 ,
-            emphasis: {
-              focus: 'series'
-            },
-            data: this.scatterIO500indicator(),
-            markArea: {
-              silent: true,
-              itemStyle: {
-                color: 'transparent',
-                borderWidth: 1,
-                borderType: 'solid'
-              },
-              data: [
-                [
-                  {
-                    name: 'IO500',
-                    xAxis: 'min',
-                    yAxis: 'min'
-                  },
-                  {
-                    xAxis: 'max',
-                    yAxis: 'max'
-                  }
-                ]
-              ]
-            },
-          },
-        ],*/
       };
     });
   }
