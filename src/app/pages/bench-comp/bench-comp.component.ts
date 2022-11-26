@@ -192,7 +192,7 @@ export class BenchCompComponent implements OnInit {
   ngOnInit(): void {
    this.ws.getIO500().then(x =>{
       this.io500 = x;
-      //console.log(this.io500)
+      console.log(this.io500)
     });
     this.ws.getPerformances().then(()=>{
         this.performances = this.ws.performances;
@@ -288,6 +288,7 @@ export class BenchCompComponent implements OnInit {
 
       this.ws.getIO500_results(this.selectedValue.run_id).then(res => {
         this.selectedTestCasesResults = res;
+        console.log(res)
         
 
         this.ws.getIO500_options (this.selectedValue.run_id).then(op =>{
@@ -353,11 +354,6 @@ export class BenchCompComponent implements OnInit {
   sOpSelection(){
     this.getSummary()
   }
-
-  
-
- 
-
 
   //Everything related to the scatter chart and smartable -->
 
@@ -501,10 +497,11 @@ export class BenchCompComponent implements OnInit {
   scatterIO500indicator(){
     //let names = []
     let results = []
+    console.log(this.selectedTestCasesResults)
     this.selectedTestCasesResults.forEach(res => {
       //console.log(res)
       let ob = this.getTestCase(res.testcase_id);
-      //console.log(ob)
+      console.log(ob)
       if(ob){
         //names.push(ob.name)
         results.push([res['bwMiB']])

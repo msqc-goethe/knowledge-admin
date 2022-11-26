@@ -13,9 +13,11 @@ export class IO500Component implements OnInit {
 
   public selectedValue: any;
   public io500: any;
+  public io500custome: any;
 
   //selected variables
-  public selectedTestCases: any;
+  public selectedSettings
+  public selectedTestCases: any =  [];
   public selectedTestCaseOptions: any;
   public selectedTestCasesResults: any;
   public scoreChartOptions: any;
@@ -31,7 +33,27 @@ export class IO500Component implements OnInit {
   ngOnInit(): void {
     this.ws.getIO500().then(x =>{
       this.io500 = x;
-      console.log(this.io500)
+      //console.log(this.io500)
+    });
+
+    this.ws.getCustom().then((x:[])=>{
+      this.io500custome = x.map(val =>({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      }));
+      let temp = []
+      this.io500custome.forEach(i => {
+        if(i.name == "IO500"){
+          temp.push(i)
+        }
+      });
+
+      this.io500custome = temp
+      //console.log(this.io500custome)
     });
   }
 
@@ -81,6 +103,22 @@ export class IO500Component implements OnInit {
     })
   }
 
+  selectIO500Custome(){
+    this.selectedValue.summary[0].Testcases.forEach(e => {
+      this.selectedTestCases.push(e[0])
+    });
+    this.selectedSettings = Object.assign({},this.selectedValue.summary[0].Run[0],this.selectedValue.summary[0].Score[0],this.selectedValue.sysinfo)
+
+    this.initScoreChart()
+    this.initBoundingbox()
+  }
+
+  openWindowFormCustome(name,options,results){
+    this.windowService.open(IO500WindowFormComponent, { title: name, context: [results, options]});
+  }
+
+
+  //CHARTS
   initScoreChart(){
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
@@ -156,7 +194,7 @@ export class IO500Component implements OnInit {
             color: echarts.textColor,
           },
         },
-        data: this.transformDim(this.selectedTestCases, 'name')
+        data: this.transformDim(this.selectedTestCases, 'Name')
 
       },
       series: [

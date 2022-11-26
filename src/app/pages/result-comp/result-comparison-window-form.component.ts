@@ -5,7 +5,7 @@ import { NbThemeService } from '@nebular/theme';
 
 @Component({
   template: `
-<nb-card size="large">
+<nb-card class="cdk-global-scrollblock nb-global-scrollblock">
   <nb-card-header>
   <div class="row">
     <nb-select class="col" placeholder="Select X dimension" [(selected)]="selectedC">
@@ -21,7 +21,6 @@ import { NbThemeService } from '@nebular/theme';
   <div style="width: 600px; height: 450px;" echarts [options]="option" class="echart"></div>
   </nb-card-body>
 </nb-card>
-
   `,
   styleUrls: ['result-comparison-window-form.component.scss'],
 })
@@ -40,7 +39,7 @@ export class WindowFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //console.log(this.windowRef.config.context);
+    console.log(this.windowRef.config);
     this.selectedIds = this.windowRef.config.context;
     this.ws.getMultiSummaries(this.selectedIds, this.selectedR, this.selectedC).then(x=>{ 
       this.initChart();

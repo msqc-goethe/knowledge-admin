@@ -9,6 +9,7 @@ import {
   NbIconModule,
   NbSelectModule,
   NbListModule,
+  NbLayoutModule,
 } from '@nebular/theme';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -34,6 +35,7 @@ import {WindowFormComponent} from './result-comparison-window-form.component';
     NgxChartsModule,
     Ng2SmartTableModule,
     CommonModule,
+    NbLayoutModule,
   ],
   declarations: [
     ResultComparisonComponent, SmartTableResultComponent,WindowFormComponent

@@ -1,7 +1,7 @@
 <div class="row" style="margin-bottom: 1.875rem;">
     <div class="col-md-12">
-        <nb-select style="min-width: 95%" placeholder="Select IO-500 Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectIO500()">
-          <nb-option *ngFor="let run of io500" [value]="run"> {{run.version}}: {{run.start}} - {{run.end}} on {{run.name}} ({{run.processor_model}} , {{run.processor_architecture}}) with {{run.procs}} Procs</nb-option>
+        <nb-select style="min-width: 95%" placeholder="Select IO-500 Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectIO500Custome()">
+          <nb-option *ngFor="let run of io500custome" [value]="run"> {{run.version}}: {{run.start}} - {{run.end}} on {{run.name}} ({{run.processor_model}} , {{run.processor_architecture}}) with {{run.procs}} Procs</nb-option>
       </nb-select>
       <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
     </div>
@@ -13,7 +13,7 @@
             Settings
           </nb-card-header>
           <nb-card-body>
-            <div class="col-md-3" style="display: inline-block;" *ngFor="let sk of selectedValue | keyvalue">
+            <div class="col-md-3" style="display: inline-block;" *ngFor="let sk of selectedSettings | keyvalue">
               <label class="label">{{sk.key}}: </label> {{sk.value}}
             </div>
           </nb-card-body>
@@ -30,12 +30,12 @@
             <nb-list>
               <nb-list-item *ngFor="let tc of selectedTestCases">
                       <div class="col-md-11">
-                        <nb-user [name]="tc.name" [title]="tc.t_start + tc.t_end">
+                        <nb-user [name]="tc.Name" [title]="tc.t_start + tc.t_end">
                         </nb-user>
                         <p>Score: {{tc.score}} <!--Stonewall: {{tc.stonewall}}--> T_Delta: {{tc.t_delta}}</p> 
                       </div>
                       <div class="col-md-1">
-                        <button nbButton ghost status="danger" (click)="openWindowForm(tc.id, tc.name)" ><nb-icon icon="expand-outline"></nb-icon></button>
+                        <button nbButton ghost status="danger" (click)="openWindowFormCustome(tc.Name, tc.results, tc.options)" ><nb-icon icon="expand-outline"></nb-icon></button>
                       </div>
               </nb-list-item>
             </nb-list>

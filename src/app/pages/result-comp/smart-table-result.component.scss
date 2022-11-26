@@ -5,13 +5,29 @@
     transform: translate3d(0, 0, 0);
   }
 
+  .cdk-global-scrollblock {
+    position: static !important;
+    }
+
+
+  :host /deep/ .cdk-global-scrollblock {
+    position: static !important;
+    }
+
+
 }
 :host /deep/ .ng2-smart-action-multiple-select{
   text-align: center;
+  overflow: hidden;
   }
   
   :host /deep/ .ng2-smart-action-multiple-select > input{
   width:15px;
   height:15px;
   display: unset;
+  overflow: hidden;
   }
+
+  /deep/ .cdk-global-scrollblock {
+    position: static !important;
+    }

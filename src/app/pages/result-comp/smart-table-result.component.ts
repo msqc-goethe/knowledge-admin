@@ -12,6 +12,7 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 @Component({
   selector:'smart-table-result',
   template:`
+  <div class="cdk-global-scrollblock nb-global-scrollblock">
   <nb-card>
   <nb-card-header>
   IOR Runs
@@ -23,7 +24,7 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>
-
+  </div>
 `,
   styleUrls: ['./smart-table-result.component.scss'],
 })

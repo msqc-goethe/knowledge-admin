@@ -29,7 +29,7 @@ export class CustomComponent implements OnInit {
 
   ngOnInit(): void {
     this.ws.getCustom().then((x:[])=>{
-      this.cus = x.map(val => ({
+      this.cus = x.map(val =>({
         id: val['id'],
         name: val['name_app'],
         type: val['type'],
@@ -38,7 +38,14 @@ export class CustomComponent implements OnInit {
         sysinfo: JSON.parse(val['sysinfo']),
       }));
       console.log(this.cus)
+      let temp = []
+      this.cus.forEach(i => {
+        if(i.name == "Haccio"){
+          temp.push(i)
+        }
+      });
 
+      this.cus = temp
     });
   }
 
