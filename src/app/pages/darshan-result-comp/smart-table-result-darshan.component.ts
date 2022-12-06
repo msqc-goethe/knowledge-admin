@@ -69,20 +69,50 @@ export class SmartTableResultDarshanComponent  implements OnInit{
       }
     },
   };
-
+  
+  darshantable: any =[]
+  darshanlist: any = []
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private service: SmartTableData, public ws: WebServiceService, private windowService: NbWindowService) {
-    //const data = this.service.getData();
-    //console.log(data);
-    this.ws.getDarshan().then((darshans: any[])=>{
+
+    this.ws.getCustom().then((x:[])=>{
+      this.darshantable = x.map(val =>({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      }));
+
+      let temp = []
+      this.darshantable.forEach(i => {
+        if(i.name == "Darshan"){
+          temp.push(i)
+        }
+      });
+
+      temp.forEach(d => {
+        let data = {id: d.id, exe: d.summary.meta.exe,  nprocs: d.summary.meta.job.nprocs , jobid: d.summary.meta.job.jobid, summary: d.summary.summary,}
+        this.darshanlist.push(data)
+      })
+      console.log(this.darshanlist)
+      this.source.load(this.darshanlist)
+
+    })
+    
+
+
+
+    /*this.ws.getDarshan().then((darshans: any[])=>{
       darshans = darshans.map((darshan) =>{
         return {id: darshan.id, exe: JSON.parse(darshan.meta).exe, nprocs: JSON.parse(darshan.meta).job.nprocs, jobid: JSON.parse(darshan.meta).job.jobid, summary: JSON.parse(darshan.summary)}
       })
       const data = darshans;
       console.log(data)
       this.source.load(data);
-    });
+    });*/
 
   }
 

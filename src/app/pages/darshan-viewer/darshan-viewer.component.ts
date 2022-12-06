@@ -16,7 +16,8 @@ interface TreeNode<T> {
   templateUrl: './darshan-viewer.component.html',
 })
 export class DarshanResultViewerComponent implements OnInit {
-  darshans: any;
+  custome_darshans: any = [];
+  darshans: any = [];
   summaries: any;
   results: any;
   selectedSummary: any;
@@ -78,11 +79,35 @@ export class DarshanResultViewerComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.ws.getDarshan().then((darshans:any)=>{
+    this.ws.getCustom().then((x:[])=>{
+      this.custome_darshans = x.map(val =>({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      }));
+
+      let temp = []
+      this.custome_darshans.forEach(i => {
+        if(i.name == "Darshan"){
+          temp.push(i)
+        }
+      });
+
+      temp.forEach(d => {
+        let data = {id: d.id, meta: d.summary.meta, summary: d.summary.summary, mounts: d.summary.mounts , writtenFiles: d.summary.name_records}
+        this.darshans.push(data)
+      })
+      console.log(this.darshans)
+
+
+    /*this.ws.getDarshan().then((darshans:any)=>{
       this.darshans = darshans.map((darshan) =>{
         return {id: darshan.id, meta: JSON.parse(darshan.meta), summary: JSON.parse(darshan.summary), mounts: JSON.parse(darshan.mounts), writtenFiles: JSON.parse(darshan.writtenFiles)}
       })
-      console.log(this.darshans)
+      console.log(this.darshans)*/
     })
   }
 

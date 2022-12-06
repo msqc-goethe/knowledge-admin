@@ -14,6 +14,7 @@ export class IO500CompComponent implements OnInit {
 
   public selectedValue: any;
   public io500: any;
+  public io500custome: any = [];
   public selectedTestCases: any;
   public selectedTestCaseOptions: any;
   public selectedTestCasesResults: any;
@@ -67,12 +68,12 @@ export class IO500CompComponent implements OnInit {
         title: 'MD',
         type: 'string',
       },
-      SCORE: {
-        title: 'SCORE',
+      score: {
+        title: 'score',
         type: 'number',
       },
 
-      result_dir: {
+      result_Dir: {
         title: 'result_dir',
         type: 'string',
       },
@@ -90,14 +91,43 @@ export class IO500CompComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private theme: NbThemeService, private service: SmartTableData, public ws: WebServiceService, private windowService: NbWindowService) {
-    this.ws.getIO500().then((io: any[])=>{
+    this.ws.getCustom().then((x:[])=>{
+      this.io500custome = x.map(val =>({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      }));
+      let temp = []
+      this.io500custome.forEach(i => {
+        if(i.name == "IO500"){
+          temp.push(i)
+        }
+      });
+      this.io500custome = temp
+
+      const data = []
+      this.io500custome.forEach(e => {
+        data.push(Object.assign({},e.summary.run,e.summary.score,e.sysinfo,e.summary.start, e.summary.end))   
+      });
+      
+
+      this.source.load(data);
+      this.initBoundingbox(data);
+      this.initRanking(data);
+    });
+
+
+    /*this.ws.getIO500().then((io: any[])=>{
       const data = io;
       console.log(io);
       this.source.load(data);
       this.initBoundingbox(data);
       this.initRanking(data);
 
-    });
+    });*/
 
   }
 
@@ -178,7 +208,7 @@ initBoundingbox(src){
     },
     radar: {
       // shape: 'circle',
-      indicator: [{name:'BW', max: 10}, {name:'MD', max: 50},{name:'SCORE', max: 10},]
+      indicator: [{name:'BW', max: 10}, {name:'MD', max: 50},{name:'score', max: 10},]
     },
     series: [
       {
@@ -262,7 +292,7 @@ initRanking(src){
   },
   series: [
     {
-      data: src.map(x=>x.SCORE),
+      data: src.map(x=>x.score),
       type: 'bar'
     }
   ]
@@ -282,7 +312,7 @@ transformDim(runs){
     let sub = [];
     sub.push(run.BW);
     sub.push(run.MD);
-    sub.push(run.SCORE);
+    sub.push(run.score);
     final.push({'value': sub, 'name': run.id});
   });;
   return final;

@@ -14,6 +14,7 @@ export class CustomCompComponent implements OnInit {
 
   public selectedValue: any;
   public io500: any;
+  public custome: any =[];
   public selectedTestCases: any;
   public selectedTestCaseOptions: any;
   public selectedTestCasesResults: any;
@@ -82,25 +83,64 @@ export class CustomCompComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
 
   constructor(private theme: NbThemeService, private service: SmartTableData, public ws: WebServiceService, private windowService: NbWindowService) {
-    this.ws.getCustom().then((cu: any[])=>{
-      const data = cu.map(val => ({
+    this.ws.getCustom().then((x:[])=>{
+      this.custome = x.map(val =>({
         id: val['id'],
         name: val['name_app'],
         type: val['type'],
         summary: JSON.parse(val['summary']),
         fs: JSON.parse(val['fs']),
         sysinfo: JSON.parse(val['sysinfo']),
-        sysName: JSON.parse(val['sysinfo']).name,
-        size: (Number(JSON.parse(val['summary'])[0].size[0]) + Number(JSON.parse(val['summary'])[1].size[0]))/2,
-        bw: (Number(JSON.parse(val['summary'])[0].bw[0]) + Number(JSON.parse(val['summary'])[1].bw[0]))/2,
-        time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
-      }));;
+      }));
+      console.log(this.custome)
+      let temp = []
+      this.custome.forEach(i => {
+        
+        if(i.name == "Haccio"){
+          //i['sysName'] = JSON.parse(i['sysinfo']).name
+          i['sysName'] = i.sysinfo.name
+          console.log(i)
+          //i['size'] = (Number(JSON.parse(i['summary'])[0].size[0]) + Number(JSON.parse(i['summary'])[1].size[0]))/2
+          i['size'] = (Number(i.summary[0].size[0]) + Number(i.summary[1].size[0]))/2
+          i['bw'] = (Number(i.summary[0].bw[0]) + Number(i.summary[1].bw[0]))/2
+          i['time'] = (Number(i.summary[0].time[0]) + Number(i.summary[1].time[0]))/2
+          temp.push(i)
+        }
+      });
+      
+
+      this.custome = temp
+      this.source.load(this.custome);
+      this.initBoundingbox(this.custome);
+      this.initRanking(this.custome);
+    });
+    
+    /*this.ws.getCustom().then((cu: any[])=>{
+
+
+      this.custome = cu.map(val => ({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+        //sysName: JSON.parse(val['sysinfo']).name,
+        //size: (Number(JSON.parse(val['summary'])[0].size[0]) + Number(JSON.parse(val['summary'])[1].size[0]))/2,
+        //bw: (Number(JSON.parse(val['summary'])[0].bw[0]) + Number(JSON.parse(val['summary'])[1].bw[0]))/2,
+        //time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
+      }));
+
+      let temp = []
+      this.custome.forEach(t => ({
+        if data
+      }))
       console.log(data);
       this.source.load(data);
       this.initBoundingbox(data);
       this.initRanking(data);
 
-    });
+    });*/
 
   }
 

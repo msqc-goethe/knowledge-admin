@@ -19,7 +19,7 @@ export class IO500Component implements OnInit {
   public selectedSettings
   public selectedTestCases: any =  [];
   public selectedTestCaseOptions: any;
-  public selectedTestCasesResults: any;
+  public selectedTestCasesResults: any = [];
   public scoreChartOptions: any;
   public boundingboxOptions: any;
   themeSubscription: any;
@@ -104,10 +104,15 @@ export class IO500Component implements OnInit {
   }
 
   selectIO500Custome(){
-    this.selectedValue.summary[0].Testcases.forEach(e => {
-      this.selectedTestCases.push(e[0])
+    this.selectedTestCases = []
+    this.selectedTestCasesResults =[]
+    this.selectedValue.summary.testcases.forEach(e => {
+      this.selectedTestCases.push(e)
+      if (e.name.includes("ior")){
+        this.selectedTestCasesResults.push(e.results)
+      }
     });
-    this.selectedSettings = Object.assign({},this.selectedValue.summary[0].Run[0],this.selectedValue.summary[0].Score[0],this.selectedValue.sysinfo)
+    this.selectedSettings = Object.assign({},this.selectedValue.summary.run,this.selectedValue.summary.score,this.selectedValue.sysinfo)
 
     this.initScoreChart()
     this.initBoundingbox()
@@ -194,7 +199,7 @@ export class IO500Component implements OnInit {
             color: echarts.textColor,
           },
         },
-        data: this.transformDim(this.selectedTestCases, 'Name')
+        data: this.transformDim(this.selectedTestCases, 'name')
 
       },
       series: [
