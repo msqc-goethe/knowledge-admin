@@ -15,8 +15,10 @@ interface TreeNode<T> {
   templateUrl: './resultviewer.component.html',
 })
 export class ResultViewerComponent implements OnInit {
-  selectedValue: Performance;
-  performances: any;
+  ior: any = [];
+  //selectedValue: Performance;
+  selectedValue: any;
+  performances: any = [];
   summaries: any;
   results: any;
   selectedSummary: any;
@@ -74,25 +76,97 @@ export class ResultViewerComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.ws.getPerformances().then(()=>{
+    this.ws.getCustom().then((x:[])=>{
+      this.ior = x.map(val =>({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      }));
+      console.log(this.ior)
+      let temp = []
+      this.ior.forEach(i => {
+        if(i.name == "IOR"){
+          temp.push(i)
+        }
+      });
+
+      this.ior = temp
+      
+      console.log(this.ior)
+      this.ior.forEach(e => {
+        console.log(e.fs)
+        this.performances.push(Object.assign({}, {"ts": e.summary[0].Began}, {'cmd': e.summary[0]['Command line']}, {'te': e.summary[0].Finished}, e.summary[0].tests[0].Parameters, {'summary': e.summary[0].summary}, {'tests': e.summary[0].tests}, {'fs': e.fs}))
+
+        //Next summary
+        //this.summaries
+        
+      });
+
+      console.log(this.performances)
+      
+
+    });
+
+    /*this.ws.getPerformances().then(()=>{
       this.performances = this.ws.performances;
-    })
+    })*/
+
   }
 
   getSummary(rkey = "ops"){
-    console.log(this.selectedValue)
-    this.ws.getSummaries(this.selectedValue.id).then(()=>{
-     //console.log( this.selectedValue)
-      this.summaries = this.ws.summaries;
-     //console.log(this.summaries)
+    //console.log(this.selectedValue)
+    //this.ws.getSummaries(this.selectedValue.id).then(()=>{
+      //console.log( this.selectedValue)
+      //this.summaries = this.ws.summaries;
+      
+      this.summaries = this.selectedValue.summary
+      this.results = this.selectedValue.tests[0].Results
+
+      let iteration_read = []
+      let iteration_write = []
+      this.results.forEach(res => {
+        //Read
+        let r = res[1]
+        //delete r['access']
+        iteration_read.push({'data': r})
+        
+
+        //Write
+        let w= res[0]
+        iteration_write.push(w)  
+      });
+
+      //let data = [{"data": iteration_read}]
+      //console.log(data)
+      this.dataSource_r = this.dataSourceBuilder.create(iteration_read);
+      this.ws.simpleDataR = iteration_read;
+
+      //data = [{"data": iteration_write}]
+      this.dataSource_w = this.dataSourceBuilder.create(iteration_write);
+      this.ws.simpleDataW = iteration_write; 
+
+
+      //this.dataSource_w = this.dataSourceBuilder.create(iteration_write)
+
+      
+
+      
       this.summariesP = true;
       let parr = [];
-      this.summaries.forEach(sum => {
+
+      //Here the Result Table gets called by the summary id, then the result get stored in data
+      //Instead of doing this we can simply give the tests to the performance and then iterate through the tests and take the results ourself.
+      /*this.summaries.forEach(sum => {
         parr.push(this.ws.getResultsForTable(sum).then((x:[Result])=>{
           x.forEach(r =>{
             this.data.push({"data":r})
             this.chartRW.push(r);
+            
           });
+          //console.log(this.chartRW)
           if(sum.operation == "read"){
             this.dataSource_r = this.dataSourceBuilder.create(this.data);
             this.ws.simpleDataR = this.data;
@@ -103,19 +177,19 @@ export class ResultViewerComponent implements OnInit {
             this.data = []
           }
         }))
-      });
+      });*/
+
       Promise.all(parr).then(() => {
-        console.log(this.chartRW)
+        console.log("Here")
         this.initReadChart()
         this.initWriteChart()
         this.initMulti();
-        this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
-          this.selectedFilesystem = x;
-          this.selectedFilesystem = JSON.parse(this.selectedFilesystem[0].settings)
+        //this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
+        this.selectedFilesystem = JSON.parse(this.selectedValue.fs)
          console.log(this.selectedFilesystem)
-        })
+        //})
       });
-    });
+    //});
   }
 
 //read chart
