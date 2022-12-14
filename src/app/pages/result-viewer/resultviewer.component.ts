@@ -132,11 +132,13 @@ export class ResultViewerComponent implements OnInit {
         let r = res[1]
         //delete r['access']
         iteration_read.push({'data': r})
+        this.chartRW.push(r)
         
 
         //Write
         let w= res[0]
-        iteration_write.push(w)  
+        iteration_write.push({'data': w})
+        this.chartRW.push(w)
       });
 
       //let data = [{"data": iteration_read}]
@@ -178,8 +180,14 @@ export class ResultViewerComponent implements OnInit {
           }
         }))
       });*/
+      this.initReadChart()
+      this.initWriteChart()
+      this.initMulti();
+      //this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
+      this.selectedFilesystem = this.selectedValue.fs;
+      console.log(this.selectedFilesystem);
 
-      Promise.all(parr).then(() => {
+      /*Promise.all(parr).then(() => {
         console.log("Here")
         this.initReadChart()
         this.initWriteChart()
@@ -188,7 +196,7 @@ export class ResultViewerComponent implements OnInit {
         this.selectedFilesystem = JSON.parse(this.selectedValue.fs)
          console.log(this.selectedFilesystem)
         //})
-      });
+      });*/
     //});
   }
 

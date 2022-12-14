@@ -23,8 +23,9 @@ export class IorBuilderComponent implements OnInit {
   taskPerNodeOffset:"", segmentCount:"", transferSize:"", maxTimeDuration:"", hintsFileName:"", reorderTasksRandomSeed:""}
 
   final = "ior "
-  performances:any;
+  performances:any=[];
   selectedValue:any;
+  ior: any =[];
 
 
   constructor(private theme: NbThemeService, public ws: WebServiceService, private dataSourceBuilder: NbTreeGridDataSourceBuilder<Result>) {
@@ -33,10 +34,43 @@ export class IorBuilderComponent implements OnInit {
 
   ngOnInit(): void {
     this.preSelect(this.commands);
-    this.ws.getPerformances().then(()=>{
-      this.performances = this.ws.performances;
+
+
+    this.ws.getCustom().then((x:[])=>{
+      this.ior = x.map(val =>({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      }));
+      console.log(this.ior)
+      let temp = []
+      this.ior.forEach(i => {
+        if(i.name == "IOR"){
+          temp.push(i)
+        }
+      });
+
+      this.ior = temp
+      
+      console.log(this.ior)
+      this.ior.forEach(e => {
+        this.performances.push(Object.assign({}, {"ts": e.summary[0].Began}, {'cmd': e.summary[0]['Command line']}, {'te': e.summary[0].Finished}, e.summary[0].tests[0].Parameters, {'summary': e.summary[0].summary}, {'tests': e.summary[0].tests}, {'fs': e.fs}))
+
+        //Next summary
+        //this.summaries
+        
+      });
+
+      console.log(this.performances)
       this.sSelects = []
     })
+    /*this.ws.getPerformances().then(()=>{
+      this.performances = this.ws.performances;
+      this.sSelects = []
+    })*/
 
   }
 

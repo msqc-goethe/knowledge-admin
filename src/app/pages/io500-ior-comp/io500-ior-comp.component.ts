@@ -75,110 +75,6 @@ export class Io500IorCompComponent implements OnInit {
     readyIO500: any = false;
     readyIOR: any = false;
 
-    //
-    //themeSubscriptionScatterChart: any;
-    //options_scatter: any={}
-    /*scatter_series = [
-      {
-        name: 'IO500',
-        type: 'scatter',
-        symbolSize: 1 ,
-        emphasis: {
-          focus: 'series'
-        },
-        // prettier-ignore
-        data: [[30,30 ], [9000, 5490],
-              ],
-        markArea: {
-          silent: true,
-          itemStyle: {
-            color: 'transparent',
-            borderWidth: 1,
-            borderType: 'solid'
-          },
-          data: [
-            [
-              {
-                name: 'IO500',
-                xAxis: 'min',
-                yAxis: 'min'
-              },
-              {
-                xAxis: 'max',
-                yAxis: 'max'
-              }
-            ]
-          ]
-        },
-      },
-    ]*/
-
-    //scatter_backup = this.scatter_series
-
-    //used to reset scatter chart when deselcting items from smarttable
-
-    //SmartTableBase
-   /* settingsTable = {
-      selectMode:"multi",
-      pager:{
-        perPage: 100,
-      }, 
-      add: {
-        addButtonContent: '<i class="nb-plus"></i>',
-        createButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>',
-      },
-      edit: {
-        editButtonContent: '<i class="nb-edit"></i>',
-        saveButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>',
-      },
-      delete: {
-        deleteButtonContent: '<i class="nb-trash"></i>',
-        confirmDelete: true,
-      },
-      columns: {
-        id: {
-          title: 'ID',
-          type: 'number',
-        },
-        name: {
-          title: 'Name',
-          type: 'string',
-        },
-        type: {
-          title: 'Type',
-          type: 'string',
-        },
-        sysName: {
-          title: 'Cluster',
-          type: 'string',
-        },
-        bw: {
-          title: 'BW(MB/s)',
-          type: 'number',
-        },
-        size: {
-          title: 'Size(Bytes)',
-          type: 'number',
-        },
-  
-        time: {
-          title: 'T(sec)',
-          type: 'string',
-        },
-      },
-    };*/
-
-    //sourceTable: LocalDataSource = new LocalDataSource();
-
-  //clickedRows: any;
-  //isDisabled = true;
-
-  //smartdata: any[]
-  //smartdata2: any[]
-
-  
   constructor(private theme: NbThemeService, public ws: WebServiceService, private windowService: NbWindowService, private dataSourceBuilder: NbTreeGridDataSourceBuilder<Result>) {
   }
 
@@ -254,7 +150,7 @@ export class Io500IorCompComponent implements OnInit {
         this.initBarChart();
         this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
           this.selectedFilesystem = x;
-          this.selectedFilesystem = JSON.parse(this.selectedFilesystem[0].settings)
+          this.selectedFilesystem = this.selectedFilesystem[0].settings
         })
       });
     });

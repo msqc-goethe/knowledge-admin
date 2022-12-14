@@ -30,6 +30,8 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 })
 export class SmartTableResultComponent  implements OnInit{
 
+  performances: any=[];
+  ior = []
   clickedRows: any;
   isDisabled = true;
 
@@ -97,10 +99,43 @@ export class SmartTableResultComponent  implements OnInit{
   constructor(private service: SmartTableData, public ws: WebServiceService, private windowService: NbWindowService) {
     //const data = this.service.getData();
     //console.log(data);
-    this.ws.getPerformances().then((performances: Performance[])=>{
+
+    this.ws.getCustom().then((x:[])=>{
+      this.ior = x.map(val =>({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      }));
+      console.log(this.ior)
+      let temp = []
+      this.ior.forEach(i => {
+        if(i.name == "IOR"){
+          temp.push(i)
+        }
+      });
+
+      this.ior = temp
+      
+      console.log(this.ior)
+      this.ior.forEach(e => {
+        console.log(e.fs)
+        this.performances.push(Object.assign({}, {'id': e.id, "ts": e.summary[0].Began}, {'cmd': e.summary[0]['Command line']}, {'te': e.summary[0].Finished}, e.summary[0].tests[0].Parameters, {'summary': e.summary[0].summary}, {'tests': e.summary[0].tests}, {'fs': e.fs}))
+
+        //Next summary
+        //this.summaries
+        
+      });
+
+      this.source.load(this.performances)
+    })
+
+    /*this.ws.getPerformances().then((performances: Performance[])=>{
       const data = performances;
       this.source.load(data);
-    });
+    });*/
 
   }
 
