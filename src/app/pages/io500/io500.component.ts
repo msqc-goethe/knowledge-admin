@@ -31,11 +31,6 @@ export class IO500Component implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ws.getIO500().then(x =>{
-      this.io500 = x;
-      //console.log(this.io500)
-    });
-
     this.ws.getCustom().then((x:[])=>{
       this.io500custome = x.map(val =>({
         id: val['id'],
@@ -51,9 +46,7 @@ export class IO500Component implements OnInit {
           temp.push(i)
         }
       });
-
       this.io500custome = temp
-      //console.log(this.io500custome)
     });
   }
 
@@ -62,7 +55,6 @@ export class IO500Component implements OnInit {
   }
 
   getTestCassesResult(tid){
-  console.log(tid)
   let ob =  this.selectedTestCasesResults.find((x)=>{
   return x.testcase_id === tid;
     });
@@ -85,24 +77,6 @@ export class IO500Component implements OnInit {
         return ob;
       }
 
-  selectIO500(){
-    this.ws.getIO500_testcases(this.selectedValue.run_id).then(x=>{
-      this.selectedTestCases = x;
-      console.log("TC: ", this.selectedTestCases)
-      this.ws.getIO500_results(this.selectedValue.run_id).then(res => {
-        this.selectedTestCasesResults = res;
-        console.log("TCR: ", this.selectedTestCasesResults)
-        this.ws.getIO500_options (this.selectedValue.run_id).then(op =>{
-          this.selectedTestCaseOptions = op;
-          console.log("TCO ", this.selectedTestCaseOptions)
-          this.initScoreChart();
-          this.initBoundingbox();
-          //this.test(this.selectedTestCasesResults, 'bwMiB');
-      })
-      });
-    })
-  }
-
   selectIO500Custome(){
     this.selectedTestCases = []
     this.selectedTestCasesResults =[]
@@ -121,7 +95,6 @@ export class IO500Component implements OnInit {
   openWindowFormCustome(name,options,results){
     this.windowService.open(IO500WindowFormComponent, { title: name, context: [results, options]});
   }
-
 
   //CHARTS
   initScoreChart(){
@@ -257,8 +230,6 @@ export class IO500Component implements OnInit {
     };
     });
   }
-
-
 
   transformDim(src, rkey){
     return src.map(x => x[rkey]);

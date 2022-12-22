@@ -1,0 +1,9 @@
+@import '../../@theme/styles/themes';
+
+@include nb-install-component() {
+
+}
+:host /deep/ .ng2-smart-row .ng-star-inserted {
+    height: 80px;
+    overflow: auto;
+}

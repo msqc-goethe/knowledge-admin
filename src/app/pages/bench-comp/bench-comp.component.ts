@@ -21,6 +21,7 @@ interface TreeNode<T> {
 @Component({
   selector: 'bench-comp',
   templateUrl: './bench-comp.component.html',
+  styleUrls: ['./smart-table-bench-comp.scss']
 })
 export class BenchCompComponent implements OnInit {
     
@@ -29,7 +30,10 @@ export class BenchCompComponent implements OnInit {
     public selectedTestCases: any;
     public selectedTestCaseOptions: any;
     public selectedTestCasesResults: any;
-    public io500: any;
+    io500: any=[];
+    parr: any = [];
+    other: any = [];
+    selectedSettings: any =[];
 
     //IO500Chart
     public boundingboxOptions: any;
@@ -62,8 +66,8 @@ export class BenchCompComponent implements OnInit {
     sortColumn: string;
     sortDirection: NbSortDirection = NbSortDirection.NONE;
 
-    sOptions = ['blockKiB', 'bwMiB', 'closeTime', 'iops', 'latency', 'openTime','totalTime', 'wrRdTime', 'xferKiB'];
-    selectedsOp = 'bwMiB';
+    //sOptions = ['blockKiB', 'bwMiB', 'closeTime', 'iops', 'latency', 'openTime','totalTime', 'wrRdTime', 'xferKiB'];
+    //selectedsOp = 'bwMiB';
 
     chartRW = [];
 
@@ -157,22 +161,9 @@ export class BenchCompComponent implements OnInit {
           title: 'Type',
           type: 'string',
         },
-        sysName: {
-          title: 'Cluster',
-          type: 'string',
-        },
-        bw: {
-          title: 'BW(MB/s)',
-          type: 'number',
-        },
-        size: {
-          title: 'Size(Bytes)',
-          type: 'number',
-        },
-  
-        time: {
-          title: 'T(sec)',
-          type: 'string',
+        summary_str: {
+          title: 'Summary',
+          type: 'text'
         },
       },
     };
@@ -190,79 +181,29 @@ export class BenchCompComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   this.ws.getIO500().then(x =>{
-      this.io500 = x;
-      console.log(this.io500)
-    });
-    this.ws.getPerformances().then(()=>{
-        this.performances = this.ws.performances;
-        //console.log(this.performances)
-    })
-
-    //Array which fills the smartable
-    let parr = []
-
-    this.ws.getPerformances().then((performances: Performance[])=>{
-
-      //Mabye get summaries too
-      parr.push(performances.map(p => ({
-        id: p.id,
-        name: "IOR",
-        type: "Benchmark",
-        summary: "score",
-        sysinfo: p.cmd,
-        sysName: p.platform,
-        size:p.transferSize,
-        bw:40,
-        writebw: 1000,
-        readbw: 1000,
-        time:5,
-      })));;
-      this.addDataToSmartTable(parr)
-    });
-
-    //DarshanData
-    this.ws.getDarshan().then((darshans:any)=>{
-       parr.push(darshans.map((darshan =>({
-        id: darshan.id, 
-        name: "Darshan",
-        type: "Benshmark", 
-        summary: JSON.parse(darshan.summary), 
-        //meta: JSON.parse(darshan.meta),
-        sysinfo: "System",
-        sysName: "Platform",
-        bw: 120,
-        writebw: 2000,
-        readbw: 2000,
-        time: 18000
-       
-      }))))
-
-      this.addDataToSmartTable(parr)
-    })
-
 
     this.ws.getCustom().then((cu: any[])=>{
-      parr.push(cu.map(val => ({
+      this.parr.push(cu.map(val => ({
         id: val['id'],
         name: val['name_app'],
         type: val['type'],
         summary: JSON.parse(val['summary']),
         fs: JSON.parse(val['fs']),
         sysinfo: JSON.parse(val['sysinfo']),
-        sysName: JSON.parse(val['sysinfo']).name,
-        size: (Number(JSON.parse(val['summary'])[0].size[0]) + Number(JSON.parse(val['summary'])[1].size[0]))/2,
-        bw: (Number(JSON.parse(val['summary'])[0].bw[0]) + Number(JSON.parse(val['summary'])[1].bw[0]))/2,
-        writebw: Number(JSON.parse(val['summary'])[0].bw[0]),
-        readbw: Number(JSON.parse(val['summary'])[1].bw[0]),
-        time: (Number(JSON.parse(val['summary'])[0].time[0]) + Number(JSON.parse(val['summary'])[1].time[0]))/2,
-      })));;
+        summary_str: val['summary'],
+      })))
 
-      this.addDataToSmartTable(parr)
+      let temp = []
+      this.parr[0].forEach(i => {
+        if(i.name == "IO500"){
+          this.io500.push(i)
+        }else{
+          this.other.push(i)
+        }
+      });
 
-
+      this.sourceTable.load(this.other)
     });
-    //this.addDataToSmartTable(parr)
   }
 
   addDataToSmartTable(parr){
@@ -272,73 +213,22 @@ export class BenchCompComponent implements OnInit {
           smart.push(s)
         })
       })
-      //console.log(smart)
       this.sourceTable.load(smart)
   }
 
-  selectIO500(){
-    this.ws.getIO500_testcases(this.selectedValue.run_id).then(x=>{
-      this.selectedTestCases = x;
-      this.selectedTestCases.forEach(e =>{
 
-        //Fill Selcet for X&Y axis
-        this.selectXAxis.push({name: e.name, id: e.id})
-        this.selectYAxis.push({name: e.name, id: e.id})
-      })
-
-      this.ws.getIO500_results(this.selectedValue.run_id).then(res => {
-        this.selectedTestCasesResults = res;
-        console.log(res)
-        
-
-        this.ws.getIO500_options (this.selectedValue.run_id).then(op =>{
-          this.selectedTestCaseOptions = op;
-          //console.log(op)
-
-          //this.scatterChart();
-          this.setupscatterseries()
-      })
-      });
-    })
-  }
-
-  getSummary(rkey = "ops"){
-
-    this.ws.getSummaries(this.selectedValueIOR.id).then(()=>{
-
-      this.summaries = this.ws.summaries;
-
-      this.summariesP = true;
-      let parr = [];
-      this.summaries.forEach(sum => {
-        parr.push(this.ws.getResultsForTable(sum).then((x:[Result])=>{
-          x.forEach(r =>{
-            this.data.push({"data":r})
-            this.chartRW.push(r);
-          });
-          if(sum.operation == "read"){
-            this.dataSource_r = this.dataSourceBuilder.create(this.data);
-            this.ws.simpleDataR = this.data;
-            this.data = []
-          }else {
-            this.dataSource_w = this.dataSourceBuilder.create(this.data);
-            this.ws.simpleDataW = this.data;
-            this.data = []
-          }
-        }))
-      });
-
-      Promise.all(parr).then(() => {
-        //this.initMulti();
-        //this.initBarChart();
-        this.scatterIO500indicator()
-        //this.scatterChart();
-        this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
-          this.selectedFilesystem = x;
-          this.selectedFilesystem = JSON.parse(this.selectedFilesystem[0].settings)
-        })
-      });
+  selectIO500Custome(){
+    this.selectedTestCases = []
+    this.selectedTestCasesResults =[]
+    this.selectedValue.summary.testcases.forEach(e => {
+      this.selectedTestCases.push(e)
+      if (e.name.includes("ior")){
+        this.selectedTestCasesResults.push(e.results)
+      }
     });
+    this.selectedSettings = Object.assign({},this.selectedValue.summary.run,this.selectedValue.summary.score,this.selectedValue.sysinfo)
+
+    this.setupscatterseries()
   }
 
 
@@ -347,12 +237,6 @@ export class BenchCompComponent implements OnInit {
       return x.id == tid;
         });
         return ob;
-  }
-
-
-  //IOR
-  sOpSelection(){
-    this.getSummary()
   }
 
   //Everything related to the scatter chart and smartable -->
@@ -392,9 +276,7 @@ export class BenchCompComponent implements OnInit {
     ]
 
     this.clickedRows.forEach(row => {
-      //console.log(row)
       this.addSeriesToScatter(row.id,row.name,row.readbw,row.writebw)
-      //this,this.addSeriesToScatter(row.id,row.name,100,100)
       this.scatterChart();
     });
 
@@ -484,30 +366,22 @@ export class BenchCompComponent implements OnInit {
     });
   }
 
-
   updatescatter(options){
     this.themeSubscriptionScatterChart = this.theme.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
       const echarts: any = config.variables.echarts;
       this.options_scatter = options
-      //console.log(this.options_scatter[1])
     })
   }
 
   scatterIO500indicator(){
-    //let names = []
     let results = []
-    console.log(this.selectedTestCasesResults)
     this.selectedTestCasesResults.forEach(res => {
-      //console.log(res)
       let ob = this.getTestCase(res.testcase_id);
-      console.log(ob)
       if(ob){
-        //names.push(ob.name)
         results.push([res['bwMiB']])
       }
     });
-    //return indicator
     return [[results[3],results[1] ], [results[2], results[0]],
 ]
   }
@@ -517,7 +391,6 @@ export class BenchCompComponent implements OnInit {
     this.selectedTestCasesResults.forEach(res => {
       let ob = this.getTestCase(res.testcase_id);
       if(ob){
-        //names.push(ob.name)
         results.push([res['bwMiB']])
       }
     });
@@ -531,28 +404,44 @@ export class BenchCompComponent implements OnInit {
         emphasis: {
           focus: 'series'
         },
-        // prettier-ignore
         data: [[read, write]
               ],
     }
     this.options_scatter.series.push(serie)
-    //console.log(this.options_scatter)
-    //this.updatescatter(this.options_scatter)
-    
     this.scatterChart()
+  }
+
+  get_row_values(row){
+    let r = {}
+    if(row.name == 'Haccio'){
+      r['id'] = row.id
+      r['name'] = row.name
+      r['readbw'] = row.summary[1].bw[0]
+      r['writebw'] = row.summary[0].bw[0]
+
+      this.addSeriesToScatter(r['id'],r['name'],r['readbw'],r['writebw'])
+    }else if(row.name=='IOR'){
+      let iter = 0
+      row.summary[0].tests[0].Results.forEach(e => {
+        r['id'] = row.id
+        r['name'] = row.name + iter
+        r['readbw'] = e[1].bwMiB
+        r['writebw'] = e[0].bwMiB
+
+        this.addSeriesToScatter(r['id'],r['name'],r['readbw'],r['writebw'])
+        iter = iter +1
+      });
+    }
+    
+    
   }
 
   testTable($event){
     this.clickedRows = $event.selected
-    //console.log(this.clickedRows)
-
-   // this.options_scatter.series = []
-    //this.options_scatter = this.scatter_backup
+ 
     this.setupscatterseries()
     this.clickedRows.forEach(row => {
-      //console.log(row)
-      this.addSeriesToScatter(row.id,row.name,row.readbw,row.writebw)
-      //this,this.addSeriesToScatter(row.id,row.name,100,100)
+      let r = this.get_row_values(row)
       
     });
 

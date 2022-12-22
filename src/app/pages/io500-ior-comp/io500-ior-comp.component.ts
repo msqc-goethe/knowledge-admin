@@ -24,12 +24,15 @@ interface TreeNode<T> {
 })
 export class Io500IorCompComponent implements OnInit {
     
+    every: any = []
+
     //IO500
     public selectedValue: any;
     public selectedTestCases: any;
     public selectedTestCaseOptions: any;
     public selectedTestCasesResults: any;
-    public io500: any;
+    selectedSettingsIO500: any=[];
+    io500: any = [];
 
     //IO500Chart
     public boundingboxOptions: any;
@@ -38,8 +41,9 @@ export class Io500IorCompComponent implements OnInit {
     selectedBDim = [12];
 
     //IOR
+    ior: any = [];
     public selectedValueIOR: any;
-    performances: any;
+    performances: any = [];
     summaries: any;
     results: any;
     selectedSummary: any;
@@ -79,21 +83,39 @@ export class Io500IorCompComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   this.ws.getIO500().then(x =>{
+
+    this.ws.getCustom().then((cu: any[])=>{
+      this.every.push(cu.map(val => ({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      })))
+
+      this.every[0].forEach(i => {
+        if(i.name == "IO500"){
+          this.io500.push(i)
+        }else if(i.name == 'IOR'){
+          console.log(i)
+          this.performances.push(Object.assign({}, {"ts": i.summary[0].Began}, {'cmd': i.summary[0]['Command line']}, {'te': i.summary[0].Finished}, i.summary[0].tests[0].Parameters, {'summary': i.summary[0].summary}, {'tests': i.summary[0].tests}, {'fs': i.fs}))
+        }
+      });
+
+    })
+    /*this.ws.getIO500().then(x =>{
       this.io500 = x;
       //console.log(this.io500)
     });
     this.ws.getPerformances().then(()=>{
         this.performances = this.ws.performances;
-    })
+    })*/
 
-    let parr = []
-
-    
   }
 
 
-  selectIO500(){
+  /*selectIO500(){
     this.ws.getIO500_testcases(this.selectedValue.run_id).then(x=>{
       this.selectedTestCases = x;
 
@@ -112,9 +134,24 @@ export class Io500IorCompComponent implements OnInit {
       })
       });
     })
+  }*/
+
+
+  selectIO500(){
+    this.selectedTestCases = []
+    this.selectedTestCasesResults =[]
+    this.selectedValue.summary.testcases.forEach(e => {
+      this.selectedTestCases.push(e)
+      if (e.name.includes("ior")){
+        this.selectedTestCasesResults.push(e.results)
+      }
+    });
+    this.selectedSettingsIO500 = Object.assign({},this.selectedValue.summary.run,this.selectedValue.summary.score,this.selectedValue.sysinfo)
+
+    this.initBoundingbox()
   }
 
-  getSummary(rkey = "ops"){
+  /*getSummary(rkey = "ops"){
 
     this.ws.getSummaries(this.selectedValueIOR.id).then(()=>{
 
@@ -154,7 +191,48 @@ export class Io500IorCompComponent implements OnInit {
         })
       });
     });
-  }
+  }*/
+
+
+  getSummary(rkey = "ops"){
+    this.summaries = this.selectedValueIOR.summary
+    this.results = this.selectedValueIOR.tests[0].Results
+
+    let iteration_read = []
+    let iteration_write = []
+    this.results.forEach(res => {
+      //Read
+      let r = res[1]
+      //delete r['access']
+      iteration_read.push({'data': r})
+      this.chartRW.push(r)
+      
+
+      //Write
+      let w= res[0]
+      iteration_write.push({'data': w})
+      this.chartRW.push(w)
+    });
+
+    //let data = [{"data": iteration_read}]
+    //console.log(data)
+    this.dataSource_r = this.dataSourceBuilder.create(iteration_read);
+    this.ws.simpleDataR = iteration_read;
+
+    //data = [{"data": iteration_write}]
+    this.dataSource_w = this.dataSourceBuilder.create(iteration_write);
+    this.ws.simpleDataW = iteration_write; 
+
+    this.summariesP = true;
+    let parr = [];
+
+    this.initBoundingbox();
+    this.initBarChart();
+    this.initMulti();
+    //this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
+    this.selectedFilesystem = this.selectedValueIOR.fs;
+    console.log(this.selectedFilesystem);
+}
 
 
   initBoundingbox(){

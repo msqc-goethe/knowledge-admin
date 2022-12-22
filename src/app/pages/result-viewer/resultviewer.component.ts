@@ -117,11 +117,6 @@ export class ResultViewerComponent implements OnInit {
   }
 
   getSummary(rkey = "ops"){
-    //console.log(this.selectedValue)
-    //this.ws.getSummaries(this.selectedValue.id).then(()=>{
-      //console.log( this.selectedValue)
-      //this.summaries = this.ws.summaries;
-      
       this.summaries = this.selectedValue.summary
       this.results = this.selectedValue.tests[0].Results
 
@@ -150,54 +145,15 @@ export class ResultViewerComponent implements OnInit {
       this.dataSource_w = this.dataSourceBuilder.create(iteration_write);
       this.ws.simpleDataW = iteration_write; 
 
-
-      //this.dataSource_w = this.dataSourceBuilder.create(iteration_write)
-
-      
-
-      
       this.summariesP = true;
       let parr = [];
 
-      //Here the Result Table gets called by the summary id, then the result get stored in data
-      //Instead of doing this we can simply give the tests to the performance and then iterate through the tests and take the results ourself.
-      /*this.summaries.forEach(sum => {
-        parr.push(this.ws.getResultsForTable(sum).then((x:[Result])=>{
-          x.forEach(r =>{
-            this.data.push({"data":r})
-            this.chartRW.push(r);
-            
-          });
-          //console.log(this.chartRW)
-          if(sum.operation == "read"){
-            this.dataSource_r = this.dataSourceBuilder.create(this.data);
-            this.ws.simpleDataR = this.data;
-            this.data = []
-          }else {
-            this.dataSource_w = this.dataSourceBuilder.create(this.data);
-            this.ws.simpleDataW = this.data;
-            this.data = []
-          }
-        }))
-      });*/
       this.initReadChart()
       this.initWriteChart()
       this.initMulti();
       //this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
       this.selectedFilesystem = this.selectedValue.fs;
       console.log(this.selectedFilesystem);
-
-      /*Promise.all(parr).then(() => {
-        console.log("Here")
-        this.initReadChart()
-        this.initWriteChart()
-        this.initMulti();
-        //this.ws.getFilesystem(this.selectedValue.id).then((x)=>{
-        this.selectedFilesystem = JSON.parse(this.selectedValue.fs)
-         console.log(this.selectedFilesystem)
-        //})
-      });*/
-    //});
   }
 
 //read chart
