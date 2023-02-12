@@ -1,0 +1,72 @@
+<div class="row" style="margin-bottom: 1.875rem;">
+    <div class="col-md-12">
+        <nb-select style="min-width: 95%" placeholder="Select IO-500 Run" [(selected)]="selectedValue" name="p" (selectedChange)="selectIO500Custome()">
+          <nb-option *ngFor="let run of io500custome" [value]="run"> {{run.summary.run.version}}: {{run.summary.start}} - {{run.summary.end}} on {{run.name}}</nb-option>
+      </nb-select>
+      <nb-search style="min-width: 5%" type="column-curtain" tag="column-curtain"></nb-search>
+    </div>
+</div>
+    <div class="row" *ngIf="selectedValue">
+      <div class="col-md-12">
+        <nb-card size="tiny">
+          <nb-card-header>
+            Settings
+          </nb-card-header>
+          <nb-card-body>
+            <div class="col-md-3" style="display: inline-block;" *ngFor="let sk of selectedSettings | keyvalue">
+              <label class="label">{{sk.key}}: </label> {{sk.value}}
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </div>
+    </div>
+    <div class="row" *ngIf="selectedValue">
+      <div class="col-md-4">
+        <nb-card size="large">
+          <nb-card-header>
+            Testcases 
+          </nb-card-header>
+          <nb-card-body>
+            <nb-list>
+              <nb-list-item *ngFor="let tc of selectedTestCases">
+                      <div class="col-md-11">
+                        <nb-user [name]="tc.name" [title]="tc.t_start + tc.t_end">
+                        </nb-user>
+                        <p>Score: {{tc.score}} <!--Stonewall: {{tc.stonewall}}--> T_Delta: {{tc.t_delta}}</p> 
+                      </div>
+                      <div class="col-md-1">
+                        <button nbButton ghost status="danger" (click)="openWindowFormCustome(tc.name, tc.results, tc.options)" ><nb-icon icon="expand-outline"></nb-icon></button>
+                      </div>
+              </nb-list-item>
+            </nb-list>
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div class="col-md-8">
+        <nb-card size="large">
+          <nb-tabset>
+            <nb-tab tabTitle="Dashboard">
+              <nb-card-header>
+                    <nb-select placeholder="Select Dimension" [(selected)]="this.selectedDim" (selectedChange)="initScoreChart()">
+                      <nb-option value="score">Score</nb-option>
+                      <nb-option value="stonewall">Stonewall</nb-option>
+                      <nb-option value="t_delta">T-Delta</nb-option>
+                    </nb-select>
+              </nb-card-header>
+              <nb-card-body>
+                <div style="width: 95%;" echarts [options]="scoreChartOptions" class="echart"></div>
+              </nb-card-body>
+            </nb-tab>
+            <nb-tab tabTitle="Boundingbox" *ngIf="selectedTestCasesResults">
+              <nb-card-header>
+                <nb-select style="min-width: 100%" multiple placeholder="Multiple Select" [(selected)]="this.selectedBDim" (selectedChange)="initBoundingbox()"> 
+                  <nb-option *ngFor="let tc of selectedTestCases" value={{tc.id}}>{{tc.name}}</nb-option>
+                </nb-select>
+          </nb-card-header>
+              <nb-card-body>
+                <div style="width: 95%;" echarts [options]="boundingboxOptions" class="echart"></div>
+              </nb-card-body>
+            </nb-tab>
+           </nb-tabset>
+        </nb-card>
+      </div>

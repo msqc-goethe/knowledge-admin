@@ -1,0 +1,22 @@
+/*@import '../../@theme/styles/themes';
+
+@include nb-install-component() {
+  ::ng-deep .form {
+    //display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .text-label {
+      margin-top: 1.5rem;
+    }
+  }
+
+  /deep/ .cdk-global-scrollblock {
+    position: static !important;
+    }
+
+}
+
+/deep/ .cdk-global-scrollblock {
+  position: static !important;
+  }*/

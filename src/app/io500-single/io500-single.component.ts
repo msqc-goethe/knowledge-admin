@@ -1,0 +1,258 @@
+import { Component, OnInit } from '@angular/core';
+import { NbThemeService, NbWindowService } from '@nebular/theme';
+import { WebServiceService } from '../webservice.service';
+import { IO500WindowFormComponent } from './io500-window-form.component';
+
+@Component({
+  selector: 'app-io500-single',
+  templateUrl: './io500-single.component.html',
+  styleUrls: ['./io500-single.component.scss']
+})
+export class Io500SingleComponent implements OnInit {
+
+  public selectedValue: any;
+  public io500: any;
+  public io500custome: any;
+
+  //selected variables
+  public selectedSettings
+  public selectedTestCases: any =  [];
+  public selectedTestCaseOptions: any;
+  public selectedTestCasesResults: any = [];
+  public scoreChartOptions: any;
+  public boundingboxOptions: any;
+  themeSubscription: any;
+  selectedDim = 'score'
+  selectedBDim = [12];
+
+  
+  constructor(private theme: NbThemeService, public ws: WebServiceService, private windowService: NbWindowService) {
+  }
+
+  ngOnInit(): void {
+    this.ws.getCustom().then((x:[])=>{
+      this.io500custome = x.map(val =>({
+        id: val['id'],
+        name: val['name_app'],
+        type: val['type'],
+        summary: JSON.parse(val['summary']),
+        fs: JSON.parse(val['fs']),
+        sysinfo: JSON.parse(val['sysinfo']),
+      }));
+      let temp = []
+      this.io500custome.forEach(i => {
+        if(i.name == "IO500"){
+          temp.push(i)
+        }
+      });
+      this.io500custome = temp
+    });
+  }
+
+  openWindowForm(tid, tn) {
+    this.windowService.open(IO500WindowFormComponent, { title: tn, context: [this.getTestCassesResult(tid), this.getTestCaseOptions(tid)]});
+  }
+
+  getTestCassesResult(tid){
+  let ob =  this.selectedTestCasesResults.find((x)=>{
+  return x.testcase_id === tid;
+    });
+  return ob;
+  }
+
+  getTestCaseOptions(tid){
+    let ob =  this.selectedTestCaseOptions.find((x)=>{
+      return x.testcase_id == tid;
+        });
+        return ob;
+      }
+  
+  getTestCase(tid){
+    let ob =  this.selectedTestCases.find((x)=>{
+      return x.id == tid;
+        });
+        return ob;
+      }
+
+  selectIO500Custome(){
+    this.selectedTestCases = []
+    this.selectedTestCasesResults =[]
+    this.selectedValue.summary.testcases.forEach(e => {
+      this.selectedTestCases.push(e)
+      if (e.name.includes("ior")){
+        this.selectedTestCasesResults.push(e.results)
+      }
+    });
+    this.selectedSettings = Object.assign({},this.selectedValue.summary.run,this.selectedValue.summary.score,this.selectedValue.sysinfo)
+
+    this.initScoreChart()
+    this.initBoundingbox()
+  }
+
+  openWindowFormCustome(name,options,results){
+    this.windowService.open(IO500WindowFormComponent, { title: name, context: [results, options]});
+  }
+
+  //CHARTS
+  initScoreChart(){
+    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+    const colors: any = config.variables;
+    //const echarts: any = config.variables.echarts;
+
+    this.scoreChartOptions = {
+      legend: {
+        textStyle: {
+          //color: echarts.textColor,
+        },
+      },
+      //backgroundColor: echarts.bg,
+      color: [colors.danger, colors.primary, colors.info],
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { title: 'mark', show: true },
+          dataView: { title: 'data view', show: true, readOnly: false },
+          magicType: { title: 'Chart Type', show: true, type: ['line', 'bar'] },
+          restore: { title: 'restore', show: true },
+          saveAsImage: { title: 'Save as Image',show: true }
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        name:this.selectedDim,
+        nameLocation:'bottom',
+        nameTextStyle:{
+          padding: [50, 0,0 , 0],
+          fontWeight:'bold'
+        },
+        type: 'value',
+        boundaryGap: [0, 0.01],
+        axisTick: {
+          alignWithLabel: true,
+        },
+        axisLine: {
+          lineStyle: {
+            //color: echarts.axisLineColor,
+          },
+        },
+        axisLabel: {
+          textStyle: {
+            //color: echarts.textColor,
+          },
+        },
+      },
+      yAxis: {
+        type: 'category',
+        axisLine: {
+          lineStyle: {
+            //color: echarts.axisLineColor,
+          },
+        },
+        splitLine: {
+          lineStyle: {
+            //color: echarts.splitLineColor,
+          },
+        },
+        axisLabel: {
+          textStyle: {
+            //color: echarts.textColor,
+          },
+        },
+        data: this.transformDim(this.selectedTestCases, 'name')
+
+      },
+      series: [
+        {
+          data: this.transformDim(this.selectedTestCases, this.selectedDim),
+          type: 'bar'
+        }
+      ]
+    };
+    });
+  }
+
+  initBoundingbox(){
+    this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
+      const colors: any = config.variables;
+    //const echarts: any = config.variables.echarts;
+
+    this.boundingboxOptions = {
+      legend: {},
+      //backgroundColor: echarts.bg,
+      color: [colors.danger, colors.primary, colors.info],
+      textStyle: {
+        //color: echarts.textColor,
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: { show: true },
+          dataView: { show: true, readOnly: false },
+          saveAsImage: { show: true }
+        }
+      },
+      tooltip:{},
+      title:{
+        show:false,
+        text: this.selectedDim,
+        left: 'center'
+      },
+      radar: {
+        // shape: 'circle',
+        indicator: this.getIndicator(this.selectedTestCasesResults, 'bwMiB')
+      },
+      series: [
+        {
+          name: 'Budget vs spending',
+          type: 'radar',
+          data: [
+            {
+              value: this.transformDim(this.selectedTestCasesResults, 'bwMiB'),
+              name: 'Min/Max IO'
+            }
+          ]
+        }
+      ]
+    };
+    });
+  }
+
+  transformDim(src, rkey){
+    return src.map(x => x[rkey]);
+  }
+
+  getIndicator(arr, rkey){
+    let indi= [];
+      arr.forEach(result => {
+        let ob = this.getTestCase(result.testcase_id);
+        if (ob){
+          indi.push({ name: ob.name, max: result[rkey]})
+        }
+      });
+      return indi;
+  }
+
+  getIndicator_multi_dim(ids, rkey){
+    let indi= [];
+    ids.forEach(id => {
+        let ob_name = this.getTestCase(id);
+        let ob_max = this.getTestCassesResult(id)
+        if (ob_name && ob_max){
+          indi.push({ name: ob_name.name, max: ob_max[rkey]})
+        }
+      });
+      return indi;
+  }
+  
+}

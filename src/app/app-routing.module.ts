@@ -1,61 +1,161 @@
-import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import {
-  NbAuthComponent,
-  NbLoginComponent,
-  NbLogoutComponent,
-  NbRegisterComponent,
-  NbRequestPasswordComponent,
-  NbResetPasswordComponent,
-} from '@nebular/auth';
+import { RouterModule, Routes } from '@angular/router';
+import { NbMenuItem } from '@nebular/theme';
+import { CustomComparisonComponent } from './custom-comparison/custom-comparison.component';
+import { CustomSingleComponent } from './custom-single/custom-single.component';
+import { DarshanComparisonComponent } from './darshan-comparison/darshan-comparison.component';
+import { DarshanSingleComponent } from './darshan-single/darshan-single.component';
+import { Io500ComparisonComponent } from './io500-comparison/io500-comparison.component';
+import { Io500IorComparisonComponent } from './io500-ior-comparison/io500-ior-comparison.component';
+import { Io500SingleComponent } from './io500-single/io500-single.component';
+import { IorBuilderComponent } from './ior-builder/ior-builder.component';
+import { IorComparisonComponent } from './ior-comparison/ior-comparison.component';
+import { IorSingleComponent } from './ior-single/ior-single.component';
+import { KnowledgeDashboardComponent } from './knowledge-dashboard/knowledge-dashboard.component';
+import { LocalDataComponent } from './local-data/local-data.component';
+import { NewExperienceComponent } from './new-experience/new-experience.component';
+import { OptimizationComponent } from './optimization/optimization.component';
+import { PerformanceBoundingboxComponent } from './performance-boundingbox/performance-boundingbox.component';
+import { SlurmDashboardComponent } from './slurm-dashboard/slurm-dashboard.component';
 
-export const routes: Routes = [
+const routes: Routes = [
+  { path: 'dashboard', component: KnowledgeDashboardComponent },
+  { path: 'ior_single', component: IorSingleComponent},
+  { path: 'ior_comparison', component: IorComparisonComponent},
+  { path: 'io500_single', component: Io500SingleComponent},
+  { path: 'io500_comparison', component: Io500ComparisonComponent},
+  { path: 'darshan_single', component: DarshanSingleComponent},
+  { path: 'darshan_comparison', component: DarshanComparisonComponent},
+  { path: 'custom_single', component: CustomSingleComponent},
+  { path: 'custom_comparison', component: CustomComparisonComponent},
+  { path: 'ior_builder', component: IorBuilderComponent},
+  { path: 'io500_ior_comparison', component: Io500IorComparisonComponent},
+  { path: 'performance_boundingbox', component: PerformanceBoundingboxComponent},
+  { path: 'slurm_dashboard', component: SlurmDashboardComponent},
+  { path: 'optimization', component: OptimizationComponent},
+  { path: 'local_data', component: LocalDataComponent},
+  { path: 'new_experience', component: NewExperienceComponent}
+];
+
+
+
+export const MENU_ITEMS: NbMenuItem[] = [
   {
-    path: 'pages',
-    loadChildren: () => import('./pages/pages.module')
-      .then(m => m.PagesModule),
+    title: 'VIEWER',
+    icon: 'bar-chart-outline',
+    group: true,
   },
   {
-    path: 'auth',
-    component: NbAuthComponent,
+    title: 'IOR',
+    icon: 'checkmark-square-outline',
     children: [
       {
-        path: '',
-        component: NbLoginComponent,
+        title: 'Single Result',
+        link: 'ior_single', //done
       },
       {
-        path: 'login',
-        component: NbLoginComponent,
+        title: 'Result Comparison',
+        link: 'ior_comparison',//done
       },
       {
-        path: 'register',
-        component: NbRegisterComponent,
-      },
-      {
-        path: 'logout',
-        component: NbLogoutComponent,
-      },
-      {
-        path: 'request-password',
-        component: NbRequestPasswordComponent,
-      },
-      {
-        path: 'reset-password',
-        component: NbResetPasswordComponent,
+        title: 'Parameter Space Exploration',
+        link: 'ior_builder',
       },
     ],
   },
-  { path: '', redirectTo: 'pages/dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  {
+    title: 'IO500',
+    icon: 'cube-outline',
+    children: [
+      {
+        title: 'Single Result',
+        link: 'io500_single', //done
+      },
+      {
+        title: 'Result Comparison',
+        link: 'io500_comparison',
+      },
+      {
+        title: 'IOR Comparison',
+        link: 'io500_ior_comparison',
+      },
+      {
+        title: 'Performance Boundingbox',
+        link: 'performance_boundingbox',
+      },
+    ],
+  },
+  {
+    title: 'Darshan',
+    icon: 'compass-outline',
+    children: [
+      {
+        title: 'Single Result',
+        link: 'darshan_single',//done
+      },
+      {
+        title: 'Result Comparison',
+        link: 'darshan_comparison',
+      },
+    ],
+  },
+  {
+    title: 'HACCIO',
+    icon: 'checkmark-square-outline',
+    children: [
+      {
+        title: 'Single Result',
+        link: 'custom_single',
+      },
+      {
+        title: 'Result Comparison',
+        link: 'custom_comparison',
+      },
+    ],
+  },
+  {
+    title: 'Custom Input',
+    icon: 'layout-outline',
+    children: [
+      {
+        title: 'New Experience',
+        link: 'new_experience',
+      },
+    ],
+  },  
+  {
+    title: 'ADVANCED FEATURES',
+    icon: 'eye-outline',
+    group: true,
+  },
+  {
+    title: 'System Dashboard',
+    icon: 'options-2-outline',
+    link: 'dashboard',
+    home: true,
+  },
+  {
+    title: 'Slurm Dashboard',
+    icon: 'monitor-outline',
+    link: 'slurm_dashboard',
+    home: true,
+  },
+  {
+    title: 'Optimization ',
+    icon: 'bulb-outline',
+    link:'optimization',
+    home: true
+  },
+  {
+    title: 'Local Data',
+    icon: 'log-in-outline',
+    link: 'local_data',
+    home: true
+  },
 ];
 
-const config: ExtraOptions = {
-  useHash: false,
-};
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes, config)],
-  exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule { }
