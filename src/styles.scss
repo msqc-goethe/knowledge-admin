@@ -9,3 +9,8 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+
+.ng2-smart-action-multiple-select input{
+  appearance: auto!important;
+}

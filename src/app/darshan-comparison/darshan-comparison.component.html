@@ -1,1 +1,11 @@
-<darshan-smart-table-result></darshan-smart-table-result>
+<nb-card>
+    <nb-card-header>
+     Darshan Files
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)" (userRowSelect)="test($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
+  

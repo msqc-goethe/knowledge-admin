@@ -5,7 +5,7 @@ import { NbIconModule } from '@nebular/theme';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule,NbUserModule,  NbListModule, NbCardModule, NbWindowModule, NbSelectModule, NbTreeGridModule, NbSearchModule, NbTabsetModule, NbButtonModule, NbTableModule, NbInputModule, NbTooltipModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbCheckboxModule, NbMenuModule,NbUserModule,  NbListModule, NbCardModule, NbWindowModule, NbSelectModule, NbTreeGridModule, NbSearchModule, NbTabsetModule, NbButtonModule, NbTableModule, NbInputModule, NbTooltipModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { KnowledgeDashboardComponent } from './knowledge-dashboard/knowledge-dashboard.component';
 import { IorSingleComponent } from './ior-single/ior-single.component';
@@ -19,13 +19,11 @@ import { CustomSingleComponent } from './custom-single/custom-single.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
-import { SmartTableResultComponent } from './ior-comparison/smart-table-result.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { WindowFormComponent } from './ior-comparison/result-comparison-window-form.component';
 import { IO500WindowFormComponent } from './io500-single/io500-window-form.component';
 import { CustomWindowFormComponent } from './custom-single/custom-window-form.component';
 import { CustomCompWindowFormComponent } from './custom-comparison/custom-comp-window-form.component';
-import { SmartTableResultDarshanComponent } from './darshan-comparison/smart-table-result-darshan.component';
 import { DarshanWindowFormComponent } from './darshan-comparison/darshan-result-comparison-window-form.component';
 import { IO500CompWindowFormComponent } from './io500-comparison/io500-comp-window-form.component';
 import { LocalDataComponent } from './local-data/local-data.component';
@@ -48,12 +46,10 @@ import { NewExperienceComponent } from './new-experience/new-experience.componen
     DarshanComparisonComponent,
     CustomComparisonComponent,
     CustomSingleComponent,
-    SmartTableResultComponent,
     WindowFormComponent,
     IO500WindowFormComponent,
     CustomWindowFormComponent,
     CustomCompWindowFormComponent,
-    SmartTableResultDarshanComponent,
     DarshanWindowFormComponent,
     IO500CompWindowFormComponent,
     LocalDataComponent,
@@ -90,6 +86,7 @@ import { NewExperienceComponent } from './new-experience/new-experience.componen
     NbIconModule,
     NbEvaIconsModule,
     NbListModule,
+    NbCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

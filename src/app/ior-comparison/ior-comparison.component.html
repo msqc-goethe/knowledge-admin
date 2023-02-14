@@ -1,1 +1,11 @@
-<smart-table-result></smart-table-result>
+<nb-card>
+    <nb-card-header>
+    IOR Runs
+      <button *ngIf="!isDisabled" style="float: right;" (click)="openWindowForm()" nbButton>Inspect View</button>
+    </nb-card-header>
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)" (userRowSelect)="test($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
+  

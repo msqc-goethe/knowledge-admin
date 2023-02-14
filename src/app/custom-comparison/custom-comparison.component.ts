@@ -28,24 +28,16 @@ export class CustomComparisonComponent implements OnInit {
   isDisabled = true;
 
   settings = {
-    selectMode:"multi",
+    selectMode: 'multi',
+    actions: {
+      delete: false,
+      add: false,
+      edit: false,
+      select: true,
+    },
     pager:{
       perPage: 100,
     }, 
-    add: {
-      addButtonContent: '<i class="nb-plus"></i>',
-      createButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
-    },
-    delete: {
-      deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
-    },
     columns: {
       id: {
         title: 'ID',

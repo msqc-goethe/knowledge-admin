@@ -125,6 +125,12 @@ export class PerformanceBoundingboxComponent implements OnInit {
    pager:{
      perPage: 100,
    }, 
+   actions: {
+    delete: false,
+    add: false,
+    edit: false,
+    select: true,
+  },
    add: {
      addButtonContent: '<i class="nb-plus"></i>',
      createButtonContent: '<i class="nb-checkmark"></i>',
