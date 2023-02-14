@@ -57,16 +57,6 @@
                 <div style="width: 95%;" echarts [options]="scoreChartOptions" class="echart"></div>
               </nb-card-body>
             </nb-tab>
-            <nb-tab tabTitle="Boundingbox" *ngIf="selectedTestCasesResults">
-              <nb-card-header>
-                <nb-select style="min-width: 100%" multiple placeholder="Multiple Select" [(selected)]="this.selectedBDim" (selectedChange)="initBoundingbox()"> 
-                  <nb-option *ngFor="let tc of selectedTestCases" value={{tc.id}}>{{tc.name}}</nb-option>
-                </nb-select>
-          </nb-card-header>
-              <nb-card-body>
-                <div style="width: 95%;" echarts [options]="boundingboxOptions" class="echart"></div>
-              </nb-card-body>
-            </nb-tab>
            </nb-tabset>
         </nb-card>
       </div>

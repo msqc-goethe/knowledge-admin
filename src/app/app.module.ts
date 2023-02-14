@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+import { NbIconModule } from '@nebular/theme';
+
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule, NbCardModule, NbWindowModule, NbSelectModule, NbTreeGridModule, NbSearchModule, NbTabsetModule, NbButtonModule, NbTableModule, NbInputModule, NbTooltipModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule,NbUserModule,  NbListModule, NbCardModule, NbWindowModule, NbSelectModule, NbTreeGridModule, NbSearchModule, NbTabsetModule, NbButtonModule, NbTableModule, NbInputModule, NbTooltipModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { KnowledgeDashboardComponent } from './knowledge-dashboard/knowledge-dashboard.component';
 import { IorSingleComponent } from './ior-single/ior-single.component';
@@ -75,17 +76,20 @@ import { NewExperienceComponent } from './new-experience/new-experience.componen
     NbInputModule,
     NbTooltipModule,
     NbWindowModule.forRoot(),
-    NbEvaIconsModule,
     NbSearchModule,
     NbSelectModule,
     NbTabsetModule,
     NbButtonModule,
+    NbUserModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbCardModule,
     NgxEchartsModule,
     Ng2SmartTableModule,
     NgbModule,
+    NbIconModule,
+    NbEvaIconsModule,
+    NbListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
