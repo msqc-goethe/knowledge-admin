@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbThemeService, NbWindowService } from '@nebular/theme';
-import { WebServiceService } from '../webservice.service';
+import { WebServiceService } from '../../webservice.service';
 import { IO500WindowFormComponent } from './io500-window-form.component';
 
 @Component({

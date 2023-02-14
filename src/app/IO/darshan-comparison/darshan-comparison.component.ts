@@ -1,18 +1,16 @@
 import { Component, OnInit} from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-//import { SmartTableData } from '../../utils/smart-table-data';
-import {WebServiceService, Performance} from '../webservice.service';
+import {WebServiceService} from '../../webservice.service';
 import { NbWindowService } from '@nebular/theme';
-import {WindowFormComponent} from './result-comparison-window-form.component';
+import {DarshanWindowFormComponent} from './darshan-result-comparison-window-form.component';
 
 @Component({
-  selector: 'app-ior-comparison',
-  templateUrl: './ior-comparison.component.html',
-  styleUrls: ['./ior-comparison.component.scss']
+  selector: 'app-darshan-comparison',
+  templateUrl: './darshan-comparison.component.html',
+  styleUrls: ['./darshan-comparison.component.scss']
 })
-export class IorComparisonComponent implements OnInit {
-  performances: any=[];
-  ior = []
+export class DarshanComparisonComponent implements OnInit {
+
   clickedRows: any;
   isDisabled = true;
 
@@ -20,13 +18,13 @@ export class IorComparisonComponent implements OnInit {
     selectMode:"multi",
     pager:{
       perPage: 100,
-    },
+    }, 
     actions: {
       delete: false,
       add: false,
       edit: false,
       select: true,
-    }, 
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -46,48 +44,29 @@ export class IorComparisonComponent implements OnInit {
         title: 'ID',
         type: 'number',
       },
-      platform: {
-        title: 'platform',
-        type: 'string',
+      exe:{
+        title: 'Exe',
+        type: 'o'
       },
-      api: {
-        title: 'API',
-        type: 'string',
+      nprocs:{
+        title: 'NProcs',
+        type: 'o'
       },
-      blockSize: {
-        title: 'Blocksize',
-        type: 'string',
-      },
-      segmentCount: {
-        title: 'segmentCount',
-        type: 'number',
-      },
-      collective: {
-        title: 'collective',
-        type: 'string',
-      },
-      filePerProc: {
-        title: 'filePerProc',
-        type: 'string',
-      },
-      nodes: {
-        title: 'nodes',
-        type: 'number',
-      },
-      tasksPerNode: {
-        title: 'tasksPerNode',
-        type: 'number',
+      jobid:{
+        title: 'JobID',
+        type: 'o'
       }
     },
   };
-
+  
+  darshantable: any =[]
+  darshanlist: any = []
   source: LocalDataSource = new LocalDataSource();
 
   constructor(public ws: WebServiceService, private windowService: NbWindowService) {
-    //const data = this.service.getData();
 
     this.ws.getCustom().then((x:[])=>{
-      this.ior = x.map(val =>({
+      this.darshantable = x.map(val =>({
         id: val['id'],
         name: val['name_app'],
         type: val['type'],
@@ -95,28 +74,32 @@ export class IorComparisonComponent implements OnInit {
         fs: JSON.parse(val['fs']),
         sysinfo: JSON.parse(val['sysinfo']),
       }));
+
       let temp = []
-      this.ior.forEach(i => {
-        if(i.name == "IOR"){
+      this.darshantable.forEach(i => {
+        if(i.name == "Darshan"){
           temp.push(i)
         }
       });
 
-      this.ior = temp
-      
-      this.ior.forEach(e => {
-        this.performances.push(Object.assign({}, {'id': e.id, "ts": e.summary[0].Began}, {'cmd': e.summary[0]['Command line']}, {'te': e.summary[0].Finished}, e.summary[0].tests[0].Parameters, {'summary': e.summary[0].summary}, {'tests': e.summary[0].tests}, {'fs': e.fs}))
+      temp.forEach(d => {
+        let data = {id: d.id, exe: d.summary.meta.exe,  nprocs: d.summary.meta.job.nprocs , jobid: d.summary.meta.job.jobid, summary: d.summary.summary,}
+        this.darshanlist.push(data)
+      })
+      console.log(this.darshanlist)
+      this.source.load(this.darshanlist)
 
-        //Next summary
-        //this.summaries
-        
-      });
-
-      this.source.load(this.performances)
     })
+    
 
-    /*this.ws.getPerformances().then((performances: Performance[])=>{
-      const data = performances;
+
+
+    /*this.ws.getDarshan().then((darshans: any[])=>{
+      darshans = darshans.map((darshan) =>{
+        return {id: darshan.id, exe: JSON.parse(darshan.meta).exe, nprocs: JSON.parse(darshan.meta).job.nprocs, jobid: JSON.parse(darshan.meta).job.jobid, summary: JSON.parse(darshan.summary)}
+      })
+      const data = darshans;
+      console.log(data)
       this.source.load(data);
     });*/
 
@@ -142,6 +125,7 @@ test($event){
   else{
     this.isDisabled =false;
   }
+  console.log(this.isDisabled)
 
 }
 
@@ -151,7 +135,7 @@ openWindowForm() {
    this.clickedRows.forEach(element => {
      selectedIds.push(element.id)
    });
-  this.windowService.open(WindowFormComponent, { title: `Window`, context: selectedIds});
+  this.windowService.open(DarshanWindowFormComponent, { title: `Window`, context: selectedIds});
   //this.view_update()
 }
 view_update(){

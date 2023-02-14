@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbThemeService, NbWindowService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
-import { WebServiceService } from '../webservice.service';
+import { WebServiceService } from '../../webservice.service';
 import { IO500CompWindowFormComponent } from './io500-comp-window-form.component';
 
 @Component({

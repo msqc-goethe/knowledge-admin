@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import {WebServiceService, Performance} from '../webservice.service';
+import {WebServiceService, Performance,} from '../../webservice.service';
 import { NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@nebular/theme';
-import { Result} from '../webservice.service';
+import { Result} from '../../webservice.service';
 import { NbThemeService } from '@nebular/theme';
 
 

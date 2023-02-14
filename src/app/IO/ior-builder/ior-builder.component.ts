@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
-import { WebServiceService } from '../webservice.service';
+import { WebServiceService } from '../../webservice.service';
 
 @Component({
   selector: 'app-ior-builder',

@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NbMenuItem } from '@nebular/theme';
-import { CustomComparisonComponent } from './custom-comparison/custom-comparison.component';
-import { CustomSingleComponent } from './custom-single/custom-single.component';
-import { DarshanComparisonComponent } from './darshan-comparison/darshan-comparison.component';
-import { DarshanSingleComponent } from './darshan-single/darshan-single.component';
-import { Io500ComparisonComponent } from './io500-comparison/io500-comparison.component';
-import { Io500IorComparisonComponent } from './io500-ior-comparison/io500-ior-comparison.component';
-import { Io500SingleComponent } from './io500-single/io500-single.component';
-import { IorBuilderComponent } from './ior-builder/ior-builder.component';
-import { IorComparisonComponent } from './ior-comparison/ior-comparison.component';
-import { IorSingleComponent } from './ior-single/ior-single.component';
-import { KnowledgeDashboardComponent } from './knowledge-dashboard/knowledge-dashboard.component';
-import { LocalDataComponent } from './local-data/local-data.component';
-import { NewExperienceComponent } from './new-experience/new-experience.component';
-import { OptimizationComponent } from './optimization/optimization.component';
-import { PerformanceBoundingboxComponent } from './performance-boundingbox/performance-boundingbox.component';
-import { SlurmDashboardComponent } from './slurm-dashboard/slurm-dashboard.component';
+import { CustomComparisonComponent } from './IO/custom-comparison/custom-comparison.component';
+import { CustomSingleComponent } from './IO/custom-single/custom-single.component';
+import { DarshanComparisonComponent } from './IO/darshan-comparison/darshan-comparison.component';
+import { DarshanSingleComponent } from './IO/darshan-single/darshan-single.component';
+import { Io500ComparisonComponent } from './IO/io500-comparison/io500-comparison.component';
+import { Io500IorComparisonComponent } from './IO/io500-ior-comparison/io500-ior-comparison.component';
+import { Io500SingleComponent } from './IO/io500-single/io500-single.component';
+import { IorBuilderComponent } from './IO/ior-builder/ior-builder.component';
+import { IorComparisonComponent } from './IO/ior-comparison/ior-comparison.component';
+import { IorSingleComponent } from './IO/ior-single/ior-single.component';
+import { KnowledgeDashboardComponent } from './IO/knowledge-dashboard/knowledge-dashboard.component';
+import { LocalDataComponent } from './Misc/local-data/local-data.component';
+import { NewExperienceComponent } from './Misc/new-experience/new-experience.component';
+import { OptimizationComponent } from './Misc/optimization/optimization.component';
+import { PerformanceBoundingboxComponent } from './IO/performance-boundingbox/performance-boundingbox.component';
+import { SlurmDashboardComponent } from './System/slurm-dashboard/slurm-dashboard.component';
 
 const routes: Routes = [
   { path: 'io_dashboard', component: KnowledgeDashboardComponent },

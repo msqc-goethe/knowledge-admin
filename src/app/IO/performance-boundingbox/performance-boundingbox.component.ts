@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbSortDirection, NbThemeService, NbTreeGridDataSource } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Result, WebServiceService } from '../webservice.service';
+import { Result, WebServiceService } from '../../webservice.service';
 
 interface TreeNode<T> {
   data: T;

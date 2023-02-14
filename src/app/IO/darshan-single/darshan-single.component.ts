@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbSortDirection, NbSortRequest, NbThemeService, NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@nebular/theme';
-import { Result, WebServiceService } from '../webservice.service';
+import { Result, WebServiceService } from '../../webservice.service';
 
 interface TreeNode<T> {
   data: T;

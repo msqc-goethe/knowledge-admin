@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { NbWindowRef } from '@nebular/theme';
-import { WebServiceService} from '../webservice.service';
+import { WebServiceService} from '../../webservice.service';
 
 @Component({
   template: `

@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { NbWindowRef } from '@nebular/theme';
-import { WebServiceService} from '../webservice.service';
+import { WebServiceService} from '../../webservice.service';
 
 @Component({
   template: `
@@ -16,9 +16,9 @@ import { WebServiceService} from '../webservice.service';
 </nb-card>
 
   `,
-  styleUrls: ['custom-comp-window-form.component.scss'],
+  styleUrls: ['custom-window-form.component.scss'],
 })
-export class CustomCompWindowFormComponent implements OnInit {
+export class CustomWindowFormComponent implements OnInit {
 
   data: any;
 
