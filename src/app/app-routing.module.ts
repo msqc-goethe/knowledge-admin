@@ -19,7 +19,7 @@ import { PerformanceBoundingboxComponent } from './performance-boundingbox/perfo
 import { SlurmDashboardComponent } from './slurm-dashboard/slurm-dashboard.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: KnowledgeDashboardComponent },
+  { path: 'io_dashboard', component: KnowledgeDashboardComponent },
   { path: 'ior_single', component: IorSingleComponent},
   { path: 'ior_comparison', component: IorComparisonComponent},
   { path: 'io500_single', component: Io500SingleComponent},
@@ -41,9 +41,14 @@ const routes: Routes = [
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'VIEWER',
+    title: 'I/O Performance',
     icon: 'bar-chart-outline',
     group: true,
+  },
+  {
+    title: 'Overview',
+    icon: 'checkmark-square-outline',
+    link: 'io_dashboard'
   },
   {
     title: 'IOR',
@@ -124,7 +129,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },  
   {
-    title: 'ADVANCED FEATURES',
+    title: 'Network Performance',
+    icon: 'bar-chart-outline',
+    group: true,
+  },
+
+  {
+    title: 'System Performance',
     icon: 'eye-outline',
     group: true,
   },
