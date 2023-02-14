@@ -4,3 +4,7 @@
     white-space: nowrap;
     text-decoration: none;
   }
+
+  :host nb-layout-header button:last-child {
+    margin-left: auto;
+  }

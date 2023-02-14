@@ -2,15 +2,14 @@
 
   <nb-layout-header fixed>
     <p class="title">Knowledge Explorer</p>
+    <button nbButton status="success" size="tiny" (click)="toggle()">Toggle</button>
   </nb-layout-header>
 
-  <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+  <nb-sidebar tag="left" class="menu-sidebar" responsive>
     <nb-menu [items]="menu"></nb-menu>
   </nb-sidebar>
 
-  <nb-layout-column>
-    <router-outlet></router-outlet>
-  </nb-layout-column>
+  <nb-layout-column class="colored-column-warning"><router-outlet></router-outlet></nb-layout-column>
 
   <nb-layout-footer fixed>
   <!-- Insert footer here -->
